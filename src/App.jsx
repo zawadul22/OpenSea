@@ -6,22 +6,37 @@ import JasmyNavbar from './navbar'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'react-bootstrap'
 import Grid from './grid'
+import NFTPagination from './pagination'
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import NFTBuyPage from './NFTBuy'
+import { Router, Routes, Route } from 'react-router-dom'
+import NFTCollection from './gridPage'
+
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   return (
     <>
-
     <JasmyNavbar />
 
-    <Container className='mt-5'>
-      <Grid />
-    </Container>
-    
-     
+        <Routes>
+          <Route path='/' element ={<NFTCollection />} />
+          <Route path='/buy' element={<NFTBuyPage />} />
+        </Routes> 
+
+      
     </>
+    // <>
+    // <JasmyNavbar />
+    // <NFTBuyPage />
+    // </>
+   
   )
 }
 

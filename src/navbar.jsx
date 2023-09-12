@@ -8,7 +8,7 @@ function JasmyNavbar() {
   return (
     <Navbar bg="dark" data-bs-theme="dark">
       <Container>
-        <Navbar.Brand className='justify-content-start' href="#home">Jasmy Market Place</Navbar.Brand>
+        <Navbar.Brand className='justify-content-start' href="/">Jasmy Market Place</Navbar.Brand>
         {/* <Navbar.Text className='flex-start'> Jasmy Market Place</Navbar.Text> */}
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
