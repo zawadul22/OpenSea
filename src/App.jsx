@@ -11,26 +11,16 @@ import NFTBuyPage from './NFTBuy'
 import { Router, Routes, Route } from 'react-router-dom'
 import NFTCollection from './gridPage'
 
-
-
 function App() {
 
   return (
     <>
     <JasmyNavbar />
-
         <Routes>
           <Route path='/' element ={<NFTCollection />} />
-          <Route path='/buy' element={<NFTBuyPage />} />
+          <Route path='/buy/:value' element={<NFTBuyPage />} />
         </Routes> 
-
-      
     </>
-    // <>
-    // <JasmyNavbar />
-    // <NFTBuyPage />
-    // </>
-   
   )
 }
 

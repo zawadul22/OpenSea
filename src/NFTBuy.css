@@ -6,10 +6,17 @@
 .side {
     flex: 1;
     padding: 10px;
+    margin-top: 5%;
 }
 
 .side-content-center {
     display: flex;
     align-items: center;
-    width: 5 rem
+    width: 10 rem;
 }
+
+.custom-button {
+    width: 270px; /* Adjust the width as needed */
+    height: 50px; /* Adjust the height as needed */
+    font-size: 24px; /* Adjust the font size as needed */
+  }

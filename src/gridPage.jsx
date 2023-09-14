@@ -12,11 +12,11 @@ const NFTCollection = () => {
     return(
         <>
         <Container className="mt-5">
-        <Grid page={currentPage} /> {/* Pass the current page as a prop */}
+        <Grid page={currentPage} /> 
             
       </Container>
       <NFTPagination
-              total={8} // Total number of pages (32 cards / 8 cards per page)
+              total={8} 
               current={currentPage}
               onChangePage={handlePageChange}
             />
