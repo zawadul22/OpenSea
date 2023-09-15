@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { DialogActions, DialogContent, DialogContentText, Typography } from '@mui/material';
 import metamask from './assets/images.png'
 import detectEthereumProvider from '@metamask/detect-provider';
+import { ethers } from 'ethers';
 
 
 const ConnectWallet = ({ open, onClose }) => {
@@ -83,7 +84,7 @@ const ConnectWallet = ({ open, onClose }) => {
                 <DialogContentText style={{ textAlign: 'center', color: 'black', fontSize: 25 }}>
                     {isConnected ? (
                         <div>
-                            Your Balance: {wallet.balance}
+                            Your Balance: {ethers.formatEther(wallet.balance)} ETH
 
                         </div>
                     ) : (

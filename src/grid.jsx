@@ -4,17 +4,16 @@ import Row from 'react-bootstrap/Row';
 import nft from './assets/nft-image-2.png'
 import { useNavigate } from 'react-router-dom';
 import './grid.css'
-import { Start } from '@mui/icons-material';
-import { Last } from 'react-bootstrap/esm/PageItem';
 import { Button, Container } from 'react-bootstrap';
+import { Chip } from '@mui/material';
 
 function Grid({ page }) {
-  // Calculate the range of cards to display based on the current page
+
   const startIndex = (page - 1) * 8;
   const endIndex = startIndex + 8;
   const navigate = useNavigate();
 
-  // Generate cards for the current page
+
   const cards = Array.from({ length: 63 })
     .slice(startIndex, endIndex)
     .map((_, idx) => (
@@ -29,7 +28,8 @@ function Grid({ page }) {
                   <div style={{ fontSize: '15pt' }}>0.01 ETH</div>
                 </Col>
                 <Col className="d-flex align-items-end justify-content-end">
-                  <Button variant='secondary' size='sm' style={{pointerEvents:'none', cursor:'not-allowed'}}>Zawad</Button>
+                  {/* <Button variant='secondary' size='sm' style={{pointerEvents:'none', cursor:'not-allowed'}}>Zawad</Button> */}
+                  <Chip label='Zawad' style={{ backgroundColor: 'grey', color: 'white'}}/>
                 </Col>
               </Row>
 
