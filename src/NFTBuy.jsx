@@ -40,43 +40,7 @@ function NFTBuyPage() {
             className='image-frame'
             onClick={handleImageClick}
           />
-        </div>
-        <div className="side side-content-center">
-          <div>
-            <h1>
-              Bored Fox #{value}
-            </h1>
-            <strong>Owned By </strong> Zawad
-            <br />
-            <br />
-
-            <Visibility /> 101 Views &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <FavoriteBorder /> 76 Favorites &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <VideogameAsset /> Gaming
-            <br />
-            <br />
-            <ListGroup>
-              <ListGroup.Item>
-                <strong>
-                  <Schedule/>&nbsp;&nbsp; Sale ends in 27th October 2023
-                </strong>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <p className='mt-1' style={{ color: 'GrayText' }}>Current Price</p>
-                <h2>
-                  0.01 ETH &nbsp;
-                  <span style={{ color: 'GrayText', fontSize: '15pt' }}>$322.09</span>
-                </h2>
-
-                <div >
-                  <Button variant='primary' className='custom-button'> Buy Now</Button>&nbsp; &nbsp;
-                  <Button variant='secondary' className='custom-button'> Add to Cart</Button>
-
-                </div>
-              </ListGroup.Item>
-            </ListGroup>
-            <div className='mt-3'>
-              <Card style={{ height: '275px', width: '600px' }}>
+          <Card style={{ height: '275px', width: '600px' }} className='mt-3 mb-3'>
                 <Card.Body>
                   <Tabs
                     defaultActiveKey="description"
@@ -122,6 +86,43 @@ function NFTBuyPage() {
                   </Tabs>
                 </Card.Body>
               </Card>
+        </div>
+        <div className="side side-content-center">
+          <div>
+            <h1>
+              Bored Fox #{value}
+            </h1>
+            <strong>Owned By </strong> Zawad
+            <br />
+            <br />
+
+            <Visibility /> 101 Views &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <FavoriteBorder /> 76 Favorites &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <VideogameAsset /> Gaming
+            <br />
+            <br />
+            <ListGroup>
+              <ListGroup.Item>
+                <strong>
+                  <Schedule/>&nbsp;&nbsp; Sale ends in 27th October 2023
+                </strong>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <p className='mt-1' style={{ color: 'GrayText' }}>Current Price</p>
+                <h2>
+                  0.01 ETH &nbsp;
+                  <span style={{ color: 'GrayText', fontSize: '15pt' }}>$322.09</span>
+                </h2>
+
+                <div className='mb-2'>
+                  <Button variant='primary' className='custom-button'> Buy Now</Button>&nbsp; &nbsp;
+                  <Button variant='secondary' className='custom-button'> Add to Cart</Button>
+
+                </div>
+              </ListGroup.Item>
+            </ListGroup>
+            <div className='mt-3'>
+              
             </div>
           </div>
         </div>
