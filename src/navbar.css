@@ -1,0 +1,10 @@
+#brand{
+    max-width: 50%;
+    margin-left: 2.5%;
+}
+
+#brand2{
+    max-width: 50%;
+    justify-content: end;
+    margin-right: 2.5%;
+}

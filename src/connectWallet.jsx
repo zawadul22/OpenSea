@@ -48,8 +48,8 @@ const ConnectWallet = ({ open, onClose }) => {
             method: 'eth_getBalance',
             params: [accounts[0], 'latest'],
         })
-
-        setWallet({ accounts, balance });
+        let ethFormat = ethers.formatEther(balance);
+        setWallet({ accounts, ethFormat });
     };
 
     const handleConnect = async () => {
@@ -84,7 +84,7 @@ const ConnectWallet = ({ open, onClose }) => {
                 <DialogContentText style={{ textAlign: 'center', color: 'black', fontSize: 25 }}>
                     {isConnected ? (
                         <div>
-                            Your Balance: {ethers.formatEther(wallet.balance)} ETH
+                            Your Balance: {wallet.ethFormat} ETH
 
                         </div>
                     ) : (

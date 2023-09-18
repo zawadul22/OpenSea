@@ -3,14 +3,13 @@ import Image from 'react-bootstrap/Image';
 import nft from './assets/nft-image-2.png';
 import './NFTBuy.css';
 import Button from 'react-bootstrap/Button';
-import { Card, Col, ListGroup, Row } from 'react-bootstrap';
+import { Card, Col, ListGroup, Row, Accordion } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { FavoriteBorder, Schedule, VideogameAsset, Visibility } from '@mui/icons-material';
+import { FavoriteBorder, OpenInFull, Schedule, VideogameAsset, Visibility } from '@mui/icons-material';
 import { Dialog, DialogContent } from '@mui/material';
+import eth from './assets/ethereum-svgrepo-com (1).svg'
 
 function NFTBuyPage() {
   const { value } = useParams();
@@ -32,63 +31,71 @@ function NFTBuyPage() {
 
   return (
     <>
-      <div className='container'>
+      <div id='buyer' className='container'>
         <div className="side">
+        <div className='image-frame'>
+          <div className='bar'>
+            <div style={{marginLeft : '5pt'}}> <Image src={eth} style={{width : '18px'}} /> </div>
+            <div style={{marginRight : '5pt'}}>
+              <OpenInFull style={{width : '19px'}}/>&nbsp;&nbsp;
+              <span style={{fontSize : '10pt'}}>9</span> <FavoriteBorder style={{width : '20px'}}/>
+              </div>
+            
+          </div>
+          <div style={{maxWidth : '100%', minWidth : '10%', maxHeight : '100%', minHeight : '10%'}}>
           <Image
             src={nft}
-            width="90%"
-            className='image-frame'
             onClick={handleImageClick}
           />
-          <Card style={{ height: '275px', width: '600px' }} className='mt-3 mb-3'>
-                <Card.Body>
-                  <Tabs
-                    defaultActiveKey="description"
-                    id="justify-tab-example"
-                    className="mb-3"
-                    justify
-                  >
-                    <Tab eventKey="description" title="Description">
-                      A Playable Champion in Champions Arena. Each Champion has unique skills and strengths in combat and exploration.
-                    </Tab>
-                    <Tab eventKey="details" title="Details">
-                      <Row>
-                        <Col >Contract Address</Col>
-                        <Col >
-                          {renderTooltip('wallet', '0xc21798ae3eFeD61563A29a0BE88C79Df7Ca07Fa9',
-                            <span>
-                              0xc21798a......9Df7Ca07Fa9
-                            </span>
-                          )}
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col >Token ID</Col>
-                        <Col >{value}</Col>
-                      </Row>
-                      <Row>
-                        <Col>Token Standard</Col>
-                        <Col>ERC 721</Col>
-                      </Row>
-                      <Row>
-                        <Col>Chain</Col>
-                        <Col>Ethereum</Col>
-                      </Row>
-                      <Row>
-                        <Col>Last Updated</Col>
-                        <Col>1 day ago</Col>
-                      </Row>
-                      <Row>
-                        <Col>Creator Earnings</Col>
-                        <Col>10%</Col>
-                      </Row>
-                    </Tab>
-                  </Tabs>
-                </Card.Body>
-              </Card>
+          </div>
+          </div>
+          <Accordion className='mt-3 mb-3' defaultActiveKey="0">
+            <Accordion.Item eventKey='0'>
+              <Accordion.Header>Description</Accordion.Header>
+              <Accordion.Body>
+                A Playable Champion in Champions Arena. Each Champion has unique skills and strengths in combat and exploration.
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey='1'>
+              <Accordion.Header>Details</Accordion.Header>
+              <Accordion.Body>
+                <Row>
+                  <Col >Contract Address</Col>
+                  <Col >
+                    {renderTooltip('wallet', '0xc21798ae3eFeD61563A29a0BE88C79Df7Ca07Fa9',
+                      <span>
+                        0xc21798a......9Df7Ca07Fa9
+                      </span>
+                    )}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col >Token ID</Col>
+                  <Col >{value}</Col>
+                </Row>
+                <Row>
+                  <Col>Token Standard</Col>
+                  <Col>ERC 721</Col>
+                </Row>
+                <Row>
+                  <Col>Chain</Col>
+                  <Col>Ethereum</Col>
+                </Row>
+                <Row>
+                  <Col>Last Updated</Col>
+                  <Col>1 day ago</Col>
+                </Row>
+                <Row>
+                  <Col>Creator Earnings</Col>
+                  <Col>10%</Col>
+                </Row>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+
         </div>
-        <div className="side side-content-center">
-          <div>
+        <div className="side-content-center">
+          <div style={{width : '100%'}}>
             <h1>
               Bored Fox #{value}
             </h1>
@@ -101,29 +108,27 @@ function NFTBuyPage() {
             <VideogameAsset /> Gaming
             <br />
             <br />
-            <ListGroup>
-              <ListGroup.Item>
-                <strong>
-                  <Schedule/>&nbsp;&nbsp; Sale ends in 27th October 2023
-                </strong>
+            <ListGroup style={{width : '88%', borderRadius: '15px'}}>
+              <ListGroup.Item style={{padding : '20px'}}>
+                
+                  <Schedule />&nbsp;&nbsp; Sale ends 27th October, 2023 at 7:55 AM
+                
               </ListGroup.Item>
-              <ListGroup.Item>
-                <p className='mt-1' style={{ color: 'GrayText' }}>Current Price</p>
+              <ListGroup.Item >
+                <p className='mt-3 mb-0' style={{ color: 'GrayText' }}>Current Price</p>
                 <h2>
                   0.01 ETH &nbsp;
                   <span style={{ color: 'GrayText', fontSize: '15pt' }}>$322.09</span>
                 </h2>
 
-                <div className='mb-2'>
+                <div className='mb-2 mt-3' style={{width : '100%'}}>
                   <Button variant='primary' className='custom-button'> Buy Now</Button>&nbsp; &nbsp;
                   <Button variant='secondary' className='custom-button'> Add to Cart</Button>
 
                 </div>
               </ListGroup.Item>
             </ListGroup>
-            <div className='mt-3'>
-              
-            </div>
+            
           </div>
         </div>
       </div>
