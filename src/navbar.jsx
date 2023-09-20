@@ -10,24 +10,27 @@ import './navbar.css'
 function JasmyNavbar() {
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () =>{
+  const handleOpen = () => {
     setOpen(true);
   }
 
-  const handleClose = () =>{
+  const handleClose = () => {
     setOpen(false);
   }
   return (
     <Navbar bg="dark" data-bs-theme="dark" >
-        <div id='brand' className='container'>
+      <div id='brand' className='container'>
 
-        <Navbar.Brand  href="/">Jasmy Market Place</Navbar.Brand>
-        </div>
-       <div id='brand2' className='container'>
-        <Button variant="outline-light" onClick={handleOpen}> <Wallet/> </Button>&nbsp;&nbsp;
-        <ConnectWallet open={open} onClose = {handleClose} />
-        <Button variant='outline-light'> <ShoppingCart/> </Button>
-        </div>
+        <Navbar.Brand href="/">Jasmy Market Place</Navbar.Brand>
+        <Nav className='me-auto'>
+          <Nav.Link href='/mint'>Mint</Nav.Link>
+        </Nav>
+      </div>
+      <div id='brand2' className='container'>
+        <Button variant="outline-light" onClick={handleOpen}> <Wallet /> </Button>&nbsp;&nbsp;
+        <ConnectWallet open={open} onClose={handleClose} />
+        <Button variant='outline-light'> <ShoppingCart /> </Button>
+      </div>
 
     </Navbar>
   );
