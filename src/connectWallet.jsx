@@ -2,15 +2,15 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { DialogActions, DialogContent, DialogContentText, Typography } from '@mui/material';
 import metamask from './assets/images.png'
 import detectEthereumProvider from '@metamask/detect-provider';
 import { ethers } from 'ethers';
-
+import { WalletState } from './WalletContext';
 
 const ConnectWallet = ({ open, onClose }) => {
-
+    
     const [hasProvider, setHasProvider] = useState(null);
     const initialState = { accounts: [], balance: "" };
     const [wallet, setWallet] = useState(initialState);
@@ -43,6 +43,7 @@ const ConnectWallet = ({ open, onClose }) => {
             window.ethereum?.removeListener('accountsChanged', refreshAccounts);
         };
     }, []);
+
     const updateWallet = async (accounts) => {
         const balance = await window.ethereum.request({
             method: 'eth_getBalance',
@@ -85,12 +86,10 @@ const ConnectWallet = ({ open, onClose }) => {
                     {isConnected ? (
                         <div>
                             Your Balance: {wallet.ethFormat} ETH
-
                         </div>
                     ) : (
                         <div>
                             Your wallet is not connected. Click here connect.
-
                         </div>
                     )}
 
