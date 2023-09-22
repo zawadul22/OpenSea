@@ -7,9 +7,11 @@ import { DialogActions, DialogContent, DialogContentText, Typography } from '@mu
 import metamask from './assets/images.png'
 import detectEthereumProvider from '@metamask/detect-provider';
 import { ethers } from 'ethers';
-import { WalletState } from './WalletContext';
+// import walletContext from './WalletContext';
 
-const ConnectWallet = ({ open, onClose }) => {
+const ConnectWallet = (props) => {
+    const { open, onClose } = props
+    // const ctx = useContext(walletContext)
     
     const [hasProvider, setHasProvider] = useState(null);
     const initialState = { accounts: [], balance: "" };
@@ -51,6 +53,8 @@ const ConnectWallet = ({ open, onClose }) => {
         })
         let ethFormat = ethers.formatEther(balance);
         setWallet({ accounts, ethFormat });
+        props.connectMeta(wallet);
+        
     };
 
     const handleConnect = async () => {
@@ -60,6 +64,8 @@ const ConnectWallet = ({ open, onClose }) => {
             });
             updateWallet(accounts);
             setIsConnected(true);
+            // ctx.onLogin()
+            props.onLogin()
         } catch (error) {
             console.error('Error connecting to MetaMask:', error);
         }
@@ -68,7 +74,10 @@ const ConnectWallet = ({ open, onClose }) => {
     const handleDisconnect = async () => {
         try {
             setWallet(initialState);
+            props.connectMeta(initialState);
             setIsConnected(false);
+            // ctx.onLogout()
+            props.onLogout()
         } catch (error) {
             console.error('Error disconnecting from MetaMask:', error);
         }

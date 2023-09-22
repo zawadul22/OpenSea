@@ -7,7 +7,7 @@ import { ShoppingCart, Wallet } from '@mui/icons-material';
 import NFTMint from './NFTMint.jsx';
 import './navbar.css'
 
-function JasmyNavbar() {
+function JasmyNavbar(props) {
   const [open, setOpen] = useState(false);
   const [mint, setMint] = useState(false);
 
@@ -33,13 +33,13 @@ function JasmyNavbar() {
         <Navbar.Brand href="/">Jasmy Market Place</Navbar.Brand>
         <Nav className='me-auto'>
           <Nav.Link onClick={handleMintOpen}>Mint</Nav.Link>
-          <NFTMint mint={mint} onClose={handleMintClose} />
+          <NFTMint mint={mint} onClose={handleMintClose}  isLog={props.isLog} meta = {props.meta}/>
         </Nav>
       </div>
 
       <div id='brand2' className='container'>
         <Button variant="outline-light" onClick={handleOpen}> <Wallet /> </Button>&nbsp;&nbsp;
-        <ConnectWallet open={open} onClose={handleClose} />
+        <ConnectWallet open={open} onClose={handleClose} onLogin={props.onLogin} onLogout={props.onLogout} connectMeta = {(e)=>props.connectMeta(e)}/>
         <Button variant='outline-light'> <ShoppingCart /> </Button>
       </div>
     </Navbar>
