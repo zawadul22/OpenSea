@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap'
 import Grid from './grid'
 import NFTPagination from './pagination'
 
+
 const NFTCollection = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const handlePageChange = (newPage) => {
@@ -20,6 +21,7 @@ const NFTCollection = () => {
         current={currentPage}
         onChangePage={handlePageChange}
       />
+      
     </>
   )
 }

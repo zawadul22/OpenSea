@@ -32,4 +32,4 @@ export const WalletContextProvider = (props) => {
     </walletContext.Provider>
 }
 
-export default walletContext
+export default walletContext;

@@ -5,6 +5,7 @@ import ConnectWallet from './connectWallet';
 import { useState, useEffect } from 'react';
 import { ShoppingCart, Wallet } from '@mui/icons-material';
 import NFTMint from './NFTMint.jsx';
+import NFTMintv2 from './NFTMintv2';
 import './navbar.css'
 
 function JasmyNavbar(props) {
@@ -19,11 +20,11 @@ function JasmyNavbar(props) {
     setOpen(false);
   }
 
-  const handleMintOpen = () =>{
+  const handleMintOpen = () => {
     setMint(true);
   }
 
-  const handleMintClose = () =>{
+  const handleMintClose = () => {
     setMint(false);
   }
 
@@ -33,13 +34,23 @@ function JasmyNavbar(props) {
         <Navbar.Brand href="/">Jasmy Market Place</Navbar.Brand>
         <Nav className='me-auto'>
           <Nav.Link onClick={handleMintOpen}>Mint</Nav.Link>
-          <NFTMint mint={mint} onClose={handleMintClose}  isLog={props.isLog} meta = {props.meta}/>
+          <NFTMint mint={mint} onClose={handleMintClose}
+            isLog={props.isLog}
+            meta={props.meta}
+          />
+          <Nav.Link href='/mint2'>Mint 2.0</Nav.Link>
         </Nav>
       </div>
 
       <div id='brand2' className='container'>
         <Button variant="outline-light" onClick={handleOpen}> <Wallet /> </Button>&nbsp;&nbsp;
-        <ConnectWallet open={open} onClose={handleClose} onLogin={props.onLogin} onLogout={props.onLogout} connectMeta = {(e)=>props.connectMeta(e)}/>
+        <ConnectWallet
+          open={open}
+          onClose={handleClose}
+          onLogin={props.onLogin}
+          onLogout={props.onLogout}
+          connectMeta={(e) => props.connectMeta(e)}
+        />
         <Button variant='outline-light'> <ShoppingCart /> </Button>
       </div>
     </Navbar>
