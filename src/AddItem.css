@@ -1,0 +1,23 @@
+.box{
+
+    border: 1pt solid #dfdfdf;
+    padding-top: 10pt;
+    padding-bottom: 10pt;
+    padding-left: 15pt;
+    padding-right: 15pt;
+    border-radius: 7pt;
+    overflow: hidden;
+    text-align: center;
+    background-color: white;
+    
+}
+
+.box:hover{
+    border: 1pt solid #afafaf;
+    cursor: pointer;
+}
+
+.box:active{
+    background-color: #afafaf
+}
+

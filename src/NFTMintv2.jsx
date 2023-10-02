@@ -4,8 +4,10 @@ import Form from 'react-bootstrap/Form';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './NFTMintv2.css'
 import { Dropdown, DropdownButton, InputGroup } from 'react-bootstrap';
-import {FormatListBulletedIcon, StarBorder, BarChart, LockOpen, Warning} from '@mui/icons-material';
-
+import { StarBorder, BarChart, LockOpen, Warning } from '@mui/icons-material';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import AddItemIcon from './AddItem'
+import ToggleSlider from './Switch';
 
 const NFTMintv2 = () => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -20,29 +22,34 @@ const NFTMintv2 = () => {
 
     const traits = [
         {
-            icon: <FormatListBulletedIcon />,
+            icon1: <FormatListBulletedIcon />,
             title: "Properties",
-            description: "Textual traits that show up as rectangles"
+            description: "Textual traits that show up as rectangles",
+            icon2: "add"
         },
         {
-            icon: <StarBorder />,
+            icon1: <StarBorder />,
             title: "Level",
-            description: "Numerical traits that show as a progress bar"
+            description: "Numerical traits that show as a progress bar",
+            icon2: "add"
         },
         {
-            icon: <BarChart />,
+            icon1: <BarChart />,
             title: "Stats",
-            description: "Numerical traits that just show as numbers"
+            description: "Numerical traits that just show as numbers",
+            icon2: "add"
         },
         {
-            icon: <LockOpen />,
+            icon1: <LockOpen style={{ color: '#6c35ff' }} />,
             title: "Unlockable Content",
-            description: "Include unlockable content that can only be revealed by the owner of the item."
+            description: "Include unlockable content that can only be revealed by the owner of the item.",
+            icon2: "switch"
         },
         {
-            icon: <Warning />,
+            icon1: <Warning />,
             title: "Explicit & Sensitive Content",
-            description: "Set this item as explicit and sensitive content"
+            description: "Set this item as explicit and sensitive content",
+            icon2: "switch"
         }
     ];
 
@@ -128,7 +135,41 @@ const NFTMintv2 = () => {
                 </DropdownButton>
             </InputGroup> */}
 
+            {traits.map((item, index) => (
+                <div key={index} style={{ marginTop: '10pt', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex' }}>
 
+                        <span style={{ marginRight: '10pt' }}>
+                            {item.icon1}
+                        </span>
+
+                        <span>
+                            <strong>{item.title}</strong><br />
+                            {item.description}
+                        </span>
+                        {item.icon2 === "add" && (
+                            <span style={{ position: 'absolute', right: '45%' }}>
+                                <AddItemIcon />
+                            </span>
+                        )}
+                        {item.icon2 === "switch" && (
+                            <span style={{ position: 'absolute', right: '45%', paddingTop: '10pt' }}>
+                                <ToggleSlider id={`toggle-switch-${index}`} />
+                            </span>
+                        )}
+                    </div>
+                    <hr />
+                </div>
+            ))}
+            <h5 style={{ marginTop: '25pt' }}>Supply</h5>
+            <p style={{ fontSize: '10pt', color: '#5b5b5b', marginBottom: '12pt' }}>
+            The number of items that can be minted. No gas cost to you!
+            </p>
+            <Form>
+                <Form.Group className="mb-3" controlId='controlSupply'>
+                    <Form.Control  />
+                </Form.Group>
+            </Form>
 
         </div>
 
