@@ -1,4 +1,4 @@
-import { Accordion, AccordionSummary, Typography, Menu, MenuItem } from '@mui/material';
+import { Accordion, AccordionSummary, Typography, Menu, MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -8,6 +8,8 @@ import { StarBorder, BarChart, LockOpen, Warning } from '@mui/icons-material';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import AddItemIcon from './AddItem'
 import ToggleSlider from './Switch';
+import Networks from './Networks';
+import Networks2 from './Networks2';
 
 const NFTMintv2 = () => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -52,6 +54,7 @@ const NFTMintv2 = () => {
             icon2: "switch"
         }
     ];
+    
 
     return (
 
@@ -163,13 +166,18 @@ const NFTMintv2 = () => {
             ))}
             <h5 style={{ marginTop: '25pt' }}>Supply</h5>
             <p style={{ fontSize: '10pt', color: '#5b5b5b', marginBottom: '12pt' }}>
-            The number of items that can be minted. No gas cost to you!
+                The number of items that can be minted. No gas cost to you!
             </p>
             <Form>
                 <Form.Group className="mb-3" controlId='controlSupply'>
-                    <Form.Control  />
+                    <Form.Control defaultValue={1} />
                 </Form.Group>
             </Form>
+
+            <h5 style={{ marginTop: '25pt' }}>Blockchain</h5>
+            <Networks />
+            {/* <Networks2 /> */}
+
 
         </div>
 
