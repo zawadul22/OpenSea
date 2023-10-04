@@ -26,3 +26,20 @@
     border: 1pt solid #dfdfdf;
     border-left: none;
 }
+
+.image-drop{
+    border: 1pt dashed #9c9c9c;
+    border-radius: 5pt;
+    padding: 80px;
+    padding: auto;
+    /* align-content: center; */
+    margin-right: 65%;
+    margin-top: 15pt;
+    justify-content: center;
+    text-align: center;
+}
+
+.image-drop:hover{
+    background-color: #f8f8f8;
+    border: 1pt solid #9c9c9c;
+}

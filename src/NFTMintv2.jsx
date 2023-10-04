@@ -3,15 +3,25 @@ import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './NFTMintv2.css'
-import { Dropdown, DropdownButton, InputGroup } from 'react-bootstrap';
+import { Button, Dropdown, DropdownButton, InputGroup } from 'react-bootstrap';
 import { StarBorder, BarChart, LockOpen, Warning } from '@mui/icons-material';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import AddItemIcon from './AddItem'
 import ToggleSlider from './Switch';
-import Networks from './Networks';
-import Networks2 from './Networks2';
+import { useDropzone } from 'react-dropzone';
+import ImageIcon from '@mui/icons-material/Image';
+//import Networks from './Networks';
+//import Networks2 from './Networks2';
 
 const NFTMintv2 = () => {
+
+    const [uploadedFiles, setUploadedFiles] = useState([]);
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop: (acceptedFiles) => {
+            setUploadedFiles(acceptedFiles);
+        },
+    });
+
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -54,7 +64,7 @@ const NFTMintv2 = () => {
             icon2: "switch"
         }
     ];
-    
+
 
     return (
 
@@ -65,7 +75,15 @@ const NFTMintv2 = () => {
             <div style={{ fontSize: '10.5pt', color: '#707070', marginTop: '3pt' }}>
                 File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max size: 100 MB
             </div>
-            <div>Image Drop</div>
+            <div {...getRootProps()} className='image-drop'>
+                <input {...getInputProps()} />
+                <ImageIcon style={{color : '#9c9c9c'}}/>
+                {/* <ul>
+                    {uploadedFiles.map((file) => (
+                        <li key={file.name}>{file.name}</li>
+                    ))}
+                </ul> */}
+            </div>
             <h5 style={{ marginTop: '20pt' }}>Name *</h5>
             <Form>
                 <Form.Group className='mt-3 mb-3' controlId='controlName'>
@@ -175,8 +193,24 @@ const NFTMintv2 = () => {
             </Form>
 
             <h5 style={{ marginTop: '25pt' }}>Blockchain</h5>
-            <Networks />
+            {/* <Networks /> */}
             {/* <Networks2 /> */}
+            <Form.Select aria-label="Blockchain Options" defaultValue={5} className='mb-4'>
+
+                <option value="1">Arbitrum</option>
+                <option value="2">Arbitrum Nova</option>
+                <option value="3">Avalanche</option>
+                <option value="4">Base</option>
+                <option value="5">Ethereum</option>
+                <option value="6">Klaytn</option>
+                <option value="7">Optimism</option>
+                <option value="8">Polygon</option>
+                <option value="9">Zora</option>
+
+            </Form.Select>
+            
+
+            <Button>Create</Button>
 
 
         </div>
