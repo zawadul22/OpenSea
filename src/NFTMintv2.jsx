@@ -10,6 +10,8 @@ import AddItemIcon from './AddItem'
 import ToggleSlider from './Switch';
 import { useDropzone } from 'react-dropzone';
 import ImageIcon from '@mui/icons-material/Image';
+import ReactSelect from 'react-select';
+import arbitrum from './assets/Blockchains/arbitrum.svg'
 //import Networks from './Networks';
 //import Networks2 from './Networks2';
 
@@ -21,6 +23,9 @@ const NFTMintv2 = () => {
             setUploadedFiles(acceptedFiles);
         },
     });
+    const clearSelect = () => {
+        setUploadedFiles([]);
+    }
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -65,6 +70,11 @@ const NFTMintv2 = () => {
         }
     ];
 
+    const blockchains = [
+        { value: 'arbitrum', label: 'Arbitrum', image: arbitrum },
+        { value: 'arbitrumNova', label: 'Arbitrum Nova', image: './assets/Blockchains/Arbitrum-Nova.svg' }
+    ]
+
 
     return (
 
@@ -75,15 +85,31 @@ const NFTMintv2 = () => {
             <div style={{ fontSize: '10.5pt', color: '#707070', marginTop: '3pt' }}>
                 File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max size: 100 MB
             </div>
+
             <div {...getRootProps()} className='image-drop'>
-                <input {...getInputProps()} />
-                <ImageIcon style={{color : '#9c9c9c'}}/>
-                {/* <ul>
-                    {uploadedFiles.map((file) => (
-                        <li key={file.name}>{file.name}</li>
-                    ))}
-                </ul> */}
+
+                {uploadedFiles.length === 0 ? (
+                    <>
+                        <input {...getInputProps()} />
+                        <ImageIcon style={{ color: '#9c9c9c' }} />
+                    </>
+                ) : (
+                    // <ul>
+                    //     {uploadedFiles.map((file) => (
+                    //         <li key={file.name}>{file.name}</li>
+                    //     ))}
+                    // </ul>
+                    <>
+                        {uploadedFiles.map((file) => (
+                            <>
+                                {file.name}&nbsp;&nbsp;
+                                <button style={{ border: '0px' }} onClick={clearSelect}>×</button>
+                            </>
+                        ))}
+                    </>
+                )}
             </div>
+
             <h5 style={{ marginTop: '20pt' }}>Name *</h5>
             <Form>
                 <Form.Group className='mt-3 mb-3' controlId='controlName'>
@@ -117,7 +143,7 @@ const NFTMintv2 = () => {
             <p style={{ fontSize: '10pt', color: '#5b5b5b', marginBottom: '12pt' }}>
                 This is the collection where your item will appear.
             </p>
-            <Accordion id='collection' onClick={handleClick}>
+            {/* <Accordion id='collection' onClick={handleClick}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -125,10 +151,10 @@ const NFTMintv2 = () => {
                 >
                     <text style={{ color: 'GrayText' }}>Select Collection</text>
                 </AccordionSummary>
-            </Accordion>
-            {/* <Form.Select aria-label='Select your collection'>
+            </Accordion> */}
+            <Form.Select aria-label='Select your collection' placeholder='Select Your Collection' className='mb-4'>
                 <option>Select Your Collection</option>
-            </Form.Select> */}
+            </Form.Select>
             {/* <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
@@ -208,7 +234,20 @@ const NFTMintv2 = () => {
                 <option value="9">Zora</option>
 
             </Form.Select>
-            
+
+            <ReactSelect
+                className='mb-4'
+                value={blockchains.value}
+                options={blockchains}
+                formatOptionLabel={blockcahin => (
+                    <div className='blockchain'>
+                        <img src={blockcahin.image} alt='' />&nbsp;
+                        <span>{blockcahin.label}</span>
+                    </div>
+                )}
+
+            />
+
 
             <Button>Create</Button>
 
