@@ -12,8 +12,6 @@ import { useDropzone } from 'react-dropzone';
 import ImageIcon from '@mui/icons-material/Image';
 import ReactSelect from 'react-select';
 import arbitrum from './assets/Blockchains/arbitrum.svg'
-//import Networks from './Networks';
-//import Networks2 from './Networks2';
 
 const NFTMintv2 = () => {
 
@@ -182,7 +180,7 @@ const NFTMintv2 = () => {
                 </DropdownButton>
             </InputGroup> */}
 
-            {traits.map((item, index) => (
+            {/* {traits.map((item, index) => (
                 <div key={index} style={{ marginTop: '10pt', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex' }}>
 
@@ -207,7 +205,7 @@ const NFTMintv2 = () => {
                     </div>
                     <hr />
                 </div>
-            ))}
+            ))} */}
             <h5 style={{ marginTop: '25pt' }}>Supply</h5>
             <p style={{ fontSize: '10pt', color: '#5b5b5b', marginBottom: '12pt' }}>
                 The number of items that can be minted. No gas cost to you!
@@ -235,7 +233,7 @@ const NFTMintv2 = () => {
 
             </Form.Select>
 
-            <ReactSelect
+            {/* <ReactSelect
                 className='mb-4'
                 value={blockchains.value}
                 options={blockchains}
@@ -246,11 +244,9 @@ const NFTMintv2 = () => {
                     </div>
                 )}
 
-            />
-
+            /> */}
 
             <Button>Create</Button>
-
 
         </div>
 
