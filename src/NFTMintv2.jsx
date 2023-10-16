@@ -1,10 +1,10 @@
 import { Accordion, AccordionSummary, Typography, Menu, MenuItem, Select } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './NFTMintv2.css'
 import { Button, Dropdown, DropdownButton, InputGroup } from 'react-bootstrap';
-import { StarBorder, BarChart, LockOpen, Warning } from '@mui/icons-material';
+import { StarBorder, BarChart, LockOpen, Warning, PreviewSharp } from '@mui/icons-material';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import AddItemIcon from './AddItem'
 import ToggleSlider from './Switch';
@@ -12,10 +12,25 @@ import { useDropzone } from 'react-dropzone';
 import ImageIcon from '@mui/icons-material/Image';
 import ReactSelect from 'react-select';
 import arbitrum from './assets/Blockchains/arbitrum.svg'
+import { imageDb, database } from './Firebase';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { set, ref as databaseRef, onValue, child, get } from "firebase/database"
+import { v4 } from 'uuid';
 
 const NFTMintv2 = () => {
 
     const [uploadedFiles, setUploadedFiles] = useState([]);
+    const [metadata, setMetadata] = useState({
+        image: "",
+        name: "",
+        externalLink: "",
+        description: "",
+        supply: 1,
+        blockchain: "",
+        price: 0
+    })
+    const [currentToken, setCurrentToken] = useState(1)
+
     const { getRootProps, getInputProps } = useDropzone({
         onDrop: (acceptedFiles) => {
             setUploadedFiles(acceptedFiles);
@@ -25,15 +40,99 @@ const NFTMintv2 = () => {
         setUploadedFiles([]);
     }
 
-    const [anchorEl, setAnchorEl] = useState(null);
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const saveData = () => {
+        try {
+            if (uploadedFiles.length != 0) {
+                const imgRef = ref(imageDb, `property/${v4()}`)
+                console.log(imgRef)
+                uploadBytes(imgRef, uploadedFiles[0]).then(() => {
+                    getDownloadURL(imgRef).then((url) => {
+                        setMetadata((prevState) => {
+                            //prevState.image = url
+                            console.log(prevState)
+                            return { ...prevState, image: url }
+                        })
+                        console.log(url)
+                        console.log(metadata.image)
+                        saveToFirebase();
+                    })
+                });
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const saveToFirebase = () => {
+        const metadataRef = databaseRef(database, `metadata/` + token);
+        set(metadataRef, {
+            image: metadata.image,
+            name: metadata.name,
+            externalLink: metadata.externalLink,
+            description: metadata.description,
+            supply: metadata.supply,
+            blockchain: metadata.blockchain,
+            price: metadata.price
+        })
+
+    }
+
+    const getToken = () => {
+        const tokenRef = databaseRef(database);
+        let tempToken;
+        // onValue(tokenRef, (snapshot) => {
+        //     tempToken = snapshot.val();
+        //     // console.log("Before setting into state ", tempToken);
+        //     setCurrentToken(tempToken)
+        //     console.log("Current token : " + currentToken)
+        //     console.log("Temp Token : " + tempToken);
+
+        // })
+
+        get(child(tokenRef, `token/`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                tempToken = snapshot.val();
+                setCurrentToken(tempToken);
+                console.log("State token ", currentToken)
+                console.log("Temp token ",tempToken);
+                tempToken += 1;
+                set(databaseRef(database), {
+                    token: tempToken
+                }).then(() => {
+                    console.log("Token Set")
+                })
+            }
+            else {
+                console.log("No value found")
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+
+        console.log("Current token out of onValue ", currentToken);
+        // tempToken += 1;
+        // set(databaseRef(database), {
+        //     token: tempToken
+        // }).then(() => {
+        //     console.log("Token Set")
+        // })
+        //saveData();
+
+    }
+
+    
+    //console.log(uri);
+
+    let name, value;
+    const postUri = (event) => {
+        name = event.target.name;
+        value = event.target.value;
+
+        setMetadata({ ...metadata, [name]: value })
+    }
 
     const traits = [
         {
@@ -67,11 +166,6 @@ const NFTMintv2 = () => {
             icon2: "switch"
         }
     ];
-
-    const blockchains = [
-        { value: 'arbitrum', label: 'Arbitrum', image: arbitrum },
-        { value: 'arbitrumNova', label: 'Arbitrum Nova', image: './assets/Blockchains/Arbitrum-Nova.svg' }
-    ]
 
 
     return (
@@ -109,127 +203,57 @@ const NFTMintv2 = () => {
             </div>
 
             <h5 style={{ marginTop: '20pt' }}>Name *</h5>
-            <Form>
-                <Form.Group className='mt-3 mb-3' controlId='controlName'>
-                    <Form.Control type='text' placeholder='Item Name' />
+            <Form >
+                <Form.Group className='mt-3 mb-3' controlId='name'>
+                    <Form.Control type='text' placeholder='Item Name' name='name' value={metadata.name} onChange={postUri} />
                 </Form.Group>
             </Form>
 
+
             <h5 style={{ marginTop: '25pt' }}>External Link</h5>
             <p style={{ fontSize: '10pt', color: '#5b5b5b', marginBottom: '12pt' }}>
-                OpenSea will include a link to this URL on this item's detail page,
+                You can include a link to this URL on this item's detail page,
                 so that users can click to learn more about it.
-                You are welcome to link to your own webpage with more details.
             </p>
             <Form>
-                <Form.Group className="mb-3" controlId='controlName'>
-                    <Form.Control type='text' placeholder='https://yoursite.io/item/123' />
+                <Form.Group className="mb-3" >
+                    <Form.Control type='text' placeholder='https://yoursite.io/item/123' name='externalLink' value={metadata.externalLink} onChange={postUri} />
                 </Form.Group>
             </Form>
 
             <h5 style={{ marginTop: '20pt' }}>Description</h5>
             <p style={{ fontSize: '10pt', color: '#5b5b5b', marginBottom: '12pt' }}>
-                The description will be included on the item's detail page underneath its image. Markdown syntax is supported.
+                The description will be included on the item's detail page underneath its image.
             </p>
             <Form>
-                <Form.Group className='mt-3 mb-3' controlId='controlName'>
-                    <Form.Control as="textarea" rows={4} placeholder='Provide a detailed description of your item' />
+                <Form.Group className='mt-3 mb-3' >
+                    <Form.Control as="textarea" rows={4} placeholder='Provide a detailed description of your item' name="description" value={metadata.description} onChange={postUri} />
                 </Form.Group>
             </Form>
 
-            <h5 style={{ marginTop: '20pt' }}>Collection</h5>
-            <p style={{ fontSize: '10pt', color: '#5b5b5b', marginBottom: '12pt' }}>
-                This is the collection where your item will appear.
-            </p>
-            {/* <Accordion id='collection' onClick={handleClick}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <text style={{ color: 'GrayText' }}>Select Collection</text>
-                </AccordionSummary>
-            </Accordion> */}
-            <Form.Select aria-label='Select your collection' placeholder='Select Your Collection' className='mb-4'>
-                <option>Select Your Collection</option>
-            </Form.Select>
-            {/* <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-            >
-                <MenuItem onClick={handleClose}>Dropdown Item 1</MenuItem>
-                <MenuItem onClick={handleClose}>Dropdown Item 2</MenuItem>
-                <MenuItem onClick={handleClose}>Dropdown Item 3</MenuItem>
-            </Menu> */}
-
-            {/* <InputGroup className="mb-3" id='collection2'>
-                <Form.Control aria-label="Text input with dropdown button" placeholder='Select collection'/>
-
-                <DropdownButton
-                     variant="outline"
-                    id="input-group-dropdown-2"
-                    align="end"
-                    
-                >
-                    <Dropdown.Item href="#">Action</Dropdown.Item>
-                    <Dropdown.Item href="#">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#">Something else here</Dropdown.Item>
-                </DropdownButton>
-            </InputGroup> */}
-
-            {/* {traits.map((item, index) => (
-                <div key={index} style={{ marginTop: '10pt', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex' }}>
-
-                        <span style={{ marginRight: '10pt' }}>
-                            {item.icon1}
-                        </span>
-
-                        <span>
-                            <strong>{item.title}</strong><br />
-                            {item.description}
-                        </span>
-                        {item.icon2 === "add" && (
-                            <span style={{ position: 'absolute', right: '45%' }}>
-                                <AddItemIcon />
-                            </span>
-                        )}
-                        {item.icon2 === "switch" && (
-                            <span style={{ position: 'absolute', right: '45%', paddingTop: '10pt' }}>
-                                <ToggleSlider id={`toggle-switch-${index}`} />
-                            </span>
-                        )}
-                    </div>
-                    <hr />
-                </div>
-            ))} */}
             <h5 style={{ marginTop: '25pt' }}>Supply</h5>
             <p style={{ fontSize: '10pt', color: '#5b5b5b', marginBottom: '12pt' }}>
                 The number of items that can be minted. No gas cost to you!
             </p>
             <Form>
-                <Form.Group className="mb-3" controlId='controlSupply'>
-                    <Form.Control defaultValue={1} />
+                <Form.Group className="mb-3" >
+                    <Form.Control defaultValue={1} type='number' name="supply" value={metadata.supply} onChange={postUri} />
                 </Form.Group>
             </Form>
 
             <h5 style={{ marginTop: '25pt' }}>Blockchain</h5>
-            {/* <Networks /> */}
-            {/* <Networks2 /> */}
-            <Form.Select aria-label="Blockchain Options" defaultValue={5} className='mb-4'>
 
-                <option value="1">Arbitrum</option>
-                <option value="2">Arbitrum Nova</option>
-                <option value="3">Avalanche</option>
-                <option value="4">Base</option>
-                <option value="5">Ethereum</option>
-                <option value="6">Klaytn</option>
-                <option value="7">Optimism</option>
-                <option value="8">Polygon</option>
-                <option value="9">Zora</option>
+            <Form.Select aria-label="Blockchain Options" defaultValue={"Ethereum"} className='mb-4' name="blockchain" value={metadata.blockchain} onChange={postUri}>
+                <option>Select a network</option>
+                <option value="Arbitrum">Arbitrum</option>
+                <option value="Arbitrum Nova">Arbitrum Nova</option>
+                <option value="Avalanche">Avalanche</option>
+                <option value="Base">Base</option>
+                <option value="Ethereum">Ethereum</option>
+                <option value="Klaytn">Klaytn</option>
+                <option value="Optimism">Optimism</option>
+                <option value="Polygon">Polygon</option>
+                <option value="Zora">Zora</option>
 
             </Form.Select>
 
@@ -245,8 +269,18 @@ const NFTMintv2 = () => {
                 )}
 
             /> */}
+            <h5 style={{ marginTop: '25pt' }}>Price</h5>
+            <p style={{ fontSize: '10pt', color: '#5b5b5b', marginBottom: '12pt' }}>
+                Put your asking price according to the blockchain you've selected.
+            </p>
+            <Form>
+                <Form.Group className="mb-3" >
+                    <Form.Control type='number' placeholder='' name="price" value={metadata.price} onChange={postUri} />
+                </Form.Group>
+            </Form>
 
-            <Button>Create</Button>
+            <Button >Create</Button>&nbsp;&nbsp;
+            <Button>Download</Button>
 
         </div>
 
