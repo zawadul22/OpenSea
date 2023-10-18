@@ -14,14 +14,14 @@ import ReactSelect from 'react-select';
 import arbitrum from './assets/Blockchains/arbitrum.svg'
 import { imageDb, database } from './Firebase';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
-import { set, ref as databaseRef, onValue, child, get } from "firebase/database"
+import { set, ref as databaseRef, onValue, child, get, push } from "firebase/database"
 import { v4 } from 'uuid';
 
 const NFTMintv2 = () => {
 
-    const tokenRef = databaseRef(database);
+    
     const [uploadedFiles, setUploadedFiles] = useState([]);
-    const [response, setResponse] = useState({});
+    const [tokenUri, setTokenUri] = useState("");
     const [metadata, setMetadata] = useState({
         image: "",
         name: "",
@@ -33,22 +33,6 @@ const NFTMintv2 = () => {
     })
     const [currentToken, setCurrentToken] = useState(0);
 
-    // ()=>{
-    //     get(child(tokenRef, `token/`)).then((snapshot) => {
-    //         if (snapshot.exists()) {
-    //             return snapshot.val();
-    //         }
-    //         else {
-    //             console.log("No value found")
-    //             return 0;
-    //         }
-    //     }).catch((error) => {
-    //         console.log(error);
-    //         return 0;
-    //     });
-    // }
-    const [buttonClicked, setButtonClicked] = useState(false);
-
     const { getRootProps, getInputProps } = useDropzone({
         onDrop: (acceptedFiles) => {
             setUploadedFiles(acceptedFiles);
@@ -56,95 +40,111 @@ const NFTMintv2 = () => {
     });
     const clearSelect = () => {
         setUploadedFiles([]);
+        setMetadata({
+            image: "",
+            name: "",
+            externalLink: "",
+            description: "",
+            supply: 1,
+            blockchain: "",
+            price: 0
+        })
     }
 
-    // useEffect(()=>{
-    //     const executeFunctions = async () => {
-    //         if(buttonClicked){
-    //             try{
-    //                 await getToken();
-    //                 await saveData();
-    //                 await saveToFirebase();
-    //             } catch (error){
-    //                 console.error(error)
-    //             }
-    //         }
-    //         setButtonClicked(false);
-    //     }
-    //     executeFunctions();
-    // }, [buttonClicked])
+    const saveData = async () => {
+        try {
+            if (uploadedFiles.length != 0) {
+                const imgRef = ref(imageDb, `property/${v4()}`)
 
+                const imgUpload = await uploadBytes(imgRef, uploadedFiles[0])
 
+                if (imgUpload) {
+                    let url = await getDownloadURL(imgRef);
+                    saveImageUrl(url)
+                }
 
-    // const saveData = async () => {
-    //     try {
-    //         if (uploadedFiles.length != 0) {
-    //             const imgRef = ref(imageDb, `property/${v4()}`)
-    //             console.log(imgRef)
-    //             uploadBytes(imgRef, uploadedFiles[0]).then(() => {
-    //                 getDownloadURL(imgRef).then((url) => {
-    //                     // setMetadata((prevState) => {
-    //                     //     prevState.image = url
-    //                     //     console.log(prevState)
-    //                     //     return { ...prevState, image: url }
-    //                     // })
-    //                     setMetadata({...metadata, image: url})
-    //                     console.log(url)
-    //                     console.log(metadata.image)
-    //                     //saveToFirebase();
-    //                 })
-    //             });
-    //         }
-
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
-    const saveImageUrl = async () =>{
-         fetch("https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json")
-        .then((res) => res.json())
-        .then((data) => {
-            setResponse(data)
-            console.log(data)
-            const loadedData = []
-            for ( const key in data ) {
-                loadedData.push({description: data[key].description, name: data[key].name})
             }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-            console.log(loadedData)
+    const saveImageUrl = async (image) => {
+        let objectIndex = "";
+        await fetch("https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json")
+            .then((res) => res.json())
+            .then((data) => {
+                const keys = Object.keys(data)
+                setCurrentToken(keys.length)
+                objectIndex = keys[keys.length-1]
+            })
+            .catch((error) => console.log(error))
+
+        setTokenUri("https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata/" + objectIndex + ".json")
+        const { name, externalLink, description, supply, blockchain, price } = metadata;
+        let update = await fetch(`https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata/${objectIndex}.json`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    image,
+                    name,
+                    externalLink,
+                    description,
+                    supply,
+                    blockchain,
+                    price
+                })
+            }
+        ).then((res) => {
+            if (!res.ok) {
+                throw new Error(`HTTP error ${res.status}`);
+            }
+            return res.json();
+        }).then((updatedData) => {
+            console.log("Data updated: ", updatedData)
+            clearSelect();
+            console.log(currentToken)
+            console.log(tokenUri)
+
+        }).catch((error) => {
+            console.log("Error updating data: ", error)
         })
-        .catch((error) => console.log(error))
 
-        console.log(response.toLocaleString())
 
     }
 
     const saveToFirebase = async (event) => {
-        // const metadataRef = databaseRef(database, `metadata/` + currentToken);
+        // const metadataRef = databaseRef(database, `metadata/`);
         // console.log("Saving Data")
-        // set(metadataRef, {
+        // push(metadataRef, {
         //     image: metadata.image,
         //     name: metadata.name,
         //     externalLink: metadata.externalLink,
         //     description: metadata.description,
         //     supply: metadata.supply,
         //     blockchain: metadata.blockchain,
-        //     price: metadata.price
+        //     price: 23,
+        // }).then((snapshot)=>{
+        //     console.log(snapshot)
+        // }).catch((error)=>{
+        //     console.log(error)
         // })
 
-        const {image , name, externalLink, description, supply, blockchain, price} = metadata;
+        const { image, name, externalLink, description, supply, blockchain, price } = metadata;
 
         const res = await fetch(
             "https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json",
             {
                 method: "POST",
                 headers: {
-                    "Content-Type" : "application/json",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     image,
-                    name, 
+                    name,
                     externalLink,
                     description,
                     supply,
@@ -154,15 +154,17 @@ const NFTMintv2 = () => {
             }
         );
 
-        if(res){
+        if (res) {
             console.log("Data Stored")
+            saveData();
         }
-        else{
-            console.log("Somethig Wrong")
+        else {
+            console.log("Something Wrong")
         }
     }
 
-    const getToken = async () => {
+    const getToken = () => {
+        console.log("First Method")
         const tokenRef = databaseRef(database);
         let tempToken;
         // onValue(tokenRef, (snapshot) => {
@@ -175,11 +177,13 @@ const NFTMintv2 = () => {
         // })
 
         get(child(tokenRef, `token/`)).then((snapshot) => {
+            // return 90
+
             if (snapshot.exists()) {
                 tempToken = snapshot.val();
                 setCurrentToken(tempToken);
                 console.log("State token ", currentToken)
-                console.log("Temp token ",tempToken);
+                console.log("Temp token ", tempToken);
                 tempToken += 1;
                 set(databaseRef(database), {
                     token: tempToken
@@ -190,23 +194,14 @@ const NFTMintv2 = () => {
             else {
                 console.log("No value found")
             }
-        }).catch((error) => {
-            console.log(error);
-        });
-
-        console.log("Current token out of onValue ", currentToken);
-        // tempToken += 1;
-        // set(databaseRef(database), {
-        //     token: tempToken
-        // }).then(() => {
-        //     console.log("Token Set")
-        // })
-        //saveData();
+        }).then(() => {
+            saveData();
+        })
+            .catch((error) => {
+                console.log(error);
+            });
 
     }
-
-    
-    //console.log(uri);
 
     let name, value;
     const postUri = (event) => {
@@ -215,43 +210,6 @@ const NFTMintv2 = () => {
 
         setMetadata({ ...metadata, [name]: value })
     }
-
-    const handleClick = () =>{
-        setButtonClicked(true);
-    }
-
-    const traits = [
-        {
-            icon1: <FormatListBulletedIcon />,
-            title: "Properties",
-            description: "Textual traits that show up as rectangles",
-            icon2: "add"
-        },
-        {
-            icon1: <StarBorder />,
-            title: "Level",
-            description: "Numerical traits that show as a progress bar",
-            icon2: "add"
-        },
-        {
-            icon1: <BarChart />,
-            title: "Stats",
-            description: "Numerical traits that just show as numbers",
-            icon2: "add"
-        },
-        {
-            icon1: <LockOpen style={{ color: '#6c35ff' }} />,
-            title: "Unlockable Content",
-            description: "Include unlockable content that can only be revealed by the owner of the item.",
-            icon2: "switch"
-        },
-        {
-            icon1: <Warning />,
-            title: "Explicit & Sensitive Content",
-            description: "Set this item as explicit and sensitive content",
-            icon2: "switch"
-        }
-    ];
 
 
     return (
@@ -366,7 +324,8 @@ const NFTMintv2 = () => {
             </Form>
 
             <Button onClick={saveToFirebase}>Create</Button>&nbsp;&nbsp;
-            <Button onClick={saveImageUrl}>Download</Button>
+            {/* <Button onClick={saveImageUrl}>Update</Button>&nbsp;&nbsp;
+            <Button onClick={saveData}>Upload</Button> */}
 
         </div>
 
