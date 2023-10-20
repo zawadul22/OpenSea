@@ -11,8 +11,8 @@ import NFTMintv2 from './NFTMintv2';
 // import walletContext from './WalletContext';
 
 function App() {
-  const [isLog, setIsLog] = useState(false)
-  const [meta, setMeta] = useState(
+  const [isLog, setIsLog] = useState(false) // Is the metamask connected?
+  const [meta, setMeta] = useState( // set wallet address
     {}
   );
 
@@ -42,7 +42,7 @@ function App() {
       <Routes>
         <Route path='/' element={<NFTCollection />} />
         <Route path='/buy/:value' element={<NFTBuyPage />} />
-        <Route path='/mint2' element={<NFTMintv2 />} />
+        <Route path='/mint2' element={<NFTMintv2 isLog={isLog} meta={meta}/>} />
       </Routes>
     </>
   )

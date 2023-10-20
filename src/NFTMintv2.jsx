@@ -1,13 +1,9 @@
-import { Accordion, AccordionSummary, Typography, Menu, MenuItem, Select } from '@mui/material';
+import { Alert } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './NFTMintv2.css'
 import { Button, Dropdown, DropdownButton, InputGroup } from 'react-bootstrap';
-import { StarBorder, BarChart, LockOpen, Warning, PreviewSharp } from '@mui/icons-material';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import AddItemIcon from './AddItem'
-import ToggleSlider from './Switch';
 import { useDropzone } from 'react-dropzone';
 import ImageIcon from '@mui/icons-material/Image';
 import ReactSelect from 'react-select';
@@ -16,12 +12,491 @@ import { imageDb, database } from './Firebase';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { set, ref as databaseRef, onValue, child, get, push } from "firebase/database"
 import { v4 } from 'uuid';
+import Web3 from 'web3';
 
-const NFTMintv2 = () => {
 
-    
+const NFTMintv2 = ({ isLog, meta }) => {
+
+
+    let loading = false;
+    const contractAddress = "0xb9A219631Aed55eBC3D998f17C3840B7eC39C0cc";
+    const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+    const abi = [
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "approved",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "Approval",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "operator",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "bool",
+                    "name": "approved",
+                    "type": "bool"
+                }
+            ],
+            "name": "ApprovalForAll",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "_fromTokenId",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "_toTokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "BatchMetadataUpdate",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "_tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "MetadataUpdate",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "previousOwner",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "newOwner",
+                    "type": "address"
+                }
+            ],
+            "name": "OwnershipTransferred",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "from",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "Transfer",
+            "type": "event"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "approve",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_to",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "_tokenId",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "_uri",
+                    "type": "string"
+                }
+            ],
+            "name": "mint",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "renounceOwnership",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "from",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "safeTransferFrom",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "from",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bytes",
+                    "name": "data",
+                    "type": "bytes"
+                }
+            ],
+            "name": "safeTransferFrom",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "operator",
+                    "type": "address"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "approved",
+                    "type": "bool"
+                }
+            ],
+            "name": "setApprovalForAll",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "from",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "transferFrom",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "newOwner",
+                    "type": "address"
+                }
+            ],
+            "name": "transferOwnership",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                }
+            ],
+            "name": "balanceOf",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getApproved",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "operator",
+                    "type": "address"
+                }
+            ],
+            "name": "isApprovedForAll",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "name",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "owner",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "ownerOf",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "bytes4",
+                    "name": "interfaceId",
+                    "type": "bytes4"
+                }
+            ],
+            "name": "supportsInterface",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "symbol",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "tokenURI",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ]
+
+    const startMint = async (tokenId, tokenURI) => {
+
+        const mintFunction = contract.methods.mint(meta.accounts[0], tokenId, tokenURI);
+        const encodedABI = mintFunction.encodeABI();
+        ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [{
+                from: meta.accounts[0],
+                to: contractAddress,
+                data: encodedABI
+            },
+            ],
+        })
+            .then((err, txHash) => {
+                if (!err) {
+                    console.log(txHash);
+                }
+                else {
+
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+
+    const contract = new web3.eth.Contract(abi, contractAddress);
     const [uploadedFiles, setUploadedFiles] = useState([]);
-    const [tokenUri, setTokenUri] = useState("");
+    //const [tokenUri, setTokenUri] = useState("");
+
     const [metadata, setMetadata] = useState({
         image: "",
         name: "",
@@ -71,16 +546,21 @@ const NFTMintv2 = () => {
 
     const saveImageUrl = async (image) => {
         let objectIndex = "";
+        let tokenUri = "";
+        let tokenId = 0;
+
         await fetch("https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json")
             .then((res) => res.json())
             .then((data) => {
-                const keys = Object.keys(data)
-                setCurrentToken(keys.length)
-                objectIndex = keys[keys.length-1]
+                const keys = Object.keys(data);
+                setCurrentToken(keys.length);
+                tokenId = keys.length;
+                objectIndex = keys[keys.length - 1];
             })
             .catch((error) => console.log(error))
 
-        setTokenUri("https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata/" + objectIndex + ".json")
+        //setTokenUri("https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata/" + objectIndex + ".json")
+        tokenUri = "https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata/" + objectIndex + ".json?print=pretty";
         const { name, externalLink, description, supply, blockchain, price } = metadata;
         let update = await fetch(`https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata/${objectIndex}.json`,
             {
@@ -105,6 +585,8 @@ const NFTMintv2 = () => {
             return res.json();
         }).then((updatedData) => {
             console.log("Data updated: ", updatedData)
+            startMint(tokenId, tokenUri)
+            loading=false;
             clearSelect();
             console.log(currentToken)
             console.log(tokenUri)
@@ -117,22 +599,8 @@ const NFTMintv2 = () => {
     }
 
     const saveToFirebase = async (event) => {
-        // const metadataRef = databaseRef(database, `metadata/`);
-        // console.log("Saving Data")
-        // push(metadataRef, {
-        //     image: metadata.image,
-        //     name: metadata.name,
-        //     externalLink: metadata.externalLink,
-        //     description: metadata.description,
-        //     supply: metadata.supply,
-        //     blockchain: metadata.blockchain,
-        //     price: 23,
-        // }).then((snapshot)=>{
-        //     console.log(snapshot)
-        // }).catch((error)=>{
-        //     console.log(error)
-        // })
 
+        loading=true;
         const { image, name, externalLink, description, supply, blockchain, price } = metadata;
 
         const res = await fetch(
@@ -215,6 +683,7 @@ const NFTMintv2 = () => {
     return (
 
         <div className='mintContainer'>
+            
             <h1 style={{ marginBottom: '30px' }}> Create New Item</h1>
             <div style={{ fontSize: '10pt', color: '#5b5b5b' }}> <span style={{ color: 'red' }}>*</span> Required fields</div>
             <strong>Image, Video, Audio, or 3D Model </strong>
@@ -322,8 +791,18 @@ const NFTMintv2 = () => {
                     <Form.Control type='number' placeholder='' name="price" value={metadata.price} onChange={postUri} />
                 </Form.Group>
             </Form>
+            {isLog ? (
+                <Button onClick={saveToFirebase}>Create</Button>
+            ) : (
+                <>
+                    <Alert severity='warning'>
+                        Your wallet is not connected. Please connect your wallet to proceed.
+                    </Alert>
 
-            <Button onClick={saveToFirebase}>Create</Button>&nbsp;&nbsp;
+                </>
+
+            )}
+
             {/* <Button onClick={saveImageUrl}>Update</Button>&nbsp;&nbsp;
             <Button onClick={saveData}>Upload</Button> */}
 
