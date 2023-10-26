@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'react-bootstrap/Image';
 import nft from './assets/nft-image-2.png';
 import './NFTBuy.css';
@@ -29,31 +29,41 @@ function NFTBuyPage() {
     setOpenImageModal(false);
   };
 
+  const [obj , setObj] = useState([]);
+
+  useEffect(()=>{
+    fetch("https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json")
+    .then((response)=>response.json())
+    .then((data)=>{
+      setObj(Object.values(data))
+    })
+  })
+
   return (
     <>
       <div id='buyer' className='container'>
         <div className="side">
-        <div className='image-frame'>
-          <div className='bar'>
-            <div style={{marginLeft : '5pt'}}> <Image src={eth} style={{width : '18px'}} /> </div>
-            <div style={{marginRight : '5pt'}}>
-              <OpenInFull style={{width : '19px'}}/>&nbsp;&nbsp;
-              <span style={{fontSize : '10pt'}}>9</span> <FavoriteBorder style={{width : '20px'}}/>
+          <div className='image-frame'>
+            <div className='bar'>
+              <div style={{ marginLeft: '5pt' }}> <Image src={eth} style={{ width: '18px' }} /> </div>
+              <div style={{ marginRight: '5pt' }}>
+                <OpenInFull style={{ width: '19px' }} />&nbsp;&nbsp;
+                <span style={{ fontSize: '10pt' }}>9</span> <FavoriteBorder style={{ width: '20px' }} />
               </div>
-            
-          </div>
-          <div style={{maxWidth : '100%', minWidth : '10%', maxHeight : '100%', minHeight : '10%'}}>
-          <Image
-            src={nft}
-            onClick={handleImageClick}
-          />
-          </div>
+
+            </div>
+            <div style={{ maxWidth: '100%', minWidth: '10%', maxHeight: '100%', minHeight: '10%' }}>
+              <Image
+                src={obj[value-1]?obj[value-1].image:null}
+                onClick={handleImageClick}
+              />
+            </div>
           </div>
           <Accordion className='mt-3 mb-3' defaultActiveKey="0">
             <Accordion.Item eventKey='0'>
               <Accordion.Header>Description</Accordion.Header>
               <Accordion.Body>
-                A Playable Champion in Champions Arena. Each Champion has unique skills and strengths in combat and exploration.
+                {obj[value-1]?obj[value-1].description:null}
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey='1'>
@@ -95,9 +105,9 @@ function NFTBuyPage() {
 
         </div>
         <div className="side-content-center">
-          <div style={{width : '100%'}}>
+          <div style={{ width: '100%' }}>
             <h1>
-              Bored Fox #{value}
+              {obj[value-1]?obj[value-1].name:null} #{value}
             </h1>
             <strong>Owned By </strong> Zawad
             <br />
@@ -108,27 +118,27 @@ function NFTBuyPage() {
             <VideogameAsset /> Gaming
             <br />
             <br />
-            <ListGroup style={{width : '88%', borderRadius: '15px'}}>
-              <ListGroup.Item style={{padding : '20px'}}>
-                
-                  <Schedule />&nbsp;&nbsp; Sale ends 27th October, 2023 at 7:55 AM
-                
+            <ListGroup style={{ width: '88%', borderRadius: '15px' }}>
+              <ListGroup.Item style={{ padding: '20px' }}>
+
+                <Schedule />&nbsp;&nbsp; Sale ends 27th October, 2023 at 7:55 AM
+
               </ListGroup.Item>
               <ListGroup.Item >
                 <p className='mt-3 mb-0' style={{ color: 'GrayText' }}>Current Price</p>
                 <h2>
-                  0.01 ETH &nbsp;
+                  {obj[value-1]?obj[value-1].price:null} {obj[value-1]?obj[value-1].blockchain:null} &nbsp;
                   <span style={{ color: 'GrayText', fontSize: '15pt' }}>$322.09</span>
                 </h2>
 
-                <div className='mb-2 mt-3' style={{width : '100%'}}>
+                <div className='mb-2 mt-3' style={{ width: '100%' }}>
                   <Button variant='primary' className='custom-button'> Buy Now</Button>&nbsp; &nbsp;
                   <Button variant='secondary' className='custom-button'> Add to Cart</Button>
 
                 </div>
               </ListGroup.Item>
             </ListGroup>
-            
+
           </div>
         </div>
       </div>
@@ -140,7 +150,7 @@ function NFTBuyPage() {
       >
         <DialogContent onClick={handleCloseImageModal}>
           <Image
-            src={nft}
+            src={obj[value-1]?obj[value-1].image:null}
             width="100%"
             style={{ maxHeight: '80vh', objectFit: 'contain' }}
           />
