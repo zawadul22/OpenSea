@@ -13,6 +13,7 @@ const NFTCollection = () => {
   };
   const [pages , setPages] = useState(0);
   
+  
   useEffect(()=>{
     fetch(`https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json`)
     .then((res)=>res.json())

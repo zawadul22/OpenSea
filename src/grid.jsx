@@ -17,6 +17,18 @@ function Grid({ page }) {
   const [objLength, setObjLength] = useState(0);
   //console.log(data[0].image)
 
+  const shortForm = {
+    'Arbitrum' : 'ARB',
+    'Arbitrum Nova' : 'ARBN',
+    'Avalanche' : 'AVL',
+    'Base' : 'B',
+    'Ethereum' : 'ETH',
+    'Klaytn' : 'KLT',
+    'Optimism' : 'OPT',
+    'Ploygon' : 'PLG',
+    'Zora' : 'Z'
+  }
+
 
   useEffect(() => {
 
@@ -55,6 +67,7 @@ function Grid({ page }) {
             <Col key={idx}>
               <Card className='card-pointer' onClick={() => navigate(`/buy/${idx + startIndex + 1}`)}>
                 <Card.Img
+                  style={{height : '400px', width : '305px'}}
                   variant="top"
                   src={obj[startIndex + idx] ? obj[startIndex + idx].image : null}
                 />
@@ -65,11 +78,11 @@ function Grid({ page }) {
                   <Card.Text>
                     <Row md={2}>
                       <Col className="d-flex align-items-start">
-                        <div style={{ fontSize: '15pt' }}>{obj[idx].price}</div>
+                        <div style={{ fontSize: '15pt' }}>{obj[idx].price} ETH</div>
                       </Col>
                       <Col className="d-flex align-items-end justify-content-end">
                         {/* <Button variant='secondary' size='sm' style={{pointerEvents:'none', cursor:'not-allowed'}}>Zawad</Button> */}
-                        <Chip label='Zawad' style={{ backgroundColor: 'grey', color: 'white' }} />
+                        {/* <Chip label='Zawad' style={{ backgroundColor: 'grey', color: 'white' }} /> */}
                       </Col>
                     </Row>
 
