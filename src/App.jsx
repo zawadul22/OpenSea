@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './App.css'
 import JasmyNavbar from './navbar'
@@ -29,6 +29,17 @@ function App() {
   const connectMeta = (e) => {
     setMeta(e);
   }
+
+  useEffect(()=>{
+    let val = localStorage.getItem("Connected");
+    if(val === "true"){
+      setIsLog(true)
+    }
+    else if(val === "false"){
+      setIsLog(false)
+    }
+    
+  },[isLog])
 
   console.log('Inside App.jsx file - ', meta)
 

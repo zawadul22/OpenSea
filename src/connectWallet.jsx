@@ -2,16 +2,16 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, createContext } from 'react';
 import { DialogActions, DialogContent, DialogContentText, Typography } from '@mui/material';
 import metamask from './assets/images.png'
 import detectEthereumProvider from '@metamask/detect-provider';
 import { ethers } from 'ethers';
-import walletContext from './WalletContext';
+
 
 const ConnectWallet = (props) => {
     const { open, onClose } = props
-    const ctx = useContext(walletContext)
+    //const ctx = useContext(walletContext)
     
     const [hasProvider, setHasProvider] = useState(null);
     const initialState = { accounts: [], balance: "" };
@@ -41,11 +41,21 @@ const ConnectWallet = (props) => {
         };
 
         getProvider();
+
+        let val = localStorage.getItem("Connected");
+        if(val === "false"){
+            setIsConnected(false);
+        }
+        else if(val === "true"){
+            setIsConnected(true);
+        }
+
         return () => {
             window.ethereum?.removeListener('accountsChanged', refreshAccounts);
         };
     }, []);
 
+    
     const updateWallet = async (accounts) => {
         const balance = await window.ethereum.request({
             method: 'eth_getBalance',
@@ -64,8 +74,9 @@ const ConnectWallet = (props) => {
             });
             updateWallet(accounts);
             setIsConnected(true);
-            ctx.onLogin()
+            //ctx.onLogin()
             props.onLogin()
+            localStorage.setItem("Connected" , true)
         } catch (error) {
             console.error('Error connecting to MetaMask:', error);
         }
@@ -76,14 +87,16 @@ const ConnectWallet = (props) => {
             setWallet(initialState);
             props.connectMeta(initialState);
             setIsConnected(false);
-            ctx.onLogout()
+            //ctx.onLogout()
             props.onLogout()
+            localStorage.setItem("Connected" , false)
         } catch (error) {
             console.error('Error disconnecting from MetaMask:', error);
         }
     };
 
     return (
+        
         <Dialog onClose={onClose} open={open} maxWidth="md" fullWidth>
             <DialogTitle style={{ textAlign: 'center' }}>
 
@@ -116,6 +129,7 @@ const ConnectWallet = (props) => {
             </DialogActions>
 
         </Dialog>
+        
     )
 
 }

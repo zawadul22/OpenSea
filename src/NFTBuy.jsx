@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Image from 'react-bootstrap/Image';
 import nft from './assets/nft-image-2.png';
 import './NFTBuy.css';
@@ -496,6 +496,7 @@ function NFTBuyPage() {
     })
   }, [])
 
+  
 
   return (
     <>

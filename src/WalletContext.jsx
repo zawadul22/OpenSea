@@ -5,7 +5,7 @@ const contextData = { isConnected: false, onLogin: () => { }, onLogout: () => { 
 const walletContext = createContext(contextData);
 
 export const WalletContextProvider = (props) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
         const connectedData = localStorage.getItem('Connected')
@@ -16,13 +16,11 @@ export const WalletContextProvider = (props) => {
     }, [])
 
     const loginHandler = () => {
-        console.log('A')
         localStorage.setItem('Connected', '1')
         setIsLoggedIn(true)
     }
 
     const logoutHandler = () => {
-        console.log('AA')
         setIsLoggedIn(false)
         localStorage.removeItem('Connected')
     }
