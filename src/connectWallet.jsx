@@ -2,17 +2,17 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { useState, useEffect, useContext, createContext } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import { DialogActions, DialogContent, DialogContentText, Typography } from '@mui/material';
 import metamask from './assets/images.png'
 import detectEthereumProvider from '@metamask/detect-provider';
 import { ethers } from 'ethers';
 
-
+const Context = createContext();
 const ConnectWallet = (props) => {
     const { open, onClose } = props
     //const ctx = useContext(walletContext)
-    
+
     const [hasProvider, setHasProvider] = useState(null);
     const initialState = { accounts: [], balance: "" };
     const [wallet, setWallet] = useState(initialState);
@@ -43,10 +43,10 @@ const ConnectWallet = (props) => {
         getProvider();
 
         let val = localStorage.getItem("Connected");
-        if(val === "false"){
+        if (val === "false") {
             setIsConnected(false);
         }
-        else if(val === "true"){
+        else if (val === "true") {
             setIsConnected(true);
         }
 
@@ -55,7 +55,7 @@ const ConnectWallet = (props) => {
         };
     }, []);
 
-    
+
     const updateWallet = async (accounts) => {
         const balance = await window.ethereum.request({
             method: 'eth_getBalance',
@@ -64,7 +64,7 @@ const ConnectWallet = (props) => {
         let ethFormat = ethers.formatEther(balance);
         setWallet({ accounts, ethFormat });
         props.connectMeta(wallet);
-        
+
     };
 
     const handleConnect = async () => {
@@ -76,7 +76,7 @@ const ConnectWallet = (props) => {
             setIsConnected(true);
             //ctx.onLogin()
             props.onLogin()
-            localStorage.setItem("Connected" , true)
+            localStorage.setItem("Connected", true)
         } catch (error) {
             console.error('Error connecting to MetaMask:', error);
         }
@@ -89,49 +89,56 @@ const ConnectWallet = (props) => {
             setIsConnected(false);
             //ctx.onLogout()
             props.onLogout()
-            localStorage.setItem("Connected" , false)
+            localStorage.setItem("Connected", false)
         } catch (error) {
             console.error('Error disconnecting from MetaMask:', error);
         }
     };
 
     return (
-        
-        <Dialog onClose={onClose} open={open} maxWidth="md" fullWidth>
-            <DialogTitle style={{ textAlign: 'center' }}>
 
-                <img src={metamask} style={{ width: '50px', height: '50px' }} />
+        <>
+            <Context.Provider value={{wallet,isConnected}}>
+                {props.children}
+            </Context.Provider>
+            <Dialog onClose={onClose} open={open} maxWidth="md" fullWidth>
+                <DialogTitle style={{ textAlign: 'center' }}>
 
-            </DialogTitle>
-            <DialogContent>
-                <DialogContentText style={{ textAlign: 'center', color: 'black', fontSize: 25 }}>
+                    <img src={metamask} style={{ width: '50px', height: '50px' }} />
+
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText style={{ textAlign: 'center', color: 'black', fontSize: 25 }}>
+                        {isConnected ? (
+                            <div>
+                                Your Balance: {wallet.ethFormat} ETH
+                            </div>
+                        ) : (
+                            <div>
+                                Your wallet is not connected. Click here connect.
+                            </div>
+                        )}
+
+                    </DialogContentText>
+
+                </DialogContent>
+                <DialogActions style={{ justifyContent: 'center' }}>
                     {isConnected ? (
-                        <div>
-                            Your Balance: {wallet.ethFormat} ETH
-                        </div>
+                        <Button onClick={handleDisconnect} variant='contained' style={{ textTransform: 'none' }}>Disconnect</Button>
                     ) : (
-                        <div>
-                            Your wallet is not connected. Click here connect.
-                        </div>
+                        <Button onClick={handleConnect} variant='contained' style={{ textTransform: 'none' }}>Connect</Button>
                     )}
 
-                </DialogContentText>
+                    <Button onClick={onClose} variant='contained' style={{ textTransform: 'none' }}>Close</Button>
+                </DialogActions>
 
-            </DialogContent>
-            <DialogActions style={{ justifyContent: 'center' }}>
-                {isConnected ? (
-                    <Button onClick={handleDisconnect} variant='contained' style={{ textTransform: 'none' }}>Disconnect</Button>
-                ) : (
-                    <Button onClick={handleConnect} variant='contained' style={{ textTransform: 'none' }}>Connect</Button>
-                )}
+            </Dialog>
 
-                <Button onClick={onClose} variant='contained' style={{ textTransform: 'none' }}>Close</Button>
-            </DialogActions>
+        </>
 
-        </Dialog>
-        
     )
 
 }
 
 export default ConnectWallet;
+export { Context };

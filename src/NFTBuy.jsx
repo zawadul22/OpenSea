@@ -10,6 +10,8 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { FavoriteBorder, OpenInFull, Schedule, VideogameAsset, Visibility } from '@mui/icons-material';
 import { Dialog, DialogContent } from '@mui/material';
 import eth from './assets/ethereum-svgrepo-com (1).svg'
+import { Context } from './connectWallet';
+
 
 function NFTBuyPage() {
   const { value } = useParams();
@@ -18,6 +20,8 @@ function NFTBuyPage() {
       {children}
     </OverlayTrigger>
   );
+  const ctx = useContext(Context);
+  console.log(`Context value ${ctx.wallet.accounts[1]} & ${ctx.wallet.ethFormat} & ${ctx.isConnected}`);
 
   const [openImageModal, setOpenImageModal] = useState(false);
 
@@ -500,6 +504,7 @@ function NFTBuyPage() {
 
   return (
     <>
+    
       <div id='buyer' className='container'>
         <div className="side">
           <div className='image-frame'>

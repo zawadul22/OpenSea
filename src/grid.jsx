@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import './grid.css'
 import { Button, Container } from 'react-bootstrap';
 import { Chip } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 function Grid({ page }) {
 
@@ -16,6 +16,7 @@ function Grid({ page }) {
   const [obj, setObj] = useState([]);
   const [objLength, setObjLength] = useState(0);
   //console.log(data[0].image)
+  
 
   const shortForm = {
     'Arbitrum' : 'ARB',

@@ -7,6 +7,7 @@ import NFTBuyPage from './NFTBuy'
 import { Router, Routes, Route } from 'react-router-dom'
 import NFTCollection from './gridPage'
 import NFTMintv2 from './NFTMintv2';
+import ConnectWallet from './connectWallet';
 
 // import walletContext from './WalletContext';
 
@@ -45,6 +46,7 @@ function App() {
 
   return (
     <>
+    <ConnectWallet>
       <JasmyNavbar
         onLogin={loginHandler}
         onLogout={logoutHandler}
@@ -55,6 +57,7 @@ function App() {
         <Route path='/buy/:value' element={<NFTBuyPage />} />
         <Route path='/mint2' element={<NFTMintv2 isLog={isLog} meta={meta}/>} />
       </Routes>
+      </ConnectWallet>
     </>
   )
 }
