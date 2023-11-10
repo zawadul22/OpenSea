@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import { useState, useEffect, createContext } from 'react';
-import { DialogActions, DialogContent, DialogContentText, Typography } from '@mui/material';
+import { DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import metamask from './assets/images.png'
 import detectEthereumProvider from '@metamask/detect-provider';
 import { ethers } from 'ethers';
@@ -11,9 +10,8 @@ import { ethers } from 'ethers';
 const Context = createContext();
 const ConnectWallet = (props) => {
     const { open, onClose } = props
-    //const ctx = useContext(walletContext)
 
-    const [hasProvider, setHasProvider] = useState(null);
+    //const [hasProvider, setHasProvider] = useState(null);
     const initialState = { accounts: [], balance: "" };
     const [wallet, setWallet] = useState(initialState);
     const [isConnected, setIsConnected] = useState(false);
@@ -29,7 +27,7 @@ const ConnectWallet = (props) => {
 
         const getProvider = async () => {
             const provider = await detectEthereumProvider({ silent: true });
-            setHasProvider(Boolean(provider));
+            //setHasProvider(Boolean(provider));
 
             if (provider) {
                 const accounts = await window.ethereum.request({
@@ -63,7 +61,7 @@ const ConnectWallet = (props) => {
         })
         let ethFormat = ethers.formatEther(balance);
         setWallet({ accounts, ethFormat });
-        props.connectMeta(wallet);
+        
 
     };
 
@@ -74,7 +72,6 @@ const ConnectWallet = (props) => {
             });
             updateWallet(accounts);
             setIsConnected(true);
-            //ctx.onLogin()
             props.onLogin()
             localStorage.setItem("Connected", true)
         } catch (error) {
@@ -82,12 +79,11 @@ const ConnectWallet = (props) => {
         }
     };
 
+
     const handleDisconnect = async () => {
         try {
             setWallet(initialState);
-            props.connectMeta(initialState);
             setIsConnected(false);
-            //ctx.onLogout()
             props.onLogout()
             localStorage.setItem("Connected", false)
         } catch (error) {
@@ -111,7 +107,7 @@ const ConnectWallet = (props) => {
                     <DialogContentText style={{ textAlign: 'center', color: 'black', fontSize: 25 }}>
                         {isConnected ? (
                             <div>
-                                Your Balance: {wallet.ethFormat} ETH
+                                Your Balance: {wallet.ethFormat} JASMY
                             </div>
                         ) : (
                             <div>

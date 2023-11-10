@@ -2,10 +2,8 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Button } from 'react-bootstrap';
 import ConnectWallet from './connectWallet';
-import { useState, useEffect } from 'react';
-import { ShoppingCart, Wallet } from '@mui/icons-material';
-import NFTMint from './NFTMint.jsx';
-import NFTMintv2 from './NFTMintv2';
+import { useState } from 'react';
+import { Wallet } from '@mui/icons-material';
 import './navbar.css'
 
 function JasmyNavbar(props) {
@@ -33,12 +31,13 @@ function JasmyNavbar(props) {
       <div id='brand' className='container'>
         <Navbar.Brand href="/">Jasmy Market Place</Navbar.Brand>
         <Nav className='me-auto'>
-          <Nav.Link onClick={handleMintOpen}>Mint</Nav.Link>
-          <NFTMint mint={mint} onClose={handleMintClose}
+          {/* <Nav.Link onClick={handleMintOpen}>Mint</Nav.Link>
+          <NFTMint mint={mint} onClose={handleMintClose} 
             isLog={props.isLog}
             meta={props.meta}
-          />
-          <Nav.Link href='/mint2'>Mint 2.0</Nav.Link>
+          /> */}
+          <Nav.Link href='/mint2'>Mint</Nav.Link>
+          
         </Nav>
       </div>
 
@@ -51,7 +50,9 @@ function JasmyNavbar(props) {
           onLogout={props.onLogout}
           connectMeta={(e) => props.connectMeta(e)}
         />
-        <Button variant='outline-light'> <ShoppingCart /> </Button>
+        {/* <Button variant='outline-light'> <ShoppingCart /> </Button>&nbsp;&nbsp; */}
+        <Nav.Link style={{color : 'white'}} href='/myprofile'>Profile</Nav.Link>
+        
       </div>
     </Navbar>
   );

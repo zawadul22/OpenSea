@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import './App.css'
 import JasmyNavbar from './navbar'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,16 +7,12 @@ import { Router, Routes, Route } from 'react-router-dom'
 import NFTCollection from './gridPage'
 import NFTMintv2 from './NFTMintv2';
 import ConnectWallet from './connectWallet';
+import Profile from './MyProfile';
+import View from './NFTView';
 
-// import walletContext from './WalletContext';
 
 function App() {
   const [isLog, setIsLog] = useState(false) // Is the metamask connected?
-  const [meta, setMeta] = useState( // set wallet address
-    {}
-  );
-
-  console.log("LOGGGG:", isLog)
 
   const loginHandler = () => {
     setIsLog(true)
@@ -27,36 +22,32 @@ function App() {
     setIsLog(false)
   }
 
-  const connectMeta = (e) => {
-    setMeta(e);
-  }
-
-  useEffect(()=>{
+  useEffect(() => {
     let val = localStorage.getItem("Connected");
-    if(val === "true"){
+    if (val === "true") {
       setIsLog(true)
     }
-    else if(val === "false"){
+    else if (val === "false") {
       setIsLog(false)
     }
-    
-  },[isLog])
 
-  console.log('Inside App.jsx file - ', meta)
+  }, [])
+
 
   return (
     <>
-    <ConnectWallet>
-      <JasmyNavbar
-        onLogin={loginHandler}
-        onLogout={logoutHandler}
-        isLog={isLog}
-        connectMeta={(e) => connectMeta(e)} meta={meta} />
-      <Routes>
-        <Route path='/' element={<NFTCollection />} />
-        <Route path='/buy/:value' element={<NFTBuyPage />} />
-        <Route path='/mint2' element={<NFTMintv2 isLog={isLog} meta={meta}/>} />
-      </Routes>
+      <ConnectWallet>
+        <JasmyNavbar
+          onLogin={loginHandler}
+          onLogout={logoutHandler}
+          isLog={isLog} />
+        <Routes>
+          <Route path='/' element={<NFTCollection />} />
+          <Route path='/buy/:value' element={<NFTBuyPage />} />
+          <Route path='/mint2' element={<NFTMintv2 isLog={isLog} />} />
+          <Route path='/myprofile' element={<Profile />} />
+          <Route path='/view/:value' element={<View/>} />
+        </Routes>
       </ConnectWallet>
     </>
   )

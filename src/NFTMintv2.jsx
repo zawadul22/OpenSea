@@ -1,26 +1,28 @@
 import { Alert } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './NFTMintv2.css'
 import { Button, Dropdown, DropdownButton, InputGroup } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import ImageIcon from '@mui/icons-material/Image';
-import ReactSelect from 'react-select';
-import arbitrum from './assets/Blockchains/arbitrum.svg'
 import { imageDb, database } from './Firebase';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
-import { set, ref as databaseRef, onValue, child, get, push } from "firebase/database"
 import { v4 } from 'uuid';
 import Web3 from 'web3';
+import { Context } from './connectWallet';
 
 
-const NFTMintv2 = ({ isLog, meta }) => {
+const NFTMintv2 = ({ isLog }) => {
 
+    const ctx = useContext(Context);
 
+    const contractAddress = "0x2c097A15A70FFe623B13041d8aB4bb1BdaeF9829";
+    const web3 = new Web3(new Web3.providers.HttpProvider('https://rpc-mumbai.maticvigil.com'));
     let loading = false;
-    const contractAddress = "0xb9A219631Aed55eBC3D998f17C3840B7eC39C0cc";
-    const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+
+    const [uploadedFiles, setUploadedFiles] = useState([]);
+    //const [tokenUri, setTokenUri] = useState("");
+
     const abi = [
         {
             "anonymous": false,
@@ -76,57 +78,6 @@ const NFTMintv2 = ({ isLog, meta }) => {
             "anonymous": false,
             "inputs": [
                 {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "_fromTokenId",
-                    "type": "uint256"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "_toTokenId",
-                    "type": "uint256"
-                }
-            ],
-            "name": "BatchMetadataUpdate",
-            "type": "event"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "_tokenId",
-                    "type": "uint256"
-                }
-            ],
-            "name": "MetadataUpdate",
-            "type": "event"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": true,
-                    "internalType": "address",
-                    "name": "previousOwner",
-                    "type": "address"
-                },
-                {
-                    "indexed": true,
-                    "internalType": "address",
-                    "name": "newOwner",
-                    "type": "address"
-                }
-            ],
-            "name": "OwnershipTransferred",
-            "type": "event"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
                     "indexed": true,
                     "internalType": "address",
                     "name": "from",
@@ -161,7 +112,7 @@ const NFTMintv2 = ({ isLog, meta }) => {
                     "type": "uint256"
                 }
             ],
-            "name": "approve",
+            "name": "_safeMint",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -170,28 +121,16 @@ const NFTMintv2 = ({ isLog, meta }) => {
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "_to",
+                    "name": "to",
                     "type": "address"
                 },
                 {
                     "internalType": "uint256",
-                    "name": "_tokenId",
+                    "name": "tokenId",
                     "type": "uint256"
-                },
-                {
-                    "internalType": "string",
-                    "name": "_uri",
-                    "type": "string"
                 }
             ],
-            "name": "mint",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "renounceOwnership",
+            "name": "approve",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -291,18 +230,16 @@ const NFTMintv2 = ({ isLog, meta }) => {
         {
             "inputs": [
                 {
-                    "internalType": "address",
-                    "name": "newOwner",
-                    "type": "address"
+                    "internalType": "string",
+                    "name": "name_",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "symbol_",
+                    "type": "string"
                 }
             ],
-            "name": "transferOwnership",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
             "stateMutability": "nonpayable",
             "type": "constructor"
         },
@@ -350,6 +287,37 @@ const NFTMintv2 = ({ isLog, meta }) => {
                     "internalType": "address",
                     "name": "owner",
                     "type": "address"
+                }
+            ],
+            "name": "getAvailableMintsForUser",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "uint256",
+                            "name": "tokenId",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "balance",
+                            "type": "uint256"
+                        }
+                    ],
+                    "internalType": "struct ERC721.TokenBalanceModel[]",
+                    "name": "",
+                    "type": "tuple[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
                 },
                 {
                     "internalType": "address",
@@ -376,19 +344,6 @@ const NFTMintv2 = ({ isLog, meta }) => {
                     "internalType": "string",
                     "name": "",
                     "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "owner",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
                 }
             ],
             "stateMutability": "view",
@@ -464,16 +419,27 @@ const NFTMintv2 = ({ isLog, meta }) => {
             "stateMutability": "view",
             "type": "function"
         }
-    ]
+    ];
+    console.log("Wallet from context ", ctx.wallet.accounts[0]);
+
+    const contract = new web3.eth.Contract(abi, contractAddress);
+    if (ctx.wallet.accounts[0] !== undefined) {
+        contract.methods.getAvailableMintsForUser(ctx.wallet.accounts[0]).call()
+        .then((v) => console.log("getAvailableMintsForUser ",v))
+        .catch((e) => console.error(e))  
+    }
 
     const startMint = async (tokenId, tokenURI) => {
 
-        const mintFunction = contract.methods.mint(meta.accounts[0], tokenId, tokenURI);
+        console.log("TokenId inside startMint function ", tokenId)
+        console.log(ctx.wallet.accounts[0]);
+
+        const mintFunction = contract.methods._safeMint(ctx.wallet.accounts[0], tokenId);
         const encodedABI = mintFunction.encodeABI();
         ethereum.request({
             method: 'eth_sendTransaction',
             params: [{
-                from: meta.accounts[0],
+                from: ctx.wallet.accounts[0],
                 to: contractAddress,
                 data: encodedABI
             },
@@ -491,11 +457,8 @@ const NFTMintv2 = ({ isLog, meta }) => {
                 console.log(error);
             });
 
-    }
 
-    const contract = new web3.eth.Contract(abi, contractAddress);
-    const [uploadedFiles, setUploadedFiles] = useState([]);
-    //const [tokenUri, setTokenUri] = useState("");
+    }
 
     const [metadata, setMetadata] = useState({
         image: "",
@@ -586,7 +549,7 @@ const NFTMintv2 = ({ isLog, meta }) => {
         }).then((updatedData) => {
             console.log("Data updated: ", updatedData)
             startMint(tokenId, tokenUri)
-            loading=false;
+            loading = false;
             clearSelect();
             console.log(currentToken)
             console.log(tokenUri)
@@ -600,7 +563,7 @@ const NFTMintv2 = ({ isLog, meta }) => {
 
     const saveToFirebase = async (event) => {
 
-        loading=true;
+        loading = true;
         const { image, name, externalLink, description, supply, blockchain, price } = metadata;
 
         const res = await fetch(
@@ -631,45 +594,6 @@ const NFTMintv2 = ({ isLog, meta }) => {
         }
     }
 
-    const getToken = () => {
-        console.log("First Method")
-        const tokenRef = databaseRef(database);
-        let tempToken;
-        // onValue(tokenRef, (snapshot) => {
-        //     tempToken = snapshot.val();
-        //     // console.log("Before setting into state ", tempToken);
-        //     setCurrentToken(tempToken)
-        //     console.log("Current token : " + currentToken)
-        //     console.log("Temp Token : " + tempToken);
-
-        // })
-
-        get(child(tokenRef, `token/`)).then((snapshot) => {
-            // return 90
-
-            if (snapshot.exists()) {
-                tempToken = snapshot.val();
-                setCurrentToken(tempToken);
-                console.log("State token ", currentToken)
-                console.log("Temp token ", tempToken);
-                tempToken += 1;
-                set(databaseRef(database), {
-                    token: tempToken
-                }).then(() => {
-                    console.log("Token Set")
-                })
-            }
-            else {
-                console.log("No value found")
-            }
-        }).then(() => {
-            saveData();
-        })
-            .catch((error) => {
-                console.log(error);
-            });
-
-    }
 
     let name, value;
     const postUri = (event) => {
@@ -683,7 +607,7 @@ const NFTMintv2 = ({ isLog, meta }) => {
     return (
 
         <div className='mintContainer'>
-            
+
             <h1 style={{ marginBottom: '30px' }}> Create New Item</h1>
             <div style={{ fontSize: '10pt', color: '#5b5b5b' }}> <span style={{ color: 'red' }}>*</span> Required fields</div>
             <strong>Image, Video, Audio, or 3D Model </strong>
@@ -744,7 +668,7 @@ const NFTMintv2 = ({ isLog, meta }) => {
                 </Form.Group>
             </Form>
 
-            <h5 style={{ marginTop: '25pt' }}>Supply</h5>
+            {/* <h5 style={{ marginTop: '25pt' }}>Supply</h5>
             <p style={{ fontSize: '10pt', color: '#5b5b5b', marginBottom: '12pt' }}>
                 The number of items that can be minted. No gas cost to you!
             </p>
@@ -752,7 +676,7 @@ const NFTMintv2 = ({ isLog, meta }) => {
                 <Form.Group className="mb-3" >
                     <Form.Control defaultValue={1} type='number' name="supply" value={metadata.supply} onChange={postUri} />
                 </Form.Group>
-            </Form>
+            </Form> */}
 
             <h5 style={{ marginTop: '25pt' }}>Blockchain</h5>
 

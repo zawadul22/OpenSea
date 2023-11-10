@@ -1,3 +1,5 @@
+//Unused
+
 import { useState } from 'react';
 import './Switch.css';
 

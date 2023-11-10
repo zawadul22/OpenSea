@@ -1,69 +1,24 @@
-import React, { useEffect, useState, useContext } from 'react';
-import Image from 'react-bootstrap/Image';
-import nft from './assets/nft-image-2.png';
-import './NFTBuy.css';
-import Button from 'react-bootstrap/Button';
-import { Card, Col, ListGroup, Row, Accordion } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import { FavoriteBorder, OpenInFull, Schedule, VideogameAsset, Visibility } from '@mui/icons-material';
-import { Dialog, DialogContent } from '@mui/material';
-import eth from './assets/ethereum-svgrepo-com (1).svg'
-import { Context } from './connectWallet';
-import Web3 from 'web3';
+import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import { useNavigate } from "react-router-dom";
+import "./grid.css";
+import { useContext, useEffect, useState } from "react";
+import Web3 from "web3";
+import { Context } from "./connectWallet";
 
-
-function NFTBuyPage() {
-    const { value } = useParams();
-    const renderTooltip = (id, title, children) => (
-        <OverlayTrigger overlay={<Tooltip id={id}>{title}</Tooltip>}>
-            {children}
-        </OverlayTrigger>
-    );
+function ProfileGrid({ page }) {
     const ctx = useContext(Context);
-    //console.log(`Context value ${ctx.wallet.accounts[0]} & ${ctx.wallet.ethFormat} & ${ctx.isConnected}`);
-
-    console.log("Hello")
-
-    const [openImageModal, setOpenImageModal] = useState(false);
-    const [owner, setOwner] = useState("");
-
-    const handleImageClick = () => {
-        setOpenImageModal(true);
-    };
-
-    const handleCloseImageModal = () => {
-        setOpenImageModal(false);
-    };
-
+    let startIndex = 0;
+    let endIndex = 0;
+    const navigate = useNavigate();
     const [obj, setObj] = useState([]);
-
-    useEffect(() => {
-        // let r = false;
-        fetch("https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json")
-            .then((response) => response.json())
-            .then((data) => {
-
-                setObj(Object.values(data))
-
-
-            })
-        // return()=>{r=true};
-    }, [])
-
-    const shortForm = {
-        "Arbitrum": 'ARB',
-        "Arbitrum Nova": 'ARBN',
-        "Avalanche": 'AVL',
-        "Base": 'B',
-        "Ethereum": 'ETH',
-        "Klaytn": 'KLT',
-        "Optimism": 'OPT',
-        "Polygon": 'PLG',
-        "Zora": 'Z'
-    }
-
+    const [tokenIDs, setTokenIDs] = useState([]);
+    const [tokenIDLength, setTokenIDLength] = useState(0);
+    const [objLength, setObjLength] = useState(0);
+    const [available, setAvailable] = useState([]);
+    const [availLength, setAvailLength] = useState(0);
+    //console.log(data[0].image)
 
     const abi = [
         {
@@ -464,171 +419,125 @@ function NFTBuyPage() {
     ];
 
     const contractAddress = "0x2c097A15A70FFe623B13041d8aB4bb1BdaeF9829";
-    const web3 = new Web3(new Web3.providers.HttpProvider('https://rpc-mumbai.maticvigil.com'));
+    const web3 = new Web3(
+        new Web3.providers.HttpProvider("https://rpc-mumbai.maticvigil.com")
+    );
     const contract = new web3.eth.Contract(abi, contractAddress);
 
+    const shortForm = {
+        Arbitrum: "ARB",
+        "Arbitrum Nova": "ARBN",
+        Avalanche: "AVL",
+        Base: "B",
+        Ethereum: "ETH",
+        Klaytn: "KLT",
+        Optimism: "OPT",
+        Ploygon: "PLG",
+        Zora: "Z",
+    };
 
+    useEffect(() => {
+        fetch(`https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json`)
+            .then((res) => res.json())
+            .then((data) => {
+                //console.log(data);
+                let dataArray = Object.values(data);
+                setObj(dataArray);
+                setObjLength(dataArray.length);
+            });
 
-
-    contract.methods.ownerOf(value).call()
-        .then((v) => {
-            console.log(v);
-            setOwner(v);
+        if (ctx.wallet.accounts[0]) {
+            contract.methods
+                .getAvailableMintsForUser(ctx.wallet.accounts[0])
+                .call()
+                .then((v) => {
+                    console.log("getAvailableMintsForUser ",v)
+                    setTokenIDs(v);
+                    setTokenIDLength(v.length);
+                });
         }
-        );
-    console.log(owner);
-    //console.log(ctx.wallet.accounts[0]);
+        // console.log(ctx.wallet.accounts)
 
-    const buyNFT = () => {
+    }, [ctx]);
 
-        if (owner.toLowerCase() === ctx.wallet.accounts[0]) {
-            alert("You are the owner of this NFT!")
+    useEffect(() => {
+        //console.log(tokenIDLength)
+        //console.log(tokenIDs.length)
+        if (tokenIDs.length !== 0) {
+            //console.log("Checking tuple ", tokenIDs[1]) 
+            //console.log("Checking inside tuple ", tokenIDs[1][1])
+            let temp = [];
+            for (let i = 0; i < tokenIDLength; i++) {
+                if (tokenIDs[i][1] !== "0") {
+                    temp.push(tokenIDs[i][0])
+                }
+            }
+
+            console.log("Temp token", temp)
+
+            setAvailable(temp);
+            setAvailLength(temp.length);
+
         }
-        else {
-            // if (obj[value - 1].price > ctx.wallet.ethFormat) {
-            //     alert("You don't have sufficient balance!")
-            // }
-            // else {
-                const nftTransferMethod = contract.methods.safeTransferFrom(owner, ctx.wallet.accounts[0], value);
-                const encodedABI = nftTransferMethod.encodeABI();
-                ethereum.request({
-                    method: 'eth_sendTransaction',
-                    params: [{
-                        from: owner,
-                        to: contractAddress,
-                        data: encodedABI
-                    },
-                    ],
-                })
+    }, [tokenIDs])
 
-            // }
+    //console.log("Token IDs ", tokenIDs);
+    //console.log("Token IDs array length ", tokenIDLength);
+    //console.log("Object Length ", objLength);
+    //console.log("Object Array ", obj);
+
+
+    if (tokenIDs !== 0) {
+        if (tokenIDs < 8) {
+            startIndex = (page - 1) * tokenIDs;
+            endIndex = startIndex + tokenIDs;
+        } else {
+            startIndex = (page - 1) * 8;
+            endIndex = startIndex + 8;
         }
     }
 
+    console.log(ctx?.wallet?.accounts[0]);
+
 
     return (
-        <>
-            <div id='buyer' className='container'>
-                <div className="side">
-                    <div className='image-frame'>
-                        <div className='bar'>
-                            <div style={{ marginLeft: '5pt' }}> <Image src={eth} style={{ width: '18px' }} /> </div>
-                            <div style={{ marginRight: '5pt' }}>
-                                <OpenInFull style={{ width: '19px' }} />&nbsp;&nbsp;
-                                <span style={{ fontSize: '10pt' }}>9</span> <FavoriteBorder style={{ width: '20px' }} />
-                            </div>
 
-                        </div>
-                        <div style={{ maxWidth: '100%', minWidth: '10%', maxHeight: '100%', minHeight: '10%' }}>
-                            <Image
-                                src={obj[value - 1] ? obj[value - 1].image : null}
-                                style={{ display: 'flex', height: '100%', width: '100%' }}
-                                // style={{display : 'flex', height: '550px', width: '500px'}}
-                                onClick={handleImageClick}
-                            />
-                        </div>
-                    </div>
-                    <Accordion className='mt-3 mb-3' defaultActiveKey="0">
-                        <Accordion.Item eventKey='0'>
-                            <Accordion.Header>Description</Accordion.Header>
-                            <Accordion.Body>
-                                {obj[value - 1] ? obj[value - 1].description : null}
-                            </Accordion.Body>
-                        </Accordion.Item>
-                        <Accordion.Item eventKey='1'>
-                            <Accordion.Header>Details</Accordion.Header>
-                            <Accordion.Body>
-                                <Row>
-                                    <Col >Contract Address</Col>
-                                    <Col >
-                                        {renderTooltip('wallet', '0x2c097A15A70FFe623B13041d8aB4bb1BdaeF9829',
-                                            <span>
-                                                0x2c097A15A7bb1BdaeF9829
-                                            </span>
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col >Token ID</Col>
-                                    <Col >{value}</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Token Standard</Col>
-                                    <Col>ERC 721</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Chain</Col>
-                                    <Col>Ethereum</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Last Updated</Col>
-                                    <Col>1 day ago</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Creator Earnings</Col>
-                                    <Col>10%</Col>
-                                </Row>
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </Accordion>
+        <Row xs={2} md={4} className="g-4">
 
-                </div>
-                <div className="side-content-center">
-                    <div style={{ width: '100%' }}>
-                        <h1>
-                            {obj[value - 1] ? obj[value - 1].name : null} #{value}
-                            {/* Wintos #{value} */}
-                            
-                        </h1>
-                        <strong>Owned By </strong>&nbsp; {owner}
-                        <br />
-                        <br />
+            {Array.from({ length: availLength })
+                .slice(startIndex, endIndex)
+                .map((_, idx) => (
+                    <>
+                        {/* {console.log("Within the component ", obj[available[0] - 1], available[0], idx)} */}
+                        <Col key={idx}>
+                            <Card className='card-pointer' onClick={() => navigate(`/view/${available[startIndex + idx] - 1}`)}>
+                                <Card.Img
+                                    style={{ height: '400px', width: '305px' }}
+                                    variant="top"
+                                    src={obj[available[startIndex + idx] - 1] ? obj[available[startIndex + idx] - 1].image : null}
+                                />
 
-                        <Visibility /> 101 Views &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <FavoriteBorder /> 76 Favorites &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <VideogameAsset /> Gaming
-                        <br />
-                        <br />
-                        <ListGroup style={{ width: '88%', borderRadius: '15px' }}>
-                            <ListGroup.Item style={{ padding: '20px' }}>
+                                <Card.Body>
+                                    <Card.Title><h3>{obj[available[startIndex + idx] - 1] ? obj[available[startIndex + idx] - 1].name : "Unknown"}</h3></Card.Title>
 
-                                <Schedule />&nbsp;&nbsp; Sale ends 27th October, 2023 at 7:55 AM
+                                    <Card.Text>
+                                        <Row md={2}>
+                                            <Col className="d-flex align-items-start">
+                                                <div style={{ fontSize: '15pt' }}>{obj[available[startIndex + idx] - 1] ? obj[available[startIndex + idx] - 1].price : "Unknown"} ETH</div>
+                                            </Col>
+                                            <Col className="d-flex align-items-end justify-content-end">
+                                                {/* <Chip label='Zawad' style={{ backgroundColor: 'grey', color: 'white' }} /> */}
+                                            </Col>
+                                        </Row>
 
-                            </ListGroup.Item>
-                            <ListGroup.Item >
-                                <p className='mt-3 mb-0' style={{ color: 'GrayText' }}>Current Price</p>
-                                <h2>
-                                    {obj[value - 1] ? obj[value - 1].price : null} JASMY &nbsp;
-                                    <span style={{ color: 'GrayText', fontSize: '15pt' }}>${obj[value - 1] ? obj[value - 1].price * 60 : null}</span>
-                                </h2>
-
-                                <div className='mb-2 mt-3' style={{ width: '100%' }}>
-                                    <Button variant='primary' className='custom-button' onClick={buyNFT}> Buy Now</Button>&nbsp; &nbsp;
-                                    <Button variant='secondary' className='custom-button'> Add to Cart</Button>
-
-                                </div>
-                            </ListGroup.Item>
-                        </ListGroup>
-
-                    </div>
-                </div>
-            </div>
-
-            <Dialog
-                open={openImageModal}
-                onClose={handleCloseImageModal}
-                maxWidth="lg"
-            >
-                <DialogContent onClick={handleCloseImageModal}>
-                    <Image
-                        src={obj[value - 1] ? obj[value - 1].image : null}
-                        width="100%"
-                        style={{ maxHeight: '80vh', objectFit: 'contain' }}
-                    />
-                </DialogContent>
-            </Dialog>
-        </>
+                                    </Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </>
+                ))}
+        </Row>
     );
 }
 
-export default NFTBuyPage;
+export default ProfileGrid;

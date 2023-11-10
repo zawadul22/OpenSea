@@ -4,8 +4,6 @@ import App from './App.jsx'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 
-// import { WalletContextProvider } from './WalletContext.jsx'
-
 ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
         <App />
