@@ -57,7 +57,7 @@ const View = () => {
                         </div>
                         <div style={{ maxWidth: '100%', minWidth: '10%', maxHeight: '100%', minHeight: '10%' }}>
                             <Image
-                                src={obj[value ] ? obj[value ].image : null}
+                                src={obj[value -1] ? obj[value -1].image : null}
                                 style={{ display: 'flex', height: '100%', width: '100%' }}
                                 onClick={handleImageClick}
                             />
@@ -130,7 +130,7 @@ const View = () => {
                             <ListGroup.Item >
                                 <p className='mt-3 mb-0' style={{ color: 'GrayText' }}>Current Price</p>
                                 <h2>
-                                    {obj[value - 1] ? obj[value - 1].price : null} ETH &nbsp;
+                                    {obj[value - 1] ? obj[value - 1].price : null} JASMY &nbsp;
                                     <span style={{ color: 'GrayText', fontSize: '15pt' }}>${obj[value - 1] ? obj[value - 1].price * 60 : null}</span>
                                 </h2>
 

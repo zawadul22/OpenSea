@@ -16,8 +16,8 @@ const NFTMintv2 = ({ isLog }) => {
 
     const ctx = useContext(Context);
 
-    const contractAddress = "0x2c097A15A70FFe623B13041d8aB4bb1BdaeF9829";
-    const web3 = new Web3(new Web3.providers.HttpProvider('https://rpc-mumbai.maticvigil.com'));
+    const contractAddress = "0x8CA2cB0045f6bde5F3E321941855B81849880dbe";
+    const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
     let loading = false;
 
     const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -110,6 +110,11 @@ const NFTMintv2 = ({ isLog }) => {
                     "internalType": "uint256",
                     "name": "tokenId",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "_tokenURI",
+                    "type": "string"
                 }
             ],
             "name": "_safeMint",
@@ -313,6 +318,19 @@ const NFTMintv2 = ({ isLog }) => {
             "type": "function"
         },
         {
+            "inputs": [],
+            "name": "getUriList",
+            "outputs": [
+                {
+                    "internalType": "string[]",
+                    "name": "",
+                    "type": "string[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "inputs": [
                 {
                     "internalType": "address",
@@ -371,6 +389,25 @@ const NFTMintv2 = ({ isLog }) => {
         {
             "inputs": [
                 {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "superTokenURI",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
                     "internalType": "bytes4",
                     "name": "interfaceId",
                     "type": "bytes4"
@@ -418,6 +455,25 @@ const NFTMintv2 = ({ isLog }) => {
             ],
             "stateMutability": "view",
             "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "uriList",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
         }
     ];
     console.log("Wallet from context ", ctx.wallet.accounts[0]);
@@ -429,12 +485,15 @@ const NFTMintv2 = ({ isLog }) => {
         .catch((e) => console.error(e))  
     }
 
+    // contract.methods.getUriList().call()
+    // .then((v)=>console.log("Uri List",v))
+
     const startMint = async (tokenId, tokenURI) => {
 
         console.log("TokenId inside startMint function ", tokenId)
         console.log(ctx.wallet.accounts[0]);
 
-        const mintFunction = contract.methods._safeMint(ctx.wallet.accounts[0], tokenId);
+        const mintFunction = contract.methods._safeMint(ctx.wallet.accounts[0], tokenId, tokenURI);
         const encodedABI = mintFunction.encodeABI();
         ethereum.request({
             method: 'eth_sendTransaction',

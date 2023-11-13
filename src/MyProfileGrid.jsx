@@ -107,6 +107,11 @@ function ProfileGrid({ page }) {
                     "internalType": "uint256",
                     "name": "tokenId",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "_tokenURI",
+                    "type": "string"
                 }
             ],
             "name": "_safeMint",
@@ -310,6 +315,19 @@ function ProfileGrid({ page }) {
             "type": "function"
         },
         {
+            "inputs": [],
+            "name": "getUriList",
+            "outputs": [
+                {
+                    "internalType": "string[]",
+                    "name": "",
+                    "type": "string[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "inputs": [
                 {
                     "internalType": "address",
@@ -368,6 +386,25 @@ function ProfileGrid({ page }) {
         {
             "inputs": [
                 {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "superTokenURI",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
                     "internalType": "bytes4",
                     "name": "interfaceId",
                     "type": "bytes4"
@@ -415,12 +452,31 @@ function ProfileGrid({ page }) {
             ],
             "stateMutability": "view",
             "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "uriList",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
         }
     ];
 
-    const contractAddress = "0x2c097A15A70FFe623B13041d8aB4bb1BdaeF9829";
+    const contractAddress = "0x8CA2cB0045f6bde5F3E321941855B81849880dbe";
     const web3 = new Web3(
-        new Web3.providers.HttpProvider("https://rpc-mumbai.maticvigil.com")
+        new Web3.providers.HttpProvider("http://localhost:8545")
     );
     const contract = new web3.eth.Contract(abi, contractAddress);
 
@@ -510,7 +566,7 @@ function ProfileGrid({ page }) {
                     <>
                         {/* {console.log("Within the component ", obj[available[0] - 1], available[0], idx)} */}
                         <Col key={idx}>
-                            <Card className='card-pointer' onClick={() => navigate(`/view/${available[startIndex + idx] - 1}`)}>
+                            <Card className='card-pointer' onClick={() => navigate(`/view/${available[startIndex + idx]}`)}>
                                 <Card.Img
                                     style={{ height: '400px', width: '305px' }}
                                     variant="top"
@@ -523,7 +579,7 @@ function ProfileGrid({ page }) {
                                     <Card.Text>
                                         <Row md={2}>
                                             <Col className="d-flex align-items-start">
-                                                <div style={{ fontSize: '15pt' }}>{obj[available[startIndex + idx] - 1] ? obj[available[startIndex + idx] - 1].price : "Unknown"} ETH</div>
+                                                <div style={{ fontSize: '15pt' }}>{obj[available[startIndex + idx] - 1] ? obj[available[startIndex + idx] - 1].price : "Unknown"} JASMY</div>
                                             </Col>
                                             <Col className="d-flex align-items-end justify-content-end">
                                                 {/* <Chip label='Zawad' style={{ backgroundColor: 'grey', color: 'white' }} /> */}

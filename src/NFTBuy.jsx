@@ -152,6 +152,11 @@ function NFTBuyPage() {
                     "internalType": "uint256",
                     "name": "tokenId",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "_tokenURI",
+                    "type": "string"
                 }
             ],
             "name": "_safeMint",
@@ -355,6 +360,19 @@ function NFTBuyPage() {
             "type": "function"
         },
         {
+            "inputs": [],
+            "name": "getUriList",
+            "outputs": [
+                {
+                    "internalType": "string[]",
+                    "name": "",
+                    "type": "string[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "inputs": [
                 {
                     "internalType": "address",
@@ -413,6 +431,25 @@ function NFTBuyPage() {
         {
             "inputs": [
                 {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "superTokenURI",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
                     "internalType": "bytes4",
                     "name": "interfaceId",
                     "type": "bytes4"
@@ -460,11 +497,30 @@ function NFTBuyPage() {
             ],
             "stateMutability": "view",
             "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "uriList",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
         }
     ];
 
-    const contractAddress = "0x2c097A15A70FFe623B13041d8aB4bb1BdaeF9829";
-    const web3 = new Web3(new Web3.providers.HttpProvider('https://rpc-mumbai.maticvigil.com'));
+    const contractAddress = "0x8CA2cB0045f6bde5F3E321941855B81849880dbe";
+    const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
     const contract = new web3.eth.Contract(abi, contractAddress);
 
 
