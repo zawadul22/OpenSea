@@ -16,7 +16,7 @@ const NFTMintv2 = ({ isLog }) => {
 
     const ctx = useContext(Context);
 
-    const contractAddress = "0x8CA2cB0045f6bde5F3E321941855B81849880dbe";
+    const contractAddress = "0x273CAF0243FE546cb35b5245de53c7Bd70837E54";
     const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
     let loading = false;
 

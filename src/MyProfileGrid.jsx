@@ -12,12 +12,15 @@ function ProfileGrid({ page }) {
     let startIndex = 0;
     let endIndex = 0;
     const navigate = useNavigate();
-    const [obj, setObj] = useState([]);
+    //const [obj, setObj] = useState([]);
+    const [obj2, setObj2] = useState([]);
+    //const [objLength2, setObjLength2] = useState(0);
     const [tokenIDs, setTokenIDs] = useState([]);
     const [tokenIDLength, setTokenIDLength] = useState(0);
-    const [objLength, setObjLength] = useState(0);
+    //const [objLength, setObjLength] = useState(0);
     const [available, setAvailable] = useState([]);
     const [availLength, setAvailLength] = useState(0);
+    const [uri, setUri] = useState([]);
     //console.log(data[0].image)
 
     const abi = [
@@ -474,7 +477,7 @@ function ProfileGrid({ page }) {
         }
     ];
 
-    const contractAddress = "0x8CA2cB0045f6bde5F3E321941855B81849880dbe";
+    const contractAddress = "0x273CAF0243FE546cb35b5245de53c7Bd70837E54";
     const web3 = new Web3(
         new Web3.providers.HttpProvider("http://localhost:8545")
     );
@@ -493,21 +496,21 @@ function ProfileGrid({ page }) {
     };
 
     useEffect(() => {
-        fetch(`https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json`)
-            .then((res) => res.json())
-            .then((data) => {
-                //console.log(data);
-                let dataArray = Object.values(data);
-                setObj(dataArray);
-                setObjLength(dataArray.length);
-            });
+        // fetch(`https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json`)
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         //console.log(data);
+        //         let dataArray = Object.values(data);
+        //         setObj(dataArray);
+        //         setObjLength(dataArray.length);
+        //     });
 
         if (ctx.wallet.accounts[0]) {
             contract.methods
                 .getAvailableMintsForUser(ctx.wallet.accounts[0])
                 .call()
                 .then((v) => {
-                    console.log("getAvailableMintsForUser ",v)
+                    console.log("getAvailableMintsForUser ", v)
                     setTokenIDs(v);
                     setTokenIDLength(v.length);
                 });
@@ -515,6 +518,32 @@ function ProfileGrid({ page }) {
         // console.log(ctx.wallet.accounts)
 
     }, [ctx]);
+
+    useEffect(() => {
+        contract.methods.getUriList().call()
+          .then((v) => {
+            setUri(v);
+            setObjLength2(v.length);
+          })
+          .catch((e) => console.error(e));
+    
+      }, []);
+
+      useEffect(() => {
+
+        if (uri) {
+    
+          Promise.all(uri.map((url) =>
+            fetch(url).then((res) => res.json())))
+            .then((data) => {
+              console.log(" response data", data);
+              setObj2(data);
+            })
+            .catch((error) => console.error(error));
+        }
+    
+      }, [uri])
+    
 
     useEffect(() => {
         //console.log(tokenIDLength)
@@ -570,16 +599,16 @@ function ProfileGrid({ page }) {
                                 <Card.Img
                                     style={{ height: '400px', width: '305px' }}
                                     variant="top"
-                                    src={obj[available[startIndex + idx] - 1] ? obj[available[startIndex + idx] - 1].image : null}
+                                    src={obj2[available[startIndex + idx] - 1] ? obj2[available[startIndex + idx] - 1].image : null}
                                 />
 
                                 <Card.Body>
-                                    <Card.Title><h3>{obj[available[startIndex + idx] - 1] ? obj[available[startIndex + idx] - 1].name : "Unknown"}</h3></Card.Title>
+                                    <Card.Title><h3>{obj2[available[startIndex + idx] - 1] ? obj2[available[startIndex + idx] - 1].name : "Unknown"}</h3></Card.Title>
 
                                     <Card.Text>
                                         <Row md={2}>
                                             <Col className="d-flex align-items-start">
-                                                <div style={{ fontSize: '15pt' }}>{obj[available[startIndex + idx] - 1] ? obj[available[startIndex + idx] - 1].price : "Unknown"} JASMY</div>
+                                                <div style={{ fontSize: '15pt' }}>{obj2[available[startIndex + idx] - 1] ? obj2[available[startIndex + idx] - 1].price : "Unknown"} JASMY</div>
                                             </Col>
                                             <Col className="d-flex align-items-end justify-content-end">
                                                 {/* <Chip label='Zawad' style={{ backgroundColor: 'grey', color: 'white' }} /> */}

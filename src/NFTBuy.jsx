@@ -519,25 +519,30 @@ function NFTBuyPage() {
         }
     ];
 
-    const contractAddress = "0x8CA2cB0045f6bde5F3E321941855B81849880dbe";
+    const contractAddress = "0x273CAF0243FE546cb35b5245de53c7Bd70837E54";
     const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
     const contract = new web3.eth.Contract(abi, contractAddress);
 
+    console.log("Account ", ctx?.wallet?.accounts[0]);
+
+    useEffect(() => {
+        contract.methods.ownerOf(value).call()
+            .then((v) => {
+                console.log("Owner address ", v);
+                setOwner(v);
+                console.log(v);
+            })
+            .catch((e) => console.error(e));
+
+    }, [])
 
 
-
-    contract.methods.ownerOf(value).call()
-        .then((v) => {
-            console.log(v);
-            setOwner(v);
-        }
-        );
     console.log(owner);
     //console.log(ctx.wallet.accounts[0]);
 
     const buyNFT = () => {
 
-        if (owner.toLowerCase() === ctx.wallet.accounts[0]) {
+        if (owner.toLowerCase() === ctx?.wallet?.accounts[0]) {
             alert("You are the owner of this NFT!")
         }
         else {
@@ -545,17 +550,17 @@ function NFTBuyPage() {
             //     alert("You don't have sufficient balance!")
             // }
             // else {
-                const nftTransferMethod = contract.methods.safeTransferFrom(owner, ctx.wallet.accounts[0], value);
-                const encodedABI = nftTransferMethod.encodeABI();
-                ethereum.request({
-                    method: 'eth_sendTransaction',
-                    params: [{
-                        from: owner,
-                        to: contractAddress,
-                        data: encodedABI
-                    },
-                    ],
-                })
+            const nftTransferMethod = contract.methods.safeTransferFrom(owner, ctx?.wallet?.accounts[0], value);
+            const encodedABI = nftTransferMethod.encodeABI();
+            ethereum.request({
+                method: 'eth_sendTransaction',
+                params: [{
+                    from: owner,
+                    to: contractAddress,
+                    data: encodedABI
+                },
+                ],
+            })
 
             // }
         }
@@ -634,7 +639,7 @@ function NFTBuyPage() {
                         <h1>
                             {obj[value - 1] ? obj[value - 1].name : null} #{value}
                             {/* Wintos #{value} */}
-                            
+
                         </h1>
                         <strong>Owned By </strong>&nbsp; {owner}
                         <br />

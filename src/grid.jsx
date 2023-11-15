@@ -469,7 +469,7 @@ function Grid({ page }) {
     }
   ];
 
-  const contractAddress = "0x8CA2cB0045f6bde5F3E321941855B81849880dbe";
+  const contractAddress = "0x273CAF0243FE546cb35b5245de53c7Bd70837E54";
   const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
   const contract = new web3.eth.Contract(abi, contractAddress);
 
@@ -495,12 +495,12 @@ function Grid({ page }) {
       })
       .catch((e) => console.error(e));
 
-  }, [])
+  }, []);
 
   useEffect(() => {
 
     if (uri) {
-      // Use Promise.all to wait for all fetch promises to resolve
+
       Promise.all(uri.map((url) =>
         fetch(url).then((res) => res.json())))
         .then((data) => {
