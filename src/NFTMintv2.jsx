@@ -481,14 +481,15 @@ const NFTMintv2 = ({ isLog }) => {
     const contract = new web3.eth.Contract(abi, contractAddress);
     if (ctx.wallet.accounts[0] !== undefined) {
         contract.methods.getAvailableMintsForUser(ctx.wallet.accounts[0]).call()
-        .then((v) => console.log("getAvailableMintsForUser ",v))
-        .catch((e) => console.error(e))  
+            .then((v) => console.log("getAvailableMintsForUser ", v))
+            .catch((e) => console.error(e))
     }
 
     // contract.methods.getUriList().call()
     // .then((v)=>console.log("Uri List",v))
 
     const startMint = async (tokenId, tokenURI) => {
+    // const startMint = async () => {
 
         console.log("TokenId inside startMint function ", tokenId)
         console.log(ctx.wallet.accounts[0]);
@@ -516,6 +517,20 @@ const NFTMintv2 = ({ isLog }) => {
                 console.log(error);
             });
 
+        // let a = fabricmask.transfer({
+        //     channelName : 'jasmy-nft-dev',
+        //     chaincodeId : 'gp-nft',
+        //     functionName : 'mintWithTokenURI',
+        //     functionArgs : ["270", "https://d2qqa3aq0n81o.cloudfront.net/meta/sample.json"]
+        // })
+        // let a = fabricmask.transfer({
+        //     channelName: 'jasmy-nft-dev',
+        //     chaincodeId: 'gp-nft',
+        //     functionName: 'balanceOf',
+        //     functionArgs: ["0xcced13aefc86f5558f6d1d88c594bb9280121019"]
+        // }, function(res){console.log("Checking response ",res)})
+
+        // console.log("checking response type ", a);
 
     }
 
@@ -581,7 +596,6 @@ const NFTMintv2 = ({ isLog }) => {
             })
             .catch((error) => console.log(error))
 
-        //setTokenUri("https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata/" + objectIndex + ".json")
         tokenUri = "https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata/" + objectIndex + ".json?print=pretty";
         const { name, externalLink, description, supply, blockchain, price } = metadata;
         let update = await fetch(`https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata/${objectIndex}.json`,
@@ -776,6 +790,7 @@ const NFTMintv2 = ({ isLog }) => {
             </Form>
             {isLog ? (
                 <Button onClick={saveToFirebase}>Create</Button>
+                // <Button onClick={startMint}>Create</Button>
             ) : (
                 <>
                     <Alert severity='warning'>
@@ -786,8 +801,6 @@ const NFTMintv2 = ({ isLog }) => {
 
             )}
 
-            {/* <Button onClick={saveImageUrl}>Update</Button>&nbsp;&nbsp;
-            <Button onClick={saveData}>Upload</Button> */}
 
         </div>
 

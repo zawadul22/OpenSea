@@ -608,7 +608,7 @@ function ProfileGrid({ page }) {
                                     <Card.Text>
                                         <Row md={2}>
                                             <Col className="d-flex align-items-start">
-                                                <div style={{ fontSize: '15pt' }}>{obj2[available[startIndex + idx] - 1] ? obj2[available[startIndex + idx] - 1].price : "Unknown"} JASMY</div>
+                                                <div style={{ fontSize: '15pt' }}>{obj2[available[startIndex + idx] - 1] ? obj2[available[startIndex + idx] - 1].price : "Unknown"} DD</div>
                                             </Col>
                                             <Col className="d-flex align-items-end justify-content-end">
                                                 {/* <Chip label='Zawad' style={{ backgroundColor: 'grey', color: 'white' }} /> */}

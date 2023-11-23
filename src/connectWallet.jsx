@@ -4,6 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import { useState, useEffect, createContext } from 'react';
 import { DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import metamask from './assets/images.png'
+import favicon from './assets/favicon.png'
 import detectEthereumProvider from '@metamask/detect-provider';
 import { ethers } from 'ethers';
 
@@ -100,14 +101,14 @@ const ConnectWallet = (props) => {
             <Dialog onClose={onClose} open={open} maxWidth="md" fullWidth>
                 <DialogTitle style={{ textAlign: 'center' }}>
 
-                    <img src={metamask} style={{ width: '50px', height: '50px' }} />
+                    <img src={favicon} style={{ width: '50px', height: '50px' }} />
 
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText style={{ textAlign: 'center', color: 'black', fontSize: 25 }}>
                         {isConnected ? (
                             <div>
-                                Your Balance: {wallet.ethFormat} JASMY
+                                Your Balance: {wallet.ethFormat} DD
                             </div>
                         ) : (
                             <div>

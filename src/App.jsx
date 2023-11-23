@@ -11,6 +11,7 @@ import Profile from './MyProfile';
 import View from './NFTView';
 
 
+
 function App() {
   const [isLog, setIsLog] = useState(false) // Is the metamask connected?
 

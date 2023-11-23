@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import Grid from './grid'
 import NFTPagination from './pagination'
+import NFTCarousel from './Carousel'
 
 const NFTCollection = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,20 +33,22 @@ const NFTCollection = () => {
 
   return (
     <>
-      <Container className="mt-5">
+      {/* <Container className="mt-5"> */}
         {/* {obj.map((item, index) => {
           console.log(item)
           <Grid page={currentPage} data={item.image}/>
-        })} */}
-        <Grid page={currentPage} />
+        })} not needed*/}
+        {/* <Grid page={currentPage} /> */}
 
 
-      </Container>
-      <NFTPagination
+      {/* </Container> */}
+      {/* <NFTPagination
         total={pages}
         current={currentPage}
         onChangePage={handlePageChange}
-      />
+      /> */}
+
+      <NFTCarousel />
 
     </>
   )

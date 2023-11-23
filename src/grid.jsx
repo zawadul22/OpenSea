@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import './grid.css'
 import { useEffect, useState } from 'react';
 import Web3 from 'web3';
+import wintos from './assets/Wintos.png'
 
 function Grid({ page }) {
 
@@ -542,17 +543,18 @@ function Grid({ page }) {
                   variant="top"
                   // src={obj2[startIndex + idx] ? obj2[startIndex + idx].image : null}
                   src={obj2?.[startIndex + idx]?.image}
+                  // src = {wintos}
                 />
 
                 <Card.Body>
                   {/* <Card.Title><h3>{obj[startIndex + idx].name}</h3></Card.Title> */}
                   <Card.Title><h3>{obj2?.[startIndex + idx]?.name}</h3></Card.Title>
-
+                  {/* <Card.Title><h3>Wintos {idx+1}</h3></Card.Title> */}
                   <Card.Text>
                     <Row md={2}>
                       <Col className="d-flex align-items-start">
                         {/* <div style={{ fontSize: '15pt' }}>{obj[startIndex + idx].price} JASMY</div> */}
-                        <div style={{ fontSize: '15pt' }}>{obj2?.[startIndex + idx]?.price} JASMY</div>
+                        <div style={{ fontSize: '15pt' }}>{obj2?.[startIndex + idx]?.price} DD Coin</div>
                       </Col>
                       <Col className="d-flex align-items-end justify-content-end">
                         {/* <Chip label='Zawad' style={{ backgroundColor: 'grey', color: 'white' }} /> */}
