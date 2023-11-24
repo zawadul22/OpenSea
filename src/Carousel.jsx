@@ -21,25 +21,35 @@ const NFTCarousel = () => {
         infinite: true,
         speed: 500,
         slidesToShow: 4,
-        slidesToScroll: 3,
+        slidesToScroll: 4,
         nextArrow: <Arrow />,
         prevArrow: <Arrow />
     };
     return (
-        <div className="container" style={{justifyContent : 'center'}}>
+        <div id="container" >
             <h2> Multiple items </h2>
             <Slider {...settings}>
 
-                {Array.from({ length: 7 })
+                {Array.from({ length: 16 })
                     .map((_, index) => (
-                        <div id = "nft-image" style={{onMouseOver:"this.style.color='red'"}}>
-                            <img src = {nft} style={{height : '320px'}}/>
-                            {/* <div className="bg-one"></div> */}
+                        <div className="hover01 column container2">
+
+
+                            <figure className="z-3">
+                                <img className="image background-image " src={nft} style={{ margin: '0 auto' }} />
+
+                            </figure>
+                            <div className="z-3 text overlay-text" >
+                                <h1>Hello</h1>
+                            </div>
                         </div>
                     ))}
 
             </Slider>
+
+
         </div>
+
     );
 }
 
