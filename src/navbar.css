@@ -1,10 +1,39 @@
-#brand{
-    max-width: 50%;
-    margin-left: 2.5%;
+#brand {
+  max-width: 50%;
+  margin-left: 2.5%;
 }
 
-#brand2{
-    max-width: 50%;
-    justify-content: end;
-    margin-right: 2.5%;
+#brand2 {
+  max-width: 50%;
+  justify-content: end;
+  margin-right: 2.5%;
+}
+
+#searchbar {
+  width: 300px;
+  background-color: #3a3a3a;
+  border: 0pt;
+  box-shadow: 0 0 0 0rem;
+}
+
+/* #whole {
+    display: flex;
+} */
+
+#button{
+    background-color : #3a3a3a;
+    border : 0pt;
+    display: flex;
+}
+
+#button :hover{
+    background: #535353;
+}
+
+.icon{
+    background-color: '#3a3a3a'; 
+    color: 'white';
+    padding: '5pt'; 
+    border-top-left-radius: '5pt'; 
+    border-bottom-left-radius: '5pt';
 }

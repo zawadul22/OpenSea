@@ -9,11 +9,20 @@ import NFTMintv2 from './NFTMintv2';
 import ConnectWallet from './connectWallet';
 import Profile from './MyProfile';
 import View from './NFTView';
+import { FlashAuto } from '@mui/icons-material';
 
 
 
 function App() {
-  const [isLog, setIsLog] = useState(false) // Is the metamask connected?
+  
+  const [isLog, setIsLog] = useState(()=>{
+    if(localStorage.getItem("Connected") === 'true'){
+      return true;
+    }
+    else if(localStorage.getItem("Connected") === 'false'){
+      return false;
+    }
+  }) // Is the metamask connected?
 
   const loginHandler = () => {
     setIsLog(true)

@@ -1,6 +1,7 @@
 #container {
   margin: 0 auto;
   width: 95%;
+  margin-top: 15pt;
   /* display: flex; */
   /* justify-items: center; */
 }
@@ -40,20 +41,20 @@
   display: block;
 } */
 
-.hover01 figure img {
+/* .hover01 figure img {
   transform: scale(1);
   transition: 0.3s ease-in-out;
-}
+} */
 
 /* .hover01 figure .bg-one {
   transform: scale(1);
   transition: 0.3s ease-in-out;
 } */
 
-.hover01 figure:hover img {
+/* .hover01 figure:hover img {
   transform: scale(1.1);
   transition: 0.3s ease-in-out;
-}
+} */
 
 /* .hover01 figure:hover .bg-one {
   transform: scale(1.1);
@@ -83,7 +84,7 @@ figure {
 .text {
   /* position: absolute; */
   display: flex;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   left: 500px;
   top: 1200px;
   background-color: rgb(41, 41, 41, 0.8);
@@ -91,48 +92,66 @@ figure {
   /* transform: translate(-50%, -50%); */
 }
 
-/* Container for the image and text */
 .container2 {
   position: relative;
-  width: 300px; /* Adjust the width as needed */
+  width: 300px;
 }
 
 /* Image styling */
-.background-image {
+/* .background-image {
   width: 100%;
   height: auto;
   display: block;
   position: relative;
-}
+} */
 
-/* Darkening effect for the background image */
-.background-image::before {
+/* .background-image::before {
   content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 30%; /* Adjust the height of the darkened area */
+  height: 30%; 
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0),
     rgba(0, 0, 0, 0.5)
-  ); /* Gradient for darkening effect */
-  pointer-events: none; /* Allows interaction with elements beneath the dark overlay */
-}
+  ); 
+  pointer-events: none; 
+} */
 
-/* Text styling */
 .overlay-text {
   position: absolute;
   top: 90%;
   left: 32%;
-  transform: translate(-50%, -50%);
+  /* transform: translate(-50%, -50%); */
   padding: 10px;
   text-align: center;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.103
-  ); /* Adjust the alpha value for transparency */
+  color: rgb(255, 255, 255);
+  font-size: 20pt;
+  background-color: black;
+  width: 100%;
+}
+.slick-slide img {
+  width: 100%;
+  height: 320px;
+}
+.img-part {
+  position: relative;
+}
+.overlay-image-text {
+  position: absolute;
+  bottom: 0;
+}
+.overlay-image-text p {
+  margin: 0;
+}
+.overlay-image-text {
+  position: absolute;
+  /* bottom: 1px; */
+  /* background: black; */
+  color: #fff;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(14, 13, 13, 0.418);
 }
