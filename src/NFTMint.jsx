@@ -406,8 +406,8 @@ const abi = [
 	}
 ];
 
-const contractAddress = "0x03C7d85ceB6371B9674A9508EF5dCBf339dA5AD5";
-const web3 = new Web3(new Web3.providers.HttpProvider('https://rpc-mumbai.maticvigil.com'));
+const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
+    const web3 = new Web3(new Web3.providers.HttpProvider(import.meta.env.VITE_HOST));
 
 const contract = new web3.eth.Contract(abi, contractAddress);
 

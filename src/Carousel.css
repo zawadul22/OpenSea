@@ -1,14 +1,13 @@
 #container {
   margin: 0 auto;
-  width: 95%;
-  margin-top: 15pt;
+  /* width: 95%; */
+  /* margin-top: 15pt; */
+  /* background-color: #212529; */
+  padding: 30px;
   /* display: flex; */
   /* justify-items: center; */
 }
 
-.bg-one {
-  background-image: url(./assets/nft-image-2.png);
-}
 
 /* .wrapper{
   width: 37%;
@@ -62,8 +61,8 @@
 } */
 
 figure {
-  width: 300px;
-  height: 320px;
+  width: 90%;
+  height: 240px;
   margin: 0 auto;
   padding: 0;
   background: #fff;
@@ -97,44 +96,10 @@ figure {
   width: 300px;
 }
 
-/* Image styling */
-/* .background-image {
-  width: 100%;
-  height: auto;
-  display: block;
-  position: relative;
-} */
 
-/* .background-image::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 30%; 
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.5)
-  ); 
-  pointer-events: none; 
-} */
-
-.overlay-text {
-  position: absolute;
-  top: 90%;
-  left: 32%;
-  /* transform: translate(-50%, -50%); */
-  padding: 10px;
-  text-align: center;
-  color: rgb(255, 255, 255);
-  font-size: 20pt;
-  background-color: black;
-  width: 100%;
-}
 .slick-slide img {
   width: 100%;
-  height: 320px;
+  height: 240px;
 }
 .img-part {
   position: relative;
@@ -154,4 +119,38 @@ figure {
   width: 100%;
   padding: 10px;
   background-color: rgba(14, 13, 13, 0.418);
+}
+
+.next{
+  display: block;
+  position: absolute;
+  right: -10px;
+  top: 45%;
+  
+}
+
+.prev{
+  display: block;
+  position: absolute;
+  left: -10px;
+  top: 45%;
+}
+
+.svg-prop{
+  height: 25pt;
+  width: 25pt;
+  /* fill: black; */
+  /* color : black; */
+}
+
+/* .svg-prop:hover{
+  background-color: black;
+} */
+
+.next.prev:hover{
+  background-color : black;
+}
+
+.slick-slider {
+  padding: 28px;
 }

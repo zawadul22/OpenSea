@@ -4,6 +4,7 @@ import Grid from './grid'
 import NFTPagination from './pagination'
 import NFTCarousel from './Carousel'
 import nft from './assets/nft-image-2.png';
+import './gridPage.css'
 
 const NFTCollection = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,8 +49,9 @@ const NFTCollection = () => {
         current={currentPage}
         onChangePage={handlePageChange}
       /> */}
-
+      
       <NFTCarousel />
+    
       <div style={{ display: 'flex', justifyContent: 'space-between', margin: '25pt' }}>
         {/* <div style={{
           backgroundColor: 'grey',
@@ -69,10 +71,10 @@ const NFTCollection = () => {
             defaultValue={1}
           // style={{ padding: '10pt' }}
           >
-            <ToggleButton id="tbg-radio-1" value={1} variant='light' style={{ borderColor: '#BDBDBD', padding: '11pt', fontSize: '12pt' }}>
+            <ToggleButton id="tbg-radio-1" variant='light' value={1} style={{ borderColor: '#BDBDBD', fontSize: '12pt' }}>
               Trending
             </ToggleButton>
-            <ToggleButton id="tbg-radio-2" value={2} variant='light' style={{ borderColor: '#BDBDBD', padding: '11pt', fontSize: '12pt' }}>
+            <ToggleButton id="tbg-radio-2" variant='light' value={2} style={{ borderColor: '#BDBDBD', fontSize: '12pt' }}>
               Top
             </ToggleButton>
           </ToggleButtonGroup>
@@ -85,16 +87,16 @@ const NFTCollection = () => {
             defaultValue={1}
             style={{ color: 'black' }}
           >
-            <ToggleButton id="tbg-radio-3" value={1} variant='light' style={{ borderColor: '#BDBDBD', padding: '11pt', fontSize: '12pt' }}>
+            <ToggleButton id="tbg-radio-3" value={1} variant='light' style={{ borderColor: '#BDBDBD', fontSize: '12pt' }}>
               1h
             </ToggleButton>
-            <ToggleButton id="tbg-radio-4" value={2} variant='light' style={{ borderColor: '#BDBDBD', padding: '11pt', fontSize: '12pt' }}>
+            <ToggleButton id="tbg-radio-4" value={2} variant='light' style={{ borderColor: '#BDBDBD', fontSize: '12pt' }}>
               6h
             </ToggleButton>
-            <ToggleButton id="tbg-radio-5" value={3} variant='light' style={{ borderColor: '#BDBDBD', padding: '11pt', fontSize: '12pt' }}>
+            <ToggleButton id="tbg-radio-5" value={3} variant='light' style={{ borderColor: '#BDBDBD', fontSize: '12pt' }}>
               24h
             </ToggleButton>
-            <ToggleButton id="tbg-radio-6" value={4} variant='light' style={{ borderColor: '#BDBDBD', padding: '11pt', fontSize: '12pt' }}>
+            <ToggleButton id="tbg-radio-6" value={4} variant='light' style={{ borderColor: '#BDBDBD', fontSize: '12pt' }}>
               7d
             </ToggleButton>
           </ToggleButtonGroup>
@@ -112,7 +114,7 @@ const NFTCollection = () => {
             <option value="Zora">Zora</option>
           </Form.Select>
 
-          <Button variant='light' style={{ marginLeft: '40pt', border: '1pt solid #BDBDBD', fontSize: '12pt' }}>View All</Button>
+          <Button variant='light' style={{ marginLeft: '10pt', border: '1pt solid #BDBDBD', fontSize: '12pt' }}>View All</Button>
 
         </div>
       </div>
@@ -158,16 +160,16 @@ const NFTCollection = () => {
         <div style={{ width: '45%' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-            <div style={{alignContent : 'center'}} >
+            <div style={{ alignContent: 'center' }} >
               <span style={{ marginLeft: '17pt' }}>1</span>
               <span style={{ marginLeft: '40pt' }}>
-                <img src={nft} style={{height : '70px' , width : "70px" , borderRadius : '5pt'}} />
+                <img src={nft} style={{ height: '70px', width: "70px", borderRadius: '5pt' }} />
               </span>
-              <span style={{marginLeft : '30pt'}}>Bored Fox</span>
+              <span style={{ marginLeft: '30pt' }}>Bored Fox</span>
             </div>
 
             <div >
-              <span style={{ marginRight : '15pt'}}>0.01 DD</span>
+              <span style={{ marginRight: '15pt' }}>0.01 DD</span>
               <span style={{ marginLeft: '90pt', marginRight: '15pt' }}>12 DD</span>
             </div>
 

@@ -16,8 +16,8 @@ const NFTMintv2 = ({ isLog }) => {
 
     const ctx = useContext(Context);
 
-    const contractAddress = "0x273CAF0243FE546cb35b5245de53c7Bd70837E54";
-    const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+    const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
+    const web3 = new Web3(new Web3.providers.HttpProvider(import.meta.env.VITE_HOST));
     let loading = false;
 
     const [uploadedFiles, setUploadedFiles] = useState([]);

@@ -83,8 +83,9 @@ function JasmyNavbar(props) {
           <img src={fabricmask}
             width="39" height="38"
             className='d-inline-block align-top'
-          />&nbsp;
+          />&nbsp;&nbsp;
           Jasmy Market Place
+          
         </Navbar.Brand>
         <div style={{
           borderLeft: '1pt solid #7d7d7d',
@@ -105,7 +106,7 @@ function JasmyNavbar(props) {
               color: 'white',
               fontSize: '12pt',
               cursor: 'pointer',
-              fontWeight: '500'
+              fontWeight: '600'
             }}>
             Mint
           </Nav.Link>

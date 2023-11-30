@@ -5,21 +5,50 @@ import "slick-carousel/slick/slick-theme.css";
 import nft from './assets/nft-image-2.png';
 import './Carousel.css';
 import Web3 from 'web3';
+import left from './assets/left-arrow.svg'
+import right from './assets/right-arrow.svg'
 
-function Arrow(props) {
+function NextArrow(props) {
     const { className, style, onClick } = props;
     return (
-        <div
-            className={className}
-            style={{ ...style, display: "block", background: "black" }}
-            onClick={onClick}
-        />
+        
+            <div className="next" onClick={onClick}>
+                <img src={right} className="svg-prop" />
+                {/* <svg xmlns={right} className="svg-prop" /> */}
+            </div>
+        
+
+        // <div
+        //     className={className}
+        //     style={{ ...style, display: "block", background: "red" }}
+        //     onClick={onClick}
+        // />
     );
 }
+
+function PrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        
+            <div className="prev" onClick={onClick}>
+                <img src={left} className="svg-prop" />
+                {/* <svg xmlns={left} className="svg-prop" /> */}
+            </div>
+        
+
+        // <div
+        //     className={className}
+        //     style={{ ...style, display: "block", background: "green" }}
+        //     onClick={onClick}
+        // />
+    );
+}
+
 
 const NFTCarousel = () => {
 
     const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
+    const web3 = new Web3(new Web3.providers.HttpProvider(import.meta.env.VITE_HOST));
     const abi = [
         {
             "anonymous": false,
@@ -474,7 +503,6 @@ const NFTCarousel = () => {
         }
     ];
 
-    const web3 = new Web3(new Web3.providers.HttpProvider(import.meta.env.VITE_HOST));
     const contract = new web3.eth.Contract(abi, contractAddress);
 
 
@@ -508,17 +536,17 @@ const NFTCarousel = () => {
     }, [uri])
 
     const settings = {
-        dots: true,
+        // dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        nextArrow: <Arrow />,
-        prevArrow: <Arrow />
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />
     };
     return (
         <div id="container" >
-            
+
             <Slider {...settings}>
                 {Array.from({ length: objLength })
                     .map((_, index) => (
@@ -526,11 +554,10 @@ const NFTCarousel = () => {
                             <figure className="img-part">
                                 <img className="slider-img " src={obj?.[index]?.image} style={{ margin: '0 auto' }} />
                                 <div className="overlay-image-text" >
-                                    <p> {obj?.[index]?.name}</p>
-                                    <p> {obj?.[index]?.price}</p>
+                                    <p style={{ fontWeight: '600', fontSize: '15pt' }}> {obj?.[index]?.name}</p>
+                                    <p style={{ fontWeight: '540', fontSize: '10pt' }}> {obj?.[index]?.price} DD</p>
                                 </div>
                             </figure>
-
                         </div>
                     ))}
 

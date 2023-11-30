@@ -1,3 +1,9 @@
+body, html{
+  font-family: 'Inter', sans-serif;
+  /* font-family: '__Inter_52bc3f', '__Inter_Fallback_52bc3f'; */
+  
+}
+
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

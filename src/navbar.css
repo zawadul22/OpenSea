@@ -20,20 +20,23 @@
     display: flex;
 } */
 
-#button{
-    background-color : #3a3a3a;
-    border : 0pt;
-    display: flex;
+#button {
+  background-color: #3a3a3a;
+  border: 0pt;
+  display: flex;
+}
+.form-select {
+  width: auto !important;
 }
 
-#button :hover{
-    background: #535353;
+#button :hover {
+  background: #535353;
 }
 
-.icon{
-    background-color: '#3a3a3a'; 
-    color: 'white';
-    padding: '5pt'; 
-    border-top-left-radius: '5pt'; 
-    border-bottom-left-radius: '5pt';
+.icon {
+  background-color: "#3a3a3a";
+  color: "white";
+  padding: "5pt";
+  border-top-left-radius: "5pt";
+  border-bottom-left-radius: "5pt";
 }
