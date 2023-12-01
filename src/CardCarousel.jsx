@@ -1,69 +1,57 @@
-import React, { useEffect, useState, useContext } from 'react';
-import Image from 'react-bootstrap/Image';
-import './NFTBuy.css';
-import Button from 'react-bootstrap/Button';
-import { Card, Col, ListGroup, Row, Accordion } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import { FavoriteBorder, OpenInFull, Schedule, VideogameAsset, Visibility } from '@mui/icons-material';
-import { Dialog, DialogContent } from '@mui/material';
-import eth from './assets/ethereum-svgrepo-com (1).svg'
-import { Context } from './connectWallet';
+import Slider from "react-slick";
+import { useState, useEffect } from "react";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import nft from './assets/nft-image-2.png';
+import './Carousel.css';
 import Web3 from 'web3';
+import left from './assets/left-arrow.svg'
+import right from './assets/right-arrow.svg'
+import { useNavigate } from 'react-router-dom';
+import './Carousel.css'
+import { Card, Col, Row } from "react-bootstrap";
+
+function NextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+
+        <div className="next" onClick={onClick}>
+            <img src={right} className="svg-prop" />
+            {/* <svg xmlns={right} className="svg-prop" /> */}
+        </div>
 
 
-function NFTBuyPage() {
-    const { value } = useParams();
-    const renderTooltip = (id, title, children) => (
-        <OverlayTrigger overlay={<Tooltip id={id}>{title}</Tooltip>}>
-            {children}
-        </OverlayTrigger>
+        // <div
+        //     className={className}
+        //     style={{ ...style, display: "block", background: "red" }}
+        //     onClick={onClick}
+        // />
     );
-    const ctx = useContext(Context);
-    //console.log(`Context value ${ctx.wallet.accounts[0]} & ${ctx.wallet.ethFormat} & ${ctx.isConnected}`);
+}
 
-    console.log("Hello")
+function PrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
 
-    const [openImageModal, setOpenImageModal] = useState(false);
-    const [owner, setOwner] = useState("");
-
-    const handleImageClick = () => {
-        setOpenImageModal(true);
-    };
-
-    const handleCloseImageModal = () => {
-        setOpenImageModal(false);
-    };
-
-    const [obj, setObj] = useState([]);
-
-    useEffect(() => {
-        // let r = false;
-        fetch("https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json")
-            .then((response) => response.json())
-            .then((data) => {
-
-                setObj(Object.values(data))
+        <div className="prev" onClick={onClick}>
+            <img src={left} className="svg-prop" />
+            {/* <svg xmlns={left} className="svg-prop" /> */}
+        </div>
 
 
-            })
-        // return()=>{r=true};
-    }, [])
-
-    const shortForm = {
-        "Arbitrum": 'ARB',
-        "Arbitrum Nova": 'ARBN',
-        "Avalanche": 'AVL',
-        "Base": 'B',
-        "Ethereum": 'ETH',
-        "Klaytn": 'KLT',
-        "Optimism": 'OPT',
-        "Polygon": 'PLG',
-        "Zora": 'Z'
-    }
+        // <div
+        //     className={className}
+        //     style={{ ...style, display: "block", background: "green" }}
+        //     onClick={onClick}
+        // />
+    );
+}
 
 
+const NFTCarouselCard = () => {
+
+    const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
+    const web3 = new Web3(new Web3.providers.HttpProvider(import.meta.env.VITE_HOST));
     const abi = [
         {
             "anonymous": false,
@@ -518,177 +506,85 @@ function NFTBuyPage() {
         }
     ];
 
-    const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
-    const web3 = new Web3(new Web3.providers.HttpProvider(import.meta.env.VITE_HOST));
     const contract = new web3.eth.Contract(abi, contractAddress);
 
-    console.log("Account ", ctx?.wallet?.accounts[0]);
+
+    const [obj, setObj] = useState([]);
+    const [objLength, setObjLength] = useState(0);
+    const [uri, setUri] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        contract.methods.ownerOf(value).call()
+        contract.methods.getUriList().call()
             .then((v) => {
-                console.log("Owner address ", v);
-                setOwner(v);
-                console.log(v);
+                setUri(v);
+                setObjLength(v.length);
             })
             .catch((e) => console.error(e));
 
-    }, [])
+    }, []);
 
+    useEffect(() => {
 
-    console.log(owner);
-    //console.log(ctx.wallet.accounts[0]);
+        if (uri) {
 
-    const buyNFT = () => {
-
-        if (owner.toLowerCase() === ctx?.wallet?.accounts[0]) {
-            alert("You are the owner of this NFT!")
+            Promise.all(uri.map((url) =>
+                fetch(url).then((res) => res.json())))
+                .then((data) => {
+                    console.log(" response data", data);
+                    setObj(data);
+                })
+                .catch((error) => console.error(error));
         }
-        else {
-            // if (obj[value - 1].price > ctx.wallet.ethFormat) {
-            //     alert("You don't have sufficient balance!")
-            // }
-            // else {
-            const nftTransferMethod = contract.methods.safeTransferFrom(owner, ctx?.wallet?.accounts[0], value);
-            const encodedABI = nftTransferMethod.encodeABI();
-            ethereum.request({
-                method: 'eth_sendTransaction',
-                params: [{
-                    from: owner,
-                    to: contractAddress,
-                    data: encodedABI
-                },
-                ],
-            })
 
-            // }
-        }
-    }
+    }, [uri])
 
-
+    const settings = {
+        // dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />
+    };
     return (
-        <>
-            <div id='buyer' className='container'>
-                <div className="side">
-                    <div className='image-frame'>
-                        <div className='bar'>
-                            <div style={{ marginLeft: '5pt' }}> <Image src={eth} style={{ width: '18px' }} /> </div>
-                            <div style={{ marginRight: '5pt' }}>
-                                <OpenInFull style={{ width: '19px' }} />&nbsp;&nbsp;
-                                <span style={{ fontSize: '10pt' }}>9</span> <FavoriteBorder style={{ width: '20px' }} />
-                            </div>
+        <div id="container" >
 
-                        </div>
-                        <div style={{ maxWidth: '100%', minWidth: '10%', maxHeight: '100%', minHeight: '10%' }}>
-                            <Image
-                                src={obj[value - 1] ? obj[value - 1].image : null}
-                                // style={{ display: 'flex', height: '100%', width: '100%' }}
-                                style={{ display: 'flex', height: '550px', width: '500px' }}
-                                onClick={handleImageClick}
-                            />
-                        </div>
-                    </div>
-                    <Accordion className='mt-3 mb-3' defaultActiveKey="0">
-                        <Accordion.Item eventKey='0'>
-                            <Accordion.Header>Description</Accordion.Header>
-                            <Accordion.Body>
-                                {obj[value - 1] ? obj[value - 1].description : null}
-                            </Accordion.Body>
-                        </Accordion.Item>
-                        <Accordion.Item eventKey='1'>
-                            <Accordion.Header>Details</Accordion.Header>
-                            <Accordion.Body>
-                                <Row>
-                                    <Col >Contract Address</Col>
-                                    <Col >
-                                        {renderTooltip('wallet', '0x2c097A15A70FFe623B13041d8aB4bb1BdaeF9829',
-                                            <span>
-                                                0x2c097A15A7bb1BdaeF9829
-                                            </span>
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col >Token ID</Col>
-                                    <Col >{value}</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Token Standard</Col>
-                                    <Col>ERC 721</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Chain</Col>
-                                    <Col>Ethereum</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Last Updated</Col>
-                                    <Col>1 day ago</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Creator Earnings</Col>
-                                    <Col>10%</Col>
-                                </Row>
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </Accordion>
-
-                </div>
-                <div className="side-content-center">
-                    <div style={{ width: '100%' }}>
-                        <h1>
-                            {obj[value - 1] ? obj[value - 1].name : null} #{value}
-                            {/* Wintos #{value} */}
-
-                        </h1>
-                        <strong>Owned By </strong>&nbsp; {owner}
-                        <br />
-                        <br />
-
-                        <Visibility /> 101 Views &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <FavoriteBorder /> 76 Favorites &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <VideogameAsset /> Gaming
-                        <br />
-                        <br />
-                        <ListGroup style={{ width: '88%', borderRadius: '15px' }}>
-                            <ListGroup.Item style={{ padding: '20px' }}>
-
-                                <Schedule />&nbsp;&nbsp; Sale ends 27th October, 2023 at 7:55 AM
-
-                            </ListGroup.Item>
-                            <ListGroup.Item >
-                                <p className='mt-3 mb-0' style={{ color: 'GrayText' }}>Current Price</p>
-                                <h2>
-                                    {obj[value - 1] ? obj[value - 1].price : null} DD Coin &nbsp;
-                                    <span style={{ color: 'GrayText', fontSize: '15pt' }}>${obj[value - 1] ? obj[value - 1].price * 60 : null}</span>
-                                </h2>
-
-                                <div className='mb-2 mt-3' style={{ width: '100%' }}>
-                                    <Button variant='primary' id='custom-button' onClick={buyNFT}> Buy Now</Button>&nbsp; &nbsp;
-                                    <Button variant='secondary' id='custom-button'> Add to Cart</Button>
-
+            <Slider {...settings}>
+                {Array.from({ length: objLength })
+                    .map((_, index) => (
+                        <div className="sliderwrapper">
+                            {/* <figure className="img-part">
+                                <img className="slider-img" src={obj?.[index]?.image} style={{ margin: '0 auto' }} />
+                                <div className="overlay-image-text" >
+                                    <p style={{ fontWeight: '600', fontSize: '15pt' }}> {obj?.[index]?.name}</p>
+                                    <p style={{ fontWeight: '540', fontSize: '10pt' }}> {obj?.[index]?.price} DD</p>
                                 </div>
-                            </ListGroup.Item>
-                        </ListGroup>
+                            </figure> */}
+                            <Card style={{ height : '90%' }}>
+                                <Card.Img
+                                    style={{ height : '90%' }}
+                                    src={nft}
+                                    variant="top"
+                                />
+                                <Card.Body>
+                                    <Card.Title>Bored Fox</Card.Title>
+                                    <Card.Text style={{ fontSize: '10pt', fontWeight: '550' }}>
+                                        
+                                        10 DD Coin
+                                    </Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </div>
+                    ))}
 
-                    </div>
-                </div>
-            </div>
+            </Slider>
 
-            <Dialog
-                open={openImageModal}
-                onClose={handleCloseImageModal}
-                maxWidth="lg"
-            >
-                <DialogContent onClick={handleCloseImageModal}>
-                    <Image
-                        src={obj[value - 1] ? obj[value - 1].image : null}
-                        width="100%"
-                        style={{ maxHeight: '80vh', objectFit: 'contain' }}
-                    />
-                </DialogContent>
-            </Dialog>
-        </>
+
+        </div>
+
     );
 }
 
-export default NFTBuyPage;
+export default NFTCarouselCard;

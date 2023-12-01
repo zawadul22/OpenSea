@@ -10,8 +10,8 @@ import { Dialog, DialogContent } from '@mui/material';
 import eth from './assets/ethereum-svgrepo-com (1).svg'
 
 const View = () => {
-    const {value} = useParams();
-    const [obj , setObj] = useState([]);
+    const { value } = useParams();
+    const [obj, setObj] = useState([]);
 
     const [openImageModal, setOpenImageModal] = useState(false);
 
@@ -30,20 +30,20 @@ const View = () => {
     );
 
 
-    useEffect(()=>{
+    useEffect(() => {
         fetch(`https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json`)
-        .then((res)=>res.json())
-        .then((data)=>{
-            let temp = Object.values(data)
-            setObj(temp);
-        })
-    },[])
+            .then((res) => res.json())
+            .then((data) => {
+                let temp = Object.values(data)
+                setObj(temp);
+            })
+    }, [])
 
     console.log(obj)
 
-    return(
+    return (
         <>
-        <center style={{padding : '10pt'}}><h2>Your NFT</h2></center>
+            <center style={{ padding: '10pt' }}><h2>Your NFT</h2></center>
             <div id='buyer' className='container'>
                 <div className="side">
                     <div className='image-frame'>
@@ -57,7 +57,7 @@ const View = () => {
                         </div>
                         <div style={{ maxWidth: '100%', minWidth: '10%', maxHeight: '100%', minHeight: '10%' }}>
                             <Image
-                                src={obj[value -1] ? obj[value -1].image : null}
+                                src={obj[value - 1] ? obj[value - 1].image : null}
                                 style={{ display: 'flex', height: '100%', width: '100%' }}
                                 onClick={handleImageClick}
                             />
@@ -76,7 +76,7 @@ const View = () => {
                                 <Row>
                                     <Col >Contract Address</Col>
                                     <Col >
-                                    {renderTooltip('wallet', '0x2c097A15A70FFe623B13041d8aB4bb1BdaeF9829',
+                                        {renderTooltip('wallet', '0x2c097A15A70FFe623B13041d8aB4bb1BdaeF9829',
                                             <span>
                                                 0x2c097A.....eF9829
                                             </span>

@@ -489,7 +489,7 @@ const NFTMintv2 = ({ isLog }) => {
     // .then((v)=>console.log("Uri List",v))
 
     const startMint = async (tokenId, tokenURI) => {
-    // const startMint = async () => {
+        // const startMint = async () => {
 
         console.log("TokenId inside startMint function ", tokenId)
         console.log(ctx.wallet.accounts[0]);

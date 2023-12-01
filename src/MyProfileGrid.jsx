@@ -519,29 +519,29 @@ function ProfileGrid({ page }) {
 
     useEffect(() => {
         contract.methods.getUriList().call()
-          .then((v) => {
-            setUri(v);
-            setObjLength2(v.length);
-          })
-          .catch((e) => console.error(e));
-    
-      }, []);
+            .then((v) => {
+                setUri(v);
+                setObjLength2(v.length);
+            })
+            .catch((e) => console.error(e));
 
-      useEffect(() => {
+    }, []);
+
+    useEffect(() => {
 
         if (uri) {
-    
-          Promise.all(uri.map((url) =>
-            fetch(url).then((res) => res.json())))
-            .then((data) => {
-              console.log(" response data", data);
-              setObj2(data);
-            })
-            .catch((error) => console.error(error));
+
+            Promise.all(uri.map((url) =>
+                fetch(url).then((res) => res.json())))
+                .then((data) => {
+                    console.log(" response data", data);
+                    setObj2(data);
+                })
+                .catch((error) => console.error(error));
         }
-    
-      }, [uri])
-    
+
+    }, [uri])
+
 
     useEffect(() => {
         //console.log(tokenIDLength)

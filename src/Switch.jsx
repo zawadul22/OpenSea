@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import './Switch.css';
 
-const ToggleSlider = ({id}) => {
+const ToggleSlider = ({ id }) => {
   const [checked, setChecked] = useState(false);
 
   const handleToggle = () => {

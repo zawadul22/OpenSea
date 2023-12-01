@@ -1,42 +1,42 @@
 /* Unused */
 .toggle-slider {
-    position: relative;
-    width: 52px;
-    height: 25px;
-  }
-  
-  .slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    border-radius: 34px;
-    cursor: pointer;
-    transition: 0.4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: '';
-    height: 17px;
-    width: 17px;
-    left: 5px;
-    bottom: 4px;
-    background-color: white;
-    border-radius: 50%;
-    transition: 0.4s;
-  }
-  
-  input[type='checkbox'] {
-    display: none;
-  }
-  
-  input[type='checkbox']:checked + .slider {
-    background-color: #2196f3;
-  }
-  
-  input[type='checkbox']:checked + .slider:before {
-    transform: translateX(25px);
-  }
+  position: relative;
+  width: 52px;
+  height: 25px;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 17px;
+  width: 17px;
+  left: 5px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"]:checked + .slider {
+  background-color: #2196f3;
+}
+
+input[type="checkbox"]:checked + .slider:before {
+  transform: translateX(25px);
+}

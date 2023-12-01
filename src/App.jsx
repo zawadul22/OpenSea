@@ -11,15 +11,13 @@ import Profile from './MyProfile';
 import View from './NFTView';
 import { FlashAuto } from '@mui/icons-material';
 
-
-
 function App() {
-  
-  const [isLog, setIsLog] = useState(()=>{
-    if(localStorage.getItem("Connected") === 'true'){
+
+  const [isLog, setIsLog] = useState(() => {
+    if (localStorage.getItem("Connected") === 'true') {
       return true;
     }
-    else if(localStorage.getItem("Connected") === 'false'){
+    else if (localStorage.getItem("Connected") === 'false') {
       return false;
     }
   }) // Is the metamask connected?
@@ -43,7 +41,6 @@ function App() {
 
   }, [])
 
-
   return (
     <>
       <ConnectWallet>
@@ -56,7 +53,7 @@ function App() {
           <Route path='/buy/:value' element={<NFTBuyPage />} />
           <Route path='/mint2' element={<NFTMintv2 isLog={isLog} />} />
           <Route path='/myprofile' element={<Profile />} />
-          <Route path='/view/:value' element={<View/>} />
+          <Route path='/view/:value' element={<View />} />
         </Routes>
       </ConnectWallet>
     </>

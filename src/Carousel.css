@@ -1,11 +1,13 @@
 #container {
-  margin: 0 auto;
+  /* margin: 0 auto; */
   /* width: 95%; */
   /* margin-top: 15pt; */
   /* background-color: #212529; */
-  padding: 30px;
+  /* padding: 30px; */
   /* display: flex; */
   /* justify-items: center; */
+  padding-left: 30pt;
+  padding-right: 30pt;
 }
 
 
@@ -59,6 +61,10 @@
   transform: scale(1.1);
   transition: 0.3s ease-in-out;
 } */
+
+.figure .sliderapper .img-part .slider-img:hover{
+  cursor: pointer;
+}
 
 figure {
   width: 90%;

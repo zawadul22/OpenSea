@@ -7,16 +7,17 @@ import './Carousel.css';
 import Web3 from 'web3';
 import left from './assets/left-arrow.svg'
 import right from './assets/right-arrow.svg'
+import { useNavigate } from 'react-router-dom';
 
 function NextArrow(props) {
     const { className, style, onClick } = props;
     return (
-        
-            <div className="next" onClick={onClick}>
-                <img src={right} className="svg-prop" />
-                {/* <svg xmlns={right} className="svg-prop" /> */}
-            </div>
-        
+
+        <div className="next" onClick={onClick}>
+            <img src={right} className="svg-prop" />
+            {/* <svg xmlns={right} className="svg-prop" /> */}
+        </div>
+
 
         // <div
         //     className={className}
@@ -29,12 +30,12 @@ function NextArrow(props) {
 function PrevArrow(props) {
     const { className, style, onClick } = props;
     return (
-        
-            <div className="prev" onClick={onClick}>
-                <img src={left} className="svg-prop" />
-                {/* <svg xmlns={left} className="svg-prop" /> */}
-            </div>
-        
+
+        <div className="prev" onClick={onClick}>
+            <img src={left} className="svg-prop" />
+            {/* <svg xmlns={left} className="svg-prop" /> */}
+        </div>
+
 
         // <div
         //     className={className}
@@ -509,6 +510,7 @@ const NFTCarousel = () => {
     const [obj, setObj] = useState([]);
     const [objLength, setObjLength] = useState(0);
     const [uri, setUri] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         contract.methods.getUriList().call()
@@ -550,9 +552,9 @@ const NFTCarousel = () => {
             <Slider {...settings}>
                 {Array.from({ length: objLength })
                     .map((_, index) => (
-                        <div className="sliderwrapper">
+                        <div className="sliderwrapper" onClick={() => { navigate(`/buy/${index + 1}`) }}>
                             <figure className="img-part">
-                                <img className="slider-img " src={obj?.[index]?.image} style={{ margin: '0 auto' }} />
+                                <img className="slider-img" src={obj?.[index]?.image} style={{ margin: '0 auto' }} />
                                 <div className="overlay-image-text" >
                                     <p style={{ fontWeight: '600', fontSize: '15pt' }}> {obj?.[index]?.name}</p>
                                     <p style={{ fontWeight: '540', fontSize: '10pt' }}> {obj?.[index]?.price} DD</p>

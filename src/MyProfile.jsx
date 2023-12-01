@@ -36,8 +36,8 @@ const Profile = () => {
 
     return (
         <>
-        <center><h2>Your NFTs</h2></center>
-        
+            <center><h2>Your NFTs</h2></center>
+
             {ctx.isConnected ? (
                 <>
                     <Container className="mt-5">

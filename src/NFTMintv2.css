@@ -1,51 +1,47 @@
 .mintContainer {
-    margin-top: 30px; 
-    margin-left: 56px; 
-    margin-right: 45%;
-    margin-bottom: 50px;
+  margin-top: 30px;
+  margin-left: 56px;
+  margin-right: 45%;
+  margin-bottom: 50px;
 }
 
-
-#collection{
-    background-color: white;
-    text-emphasis-color: grey;
-    box-shadow: none;
-    border :  1pt solid #dfdfdf; 
-    border-top : 1pt solid #dfdfdf;
-    border-radius : 5pt;
-    overflow : hidden;
-    
+#collection {
+  background-color: white;
+  text-emphasis-color: grey;
+  box-shadow: none;
+  border: 1pt solid #dfdfdf;
+  border-top: 1pt solid #dfdfdf;
+  border-radius: 5pt;
+  overflow: hidden;
 }
 
-#collection2{
-
-    border-right: none;
+#collection2 {
+  border-right: none;
 }
 
-#input-group-dropdown-2{
-    border: 1pt solid #dfdfdf;
-    border-left: none;
+#input-group-dropdown-2 {
+  border: 1pt solid #dfdfdf;
+  border-left: none;
 }
 
-.image-drop{
-    border: 1pt dashed #9c9c9c;
-    border-radius: 5pt;
-    padding: 80px;
-    padding: auto;
-    /* align-content: center; */
-    margin-right: 65%;
-    margin-top: 15pt;
-    justify-content: center;
-    text-align: center;
+.image-drop {
+  border: 1pt dashed #9c9c9c;
+  border-radius: 5pt;
+  padding: 80px;
+  padding: auto;
+  /* align-content: center; */
+  margin-right: 65%;
+  margin-top: 15pt;
+  justify-content: center;
+  text-align: center;
 }
 
-.image-drop:hover{
-    background-color: #f8f8f8;
-    border: 1pt solid #9c9c9c;
+.image-drop:hover {
+  background-color: #f8f8f8;
+  border: 1pt solid #9c9c9c;
 }
 
-.blockchain{
-    height: 30px;
-    width: 30px;
-    
+.blockchain {
+  height: 30px;
+  width: 30px;
 }

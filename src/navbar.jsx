@@ -85,7 +85,7 @@ function JasmyNavbar(props) {
             className='d-inline-block align-top'
           />&nbsp;&nbsp;
           Jasmy Market Place
-          
+
         </Navbar.Brand>
         <div style={{
           borderLeft: '1pt solid #7d7d7d',
@@ -133,8 +133,8 @@ function JasmyNavbar(props) {
             borderTopLeftRadius: '5pt',
             borderBottomLeftRadius: '5pt'
           }}
-          
-          >
+
+        >
           <SearchIcon />
         </div>
 

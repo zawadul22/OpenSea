@@ -407,7 +407,7 @@ const abi = [
 ];
 
 const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
-    const web3 = new Web3(new Web3.providers.HttpProvider(import.meta.env.VITE_HOST));
+const web3 = new Web3(new Web3.providers.HttpProvider(import.meta.env.VITE_HOST));
 
 const contract = new web3.eth.Contract(abi, contractAddress);
 
