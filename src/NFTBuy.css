@@ -34,6 +34,19 @@
   height: 100%;
 }
 
+.nft-buy-img-container{
+  max-width: 100%; 
+  min-width: 10%; 
+  max-height: 100%; 
+  min-height: 10%;
+}
+
+.nft-img{
+  display: flex; 
+  height: 550px; 
+  width: 500px;
+}
+
 .bar {
   display: flex;
   border-radius: 10px 10px 0px 0px;
@@ -42,4 +55,9 @@
   /* color: aliceblue; */
   justify-content: space-between;
   border-bottom: 1pt solid rgb(226, 225, 225);
+}
+
+.list-group{
+  width: 88%; 
+  border-radius: 15px;
 }

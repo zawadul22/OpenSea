@@ -23,7 +23,7 @@ function NFTBuyPage() {
     const ctx = useContext(Context);
     //console.log(`Context value ${ctx.wallet.accounts[0]} & ${ctx.wallet.ethFormat} & ${ctx.isConnected}`);
 
-    console.log("Hello")
+    //console.log("Hello")
 
     const [openImageModal, setOpenImageModal] = useState(false);
     const [owner, setOwner] = useState("");
@@ -536,32 +536,38 @@ function NFTBuyPage() {
     }, [])
 
 
-    console.log(owner);
+    //console.log(ctx?.isConnected);
     //console.log(ctx.wallet.accounts[0]);
 
     const buyNFT = () => {
 
-        if (owner.toLowerCase() === ctx?.wallet?.accounts[0]) {
-            alert("You are the owner of this NFT!")
+        if (localStorage.getItem("Connected") === "false") {
+            alert("Your wallet is not connected")
         }
-        else {
-            // if (obj[value - 1].price > ctx.wallet.ethFormat) {
-            //     alert("You don't have sufficient balance!")
-            // }
-            // else {
-            const nftTransferMethod = contract.methods.safeTransferFrom(owner, ctx?.wallet?.accounts[0], value);
-            const encodedABI = nftTransferMethod.encodeABI();
-            ethereum.request({
-                method: 'eth_sendTransaction',
-                params: [{
-                    from: owner,
-                    to: contractAddress,
-                    data: encodedABI
-                },
-                ],
-            })
+        else if (localStorage.getItem("Connected") === "true") {
 
-            // }
+            if (owner.toLowerCase() === ctx?.wallet?.accounts[0]) {
+                alert("You are the owner of this NFT!")
+            }
+            else {
+                // if (obj[value - 1].price > ctx.wallet.ethFormat) {
+                //     alert("You don't have sufficient balance!")
+                // }
+                // else {
+                const nftTransferMethod = contract.methods.safeTransferFrom(owner, ctx?.wallet?.accounts[0], value);
+                const encodedABI = nftTransferMethod.encodeABI();
+                ethereum.request({
+                    method: 'eth_sendTransaction',
+                    params: [{
+                        from: owner,
+                        to: contractAddress,
+                        data: encodedABI
+                    },
+                    ],
+                })
+
+                // }
+            }
         }
     }
 
@@ -579,11 +585,11 @@ function NFTBuyPage() {
                             </div>
 
                         </div>
-                        <div style={{ maxWidth: '100%', minWidth: '10%', maxHeight: '100%', minHeight: '10%' }}>
+                        <div className='nft-buy-img-container' >
                             <Image
                                 src={obj[value - 1] ? obj[value - 1].image : null}
                                 // style={{ display: 'flex', height: '100%', width: '100%' }}
-                                style={{ display: 'flex', height: '550px', width: '500px' }}
+                                className='nft-img'
                                 onClick={handleImageClick}
                             />
                         </div>
@@ -649,7 +655,7 @@ function NFTBuyPage() {
                         <VideogameAsset /> Gaming
                         <br />
                         <br />
-                        <ListGroup style={{ width: '88%', borderRadius: '15px' }}>
+                        <ListGroup className='list-group'>
                             <ListGroup.Item style={{ padding: '20px' }}>
 
                                 <Schedule />&nbsp;&nbsp; Sale ends 27th October, 2023 at 7:55 AM

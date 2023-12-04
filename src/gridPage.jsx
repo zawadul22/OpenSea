@@ -7,6 +7,7 @@ import NFTCarousel from './Carousel'
 import nft from './assets/nft-image-2.png';
 import './gridPage.css'
 import NFTCarouselCard from './CardCarousel';
+import Footer from './FooterPage';
 
 const NFTCollection = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -229,6 +230,8 @@ const NFTCollection = () => {
       </div>
 
       <NFTCarouselCard />
+
+      <Footer/>
     </>
   )
 }

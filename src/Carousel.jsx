@@ -552,19 +552,18 @@ const NFTCarousel = () => {
             <Slider {...settings}>
                 {Array.from({ length: objLength })
                     .map((_, index) => (
-                        <div className="sliderwrapper" onClick={() => { navigate(`/buy/${index + 1}`) }}>
-                            <figure className="img-part">
-                                <img className="slider-img" src={obj?.[index]?.image} style={{ margin: '0 auto' }} />
+                        <div onClick={() => { navigate(`/buy/${index + 1}`) }}>
+                            <figure className="fig-part">
+                                <img className="img-part" src={obj?.[index]?.image} />
                                 <div className="overlay-image-text" >
-                                    <p style={{ fontWeight: '600', fontSize: '15pt' }}> {obj?.[index]?.name}</p>
-                                    <p style={{ fontWeight: '540', fontSize: '10pt' }}> {obj?.[index]?.price} DD</p>
+                                    <p className="nft-name"> {obj?.[index]?.name}</p>
+                                    <p className="nft-price"> {obj?.[index]?.price} DD</p>
                                 </div>
                             </figure>
                         </div>
                     ))}
 
             </Slider>
-
 
         </div>
 

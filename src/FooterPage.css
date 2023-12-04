@@ -1,0 +1,58 @@
+.footer-container{
+    height: auto; 
+    background-color: rgb(24, 104, 183); 
+    color: white;
+}
+
+.footer-content{
+    padding: 30pt;
+}
+
+.row-container{
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 40px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(229, 232, 235, 0.25);
+}
+
+.signup{
+    width: 50%;
+    padding-right: 30pt;
+
+}
+
+.description{
+    margin-bottom : 15pt;
+}
+
+.signup-button{
+    font-size : 12pt;  
+    background-color : rgb(30, 120, 209); 
+    border : 0pt;
+    margin-left: 10pt;
+}
+
+.signup-form{
+    width: 80%; 
+    font-size : 12pt;
+}
+
+.title1{
+    font-weight : 600;
+     margin-bottom : 15pt;
+}
+
+.socials{
+    width : 50%;
+    /* padding-left : 40pt; */
+}
+
+.social-icons{
+    display : flex; 
+    gap: 20px;
+}
+
+.social-icon{
+    border-radius: 8pt;
+}
