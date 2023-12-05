@@ -19,7 +19,7 @@
 }
 
 #custom-button {
-  width: 49%;
+  width: 48%;
   height: 65px;
   font-size: 20px;
   border-radius: 15px;
@@ -61,3 +61,21 @@
   width: 88%; 
   border-radius: 15px;
 }
+
+/* @media only screen and (max-width: 768px) {
+  #custom-button {
+    width: 200px;
+    height: 60px;
+    font-size: 20px;
+    border-radius: 15px;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  #custom-button {
+    width: 500px;
+    height: 60px;
+    font-size: 20px;
+    border-radius: 15px;
+  }
+} */

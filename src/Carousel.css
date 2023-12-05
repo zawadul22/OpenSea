@@ -63,7 +63,7 @@
 
 figure {
   width: 100%;
-  height: 220px;
+  height: 350px;
   margin: 0 auto;
   padding: 0;
   background: #fff;
@@ -99,7 +99,7 @@ figure {
 
 .slick-slide img {
   width: 100%;
-  height: 240px;
+  height: 350px;
 }
 .fig-part {
   position: relative;
@@ -185,4 +185,38 @@ figure {
 
 #card-img{
   height : 70%;
+}
+
+@media only screen and (max-width : 1920px) {
+  figure {
+    width: 100%;
+    height: 330px;
+    margin: 0 auto;
+    padding: 0;
+    background: #fff;
+    overflow: hidden;
+    border-radius: 5pt;
+  }
+
+  .slick-slide img {
+    width: 100%;
+    height: 330px;
+  }
+}
+
+@media only screen and (max-width : 1370px) {
+  figure {
+    width: 100%;
+    height: 220px;
+    margin: 0 auto;
+    padding: 0;
+    background: #fff;
+    overflow: hidden;
+    border-radius: 5pt;
+  }
+
+  .slick-slide img {
+    width: 100%;
+    height: 220px;
+  }
 }

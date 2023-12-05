@@ -21,9 +21,6 @@ function NFTBuyPage() {
         </OverlayTrigger>
     );
     const ctx = useContext(Context);
-    //console.log(`Context value ${ctx.wallet.accounts[0]} & ${ctx.wallet.ethFormat} & ${ctx.isConnected}`);
-
-    //console.log("Hello")
 
     const [openImageModal, setOpenImageModal] = useState(false);
     const [owner, setOwner] = useState("");
@@ -570,7 +567,6 @@ function NFTBuyPage() {
             }
         }
     }
-
 
     return (
         <>

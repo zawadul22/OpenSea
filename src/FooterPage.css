@@ -1,58 +1,121 @@
-.footer-container{
-    height: auto; 
-    background-color: rgb(24, 104, 183); 
-    color: white;
+.footer-container {
+  height: auto;
+  /* background-color: rgb(24, 104, 183);  */
+  background-color: #212529;
+  color: white;
 }
 
-.footer-content{
-    padding: 30pt;
+.footer-content {
+  padding-left: 30pt;
+  padding-right: 30pt;
+  padding-top: 30pt;
+  padding-bottom: 10pt;
 }
 
-.row-container{
-    display: flex;
-    flex-wrap: wrap;
-    padding-bottom: 40px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid rgba(229, 232, 235, 0.25);
+.footer-content-2 {
+  margin-top: 15pt;
 }
 
-.signup{
-    width: 50%;
-    padding-right: 30pt;
-
+.row-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 40px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(229, 232, 235, 0.25);
 }
 
-.description{
-    margin-bottom : 15pt;
+.signup {
+  width: 50%;
+  padding-right: 30pt;
 }
 
-.signup-button{
-    font-size : 12pt;  
-    background-color : rgb(30, 120, 209); 
-    border : 0pt;
-    margin-left: 10pt;
+.description {
+  margin-bottom: 15pt;
 }
 
-.signup-form{
-    width: 80%; 
-    font-size : 12pt;
+.signup-button {
+  font-size: 12pt;
+  background-color: rgb(30, 120, 209);
+  border: 0pt;
+  margin-left: 10pt;
 }
 
-.title1{
-    font-weight : 600;
-     margin-bottom : 15pt;
+.signup-form {
+  width: 80%;
+  font-size: 12pt;
 }
 
-.socials{
-    width : 50%;
-    /* padding-left : 40pt; */
+.title1 {
+  font-weight: 600;
+  margin-bottom: 15pt;
 }
 
-.social-icons{
-    display : flex; 
-    gap: 20px;
+.socials {
+  width: 50%;
+  padding-left: 40pt;
 }
 
-.social-icon{
-    border-radius: 8pt;
+.social-icons {
+  display: flex;
+  gap: 20px;
+}
+
+.social-icon {
+  border-radius: 8pt;
+  /* background-color : rgb(30, 120, 209);  */
+  background-color: rgb(53, 53, 54);
+  border: 0pt;
+}
+
+.outro {
+  margin-top: 20pt;
+  width: 30%;
+}
+
+.outro-logo {
+  width: 45px;
+  height: 45px;
+  margin-bottom: 10pt;
+}
+
+.title2 {
+  font-weight: 600;
+  margin-bottom: 10pt;
+}
+
+.title3 {
+  font-weight: 600;
+  margin-bottom: 5pt;
+  font-size: 13pt;
+}
+
+.links {
+  margin-top: 20pt;
+  display: flex;
+  width: 70%;
+  padding-left: 60pt;
+}
+
+.custom-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.link-list {
+  /* padding-left: 60pt; */
+  /* column-gap: 12pt; */
+  width: 100%;
+  /* padding-right: 120pt; */
+}
+
+.list-item {
+  margin-top: 9pt;
+  font-size: 11pt;
+}
+
+.last-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9pt;
 }
