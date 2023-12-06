@@ -21,7 +21,7 @@ const Footer = () => {
                             tricks for navigating Jasmy Market Place.
                         </p>
 
-                        <div style={{ display: 'flex' }}>
+                        <div className='signup-text'>
                             <Form.Control type='text' size='lg' placeholder='Enter your email address' className='signup-form' />
                             <Button size='lg' className='signup-button'>Sign Up</Button>
                         </div>

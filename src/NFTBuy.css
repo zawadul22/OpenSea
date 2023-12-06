@@ -1,6 +1,7 @@
 #buyer {
   display: flex;
   max-width: 95%;
+  margin-bottom: 25pt;
 }
 
 .side {

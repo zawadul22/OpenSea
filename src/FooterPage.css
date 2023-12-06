@@ -37,7 +37,7 @@
   font-size: 12pt;
   background-color: rgb(30, 120, 209);
   border: 0pt;
-  margin-left: 10pt;
+  /* margin-left: 10pt; */
 }
 
 .signup-form {
@@ -118,4 +118,55 @@
   display: flex;
   justify-content: space-between;
   font-size: 9pt;
+}
+
+.signup-text {
+  display: flex;
+  gap: 2.5%;
+}
+
+@media only screen and (max-width: 1200px) {
+  div.row-container {
+    flex-direction: column;
+  }
+
+  div.signup {
+    width: 100%;
+    margin-bottom: 20pt;
+    text-align: center;
+    justify-content: center;
+    padding-right: 0pt;
+  }
+
+  div.signup {
+    justify-content: space-between;
+  }
+
+  div.signup-text {
+    justify-content: center;
+    gap: 2%;
+  }
+
+  div.socials {
+    width: 100%;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  div.social-icons {
+    justify-content: center;
+  }
+
+  div.outro {
+    width: 100%;
+    text-align: center;
+  }
+
+  .links {
+    width: 100%;
+    margin-top: 20pt;
+    display: flex;
+    text-align: center;
+    padding-left: 0;
+  }
 }

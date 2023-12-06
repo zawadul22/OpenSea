@@ -10,6 +10,7 @@ import ConnectWallet from './connectWallet';
 import Profile from './MyProfile';
 import View from './NFTView';
 import { FlashAuto } from '@mui/icons-material';
+import Footer from './FooterPage';
 
 function App() {
 
@@ -55,6 +56,7 @@ function App() {
           <Route path='/myprofile' element={<Profile />} />
           <Route path='/view/:value' element={<View />} />
         </Routes>
+        <Footer/>
       </ConnectWallet>
     </>
   )

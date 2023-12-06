@@ -547,9 +547,9 @@ const NFTCarousel = () => {
         prevArrow: <PrevArrow />,
         responsive: [
             {
-                breakpoint : 1024,
+                breakpoint : 1200,
                 settings: {
-                    slidesToShow: 5,
+                    slidesToShow: 4,
                     slidesToScroll: 1,
                     infinite: true,
                     speed: 500,
@@ -557,11 +557,29 @@ const NFTCarousel = () => {
                 }
             },
             {
-                breakpoint: 600,
+                breakpoint : 991,
                 settings: {
-                    slidesToShow: 4,
+                    slidesToShow: 3,
                     slidesToScroll: 1,
-                    initialSlide: 2
+                    infinite: true,
+                    speed: 500,
+                    dots: false
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    infinite: true
+                }
+            },
+            {
+                breakpoint: 576,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: true
                 }
             }
         ]
