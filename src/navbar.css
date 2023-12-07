@@ -40,3 +40,9 @@
   border-top-left-radius: "5pt";
   border-bottom-left-radius: "5pt";
 }
+
+@media only screen and (max-width : 767px) {
+  #nav-container1{
+    display: none;
+  }
+}

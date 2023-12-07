@@ -1,0 +1,26 @@
+#nav-container2 {
+  padding-left: 10pt;
+  padding-right: 10pt;
+}
+
+#brand2 {
+  font-size: 12pt;
+  font-weight: 550;
+}
+
+#button2 {
+  background-color: #3a3a3a;
+  border: 0pt;
+  display: flex;
+}
+
+#button2 :hover {
+  background: #535353;
+}
+
+@media only screen and (min-width: 768px) {
+  #nav-container2 {
+    display: none;
+  }
+}
+

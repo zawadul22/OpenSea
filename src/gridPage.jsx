@@ -149,8 +149,9 @@ const NFTCollection = () => {
 
         <div className='select-group1'>
           <Select
+            id='single-select1'
             className='basic-single2'
-            classNamePrefix='select'
+            classNamePrefix='select2'
             defaultValue={times[0]}
             isDisabled={false}
             isClearable={false}
@@ -163,8 +164,9 @@ const NFTCollection = () => {
           />
 
           <Select
+            id='single-select2'
             className='basic-single2'
-            classNamePrefix='select'
+            classNamePrefix='select3'
             defaultValue={chains[0]}
             isDisabled={false}
             isClearable={false}

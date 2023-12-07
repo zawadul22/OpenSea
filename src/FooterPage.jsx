@@ -22,7 +22,7 @@ const Footer = () => {
                         </p>
 
                         <div className='signup-text'>
-                            <Form.Control type='text' size='lg' placeholder='Enter your email address' className='signup-form' />
+                            <Form.Control type='text'  placeholder='Enter your email address' className='signup-form' />
                             <Button size='lg' className='signup-button'>Sign Up</Button>
                         </div>
 
@@ -35,7 +35,6 @@ const Footer = () => {
                             <Button size='lg' className='social-icon'> <RedditIcon /> </Button>
                             <Button size='lg' className='social-icon'> <YouTubeIcon /> </Button>
                             <Button size='lg' className='social-icon'> <MailOutlineIcon /> </Button>
-                            {/* <Button size='lg' > <svg xmlns='discord' style={{height : '25px' , width : '25px', fill : 'white'}}/> </Button> */}
                         </div>
                     </div>
                 </div>
@@ -44,7 +43,7 @@ const Footer = () => {
                         <img className='outro-logo' src={favicon} />
                         <h5 className='title2'>Jasmy Market Place</h5>
                         <p>
-                            The world’s first and largest digital marketplace for
+                            The world's first and largest digital marketplace for
                             crypto collectibles and non-fungible tokens (NFTs).
                             Buy, sell, and discover exclusive digital items.
                         </p>

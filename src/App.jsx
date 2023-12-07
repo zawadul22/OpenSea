@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css'
-import JasmyNavbar from './navbar'
+import JasmyNavbar from './navbar';
+import JasmyNavbar2 from './navbar2';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NFTBuyPage from './NFTBuy'
 import { Router, Routes, Route } from 'react-router-dom'
@@ -49,6 +50,11 @@ function App() {
           onLogin={loginHandler}
           onLogout={logoutHandler}
           isLog={isLog} />
+
+        <JasmyNavbar2
+          onLogin={loginHandler}
+          onLogout={logoutHandler}
+          isLog={isLog} />
         <Routes>
           <Route path='/' element={<NFTCollection />} />
           <Route path='/buy/:value' element={<NFTBuyPage />} />
@@ -56,7 +62,7 @@ function App() {
           <Route path='/myprofile' element={<Profile />} />
           <Route path='/view/:value' element={<View />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </ConnectWallet>
     </>
   )
