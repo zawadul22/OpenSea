@@ -22,7 +22,7 @@ const Footer = () => {
                         </p>
 
                         <div className='signup-text'>
-                            <Form.Control type='text'  placeholder='Enter your email address' className='signup-form' />
+                            <Form.Control type='text' placeholder='Enter your email address' className='signup-form' />
                             <Button size='lg' className='signup-button'>Sign Up</Button>
                         </div>
 

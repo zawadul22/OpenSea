@@ -595,18 +595,18 @@ function ProfileGrid({ page }) {
                         <Col key={idx}>
                             <Card className='card-pointer' onClick={() => navigate(`/view/${available[startIndex + idx]}`)}>
                                 <Card.Img
-                                    style={{ height: '400px', width: '305px' }}
+                                    // style={{ height: '300px', width: '305px' }}
                                     variant="top"
                                     src={obj2[available[startIndex + idx] - 1] ? obj2[available[startIndex + idx] - 1].image : null}
                                 />
 
                                 <Card.Body>
-                                    <Card.Title><h3>{obj2[available[startIndex + idx] - 1] ? obj2[available[startIndex + idx] - 1].name : "Unknown"}</h3></Card.Title>
+                                    <Card.Title><h4>{obj2[available[startIndex + idx] - 1] ? obj2[available[startIndex + idx] - 1].name : "Unknown"}</h4></Card.Title>
 
                                     <Card.Text>
                                         <Row md={2}>
                                             <Col className="d-flex align-items-start">
-                                                <div style={{ fontSize: '15pt' }}>{obj2[available[startIndex + idx] - 1] ? obj2[available[startIndex + idx] - 1].price : "Unknown"} DD</div>
+                                                <div style={{ fontSize: '12pt' }}>{obj2[available[startIndex + idx] - 1] ? obj2[available[startIndex + idx] - 1].price : "Unknown"} DD</div>
                                             </Col>
                                             <Col className="d-flex align-items-end justify-content-end">
                                                 {/* <Chip label='Zawad' style={{ backgroundColor: 'grey', color: 'white' }} /> */}

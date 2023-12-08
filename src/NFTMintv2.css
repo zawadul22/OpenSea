@@ -1,8 +1,6 @@
 .mintContainer {
-  margin-top: 30px;
-  margin-left: 56px;
-  margin-right: 45%;
-  margin-bottom: 50px;
+  margin: 15pt;
+  /* width: 90%; */
 }
 
 #collection {
@@ -30,7 +28,8 @@
   padding: 80px;
   padding: auto;
   /* align-content: center; */
-  margin-right: 65%;
+  /* margin-right: 65%; */
+  width: 60%;
   margin-top: 15pt;
   justify-content: center;
   text-align: center;
@@ -44,4 +43,18 @@
 .blockchain {
   height: 30px;
   width: 30px;
+}
+
+@media only screen and (min-width : 991px) {
+  .mintContainer{
+    margin: 30pt;
+    width: 50%;
+  }
+
+}
+
+@media only screen and (max-width : 576px){
+  .image-drop{
+    width: 100%;
+  }
 }

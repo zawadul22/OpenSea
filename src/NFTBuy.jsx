@@ -584,7 +584,7 @@ function NFTBuyPage() {
                         <div className='nft-buy-img-container' >
                             <Image
                                 src={obj[value - 1] ? obj[value - 1].image : null}
-                                // style={{ display: 'flex', height: '100%', width: '100%' }}
+                                style={{ height: '100%', width: '100%' }}
                                 className='nft-img'
                                 onClick={handleImageClick}
                             />
