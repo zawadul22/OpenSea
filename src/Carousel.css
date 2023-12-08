@@ -190,8 +190,8 @@ figure {
   height: 70%;
 }
 
-@media only screen and (max-width : 768px) {
-  #container{
+@media only screen and (max-width: 768px) {
+  #container {
     padding-left: 15pt;
     padding-right: 15pt;
   }

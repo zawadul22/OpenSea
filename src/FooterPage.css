@@ -178,3 +178,11 @@
     gap: 4pt;
   }
 }
+
+@media only screen and (max-width: 576px) {
+  .last-line {
+    flex-direction: column;
+    align-items: center;
+    gap: 4pt;
+  }
+}

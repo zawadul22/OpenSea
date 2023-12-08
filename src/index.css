@@ -1,7 +1,7 @@
-body, html{
-  font-family: 'Inter', sans-serif;
+body,
+html {
+  font-family: "Inter", sans-serif;
   /* font-family: '__Inter_52bc3f', '__Inter_Fallback_52bc3f'; */
-  
 }
 
 /* :root {

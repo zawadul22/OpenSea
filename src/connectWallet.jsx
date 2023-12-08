@@ -62,7 +62,7 @@ const ConnectWallet = (props) => {
         })
         let ethFormat = ethers.formatEther(balance);
         setWallet({ accounts, ethFormat });
-        
+
 
     };
 
@@ -95,7 +95,7 @@ const ConnectWallet = (props) => {
     return (
 
         <>
-            <Context.Provider value={{wallet,isConnected}}>
+            <Context.Provider value={{ wallet, isConnected }}>
                 {props.children}
             </Context.Provider>
             <Dialog onClose={onClose} open={open} maxWidth="md" fullWidth>
