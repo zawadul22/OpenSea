@@ -62,6 +62,7 @@ const NFTCarousel = () => {
     useEffect(() => {
         contract.methods.getUriList().call()
             .then((v) => {
+                console.log(v);
                 setUri(v);
                 setObjLength(v.length);
             })
@@ -86,7 +87,8 @@ const NFTCarousel = () => {
 
     const settings = {
         // dots: true,
-        infinite: true,
+        infinite: false,
+        loop: true,
         speed: 500,
         slidesToShow: 5,
         slidesToScroll: 1,

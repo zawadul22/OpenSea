@@ -12,6 +12,7 @@ import Profile from './MyProfile';
 import View from './NFTView';
 import { FlashAuto } from '@mui/icons-material';
 import Footer from './FooterPage';
+import NFTMintv3 from './NFTMintV3';
 
 function App() {
 
@@ -59,6 +60,7 @@ function App() {
           <Route path='/' element={<NFTCollection />} />
           <Route path='/buy/:value' element={<NFTBuyPage />} />
           <Route path='/mint2' element={<NFTMintv2 isLog={isLog} />} />
+          <Route path='/mint3' element={<NFTMintv3 isLog={isLog} />} />
           <Route path='/myprofile' element={<Profile />} />
           <Route path='/view/:value' element={<View />} />
         </Routes>

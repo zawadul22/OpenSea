@@ -7,6 +7,8 @@ import NFTCarousel from './Carousel';
 import nft from './assets/nft-image-2.png';
 import './gridPage.css';
 import NFTCarouselCard from './CardCarousel';
+import Table from 'react-bootstrap/Table';
+
 
 const NFTCollection = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -180,86 +182,50 @@ const NFTCollection = () => {
         </div>
       </div>
 
-      {/* <div className='table-container'>
-        <div style={{ display: 'flex', marginLeft: '25pt', marginRight: '25pt', justifyContent: 'space-between' }}>
-          <div style={{ width: '45%' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className='table-container'>
+        <Table size='lg' style={{ marginRight: '25pt' }}>
+          <thead >
+            <tr>
+              <td style={{ textAlign: 'center', fontSize: '11pt' }}>Rank</td>
+              <td style={{ fontSize: '11pt' }}>Collection</td>
+              <td style={{ textAlign: 'center', fontSize: '11pt' }}>Floor Price</td>
+              <td style={{ textAlign: 'center', fontSize: '11pt' }}>Volume</td>
+            </tr>
+          </thead>
+          {Array.from({ length: 5 })
+            .map((_, index) => (
+              <tr className='table-data'>
+                <th style={{ textAlign: 'center', fontWeight: '550', padding : '2pt' }}>{index + 1}</th>
+                <th style={{ fontWeight: '550' }}><img src={nft} style={{ height: '75px', width: '75px', padding: '0pt', borderRadius: '6pt' }} />&nbsp;&nbsp; Bored Fox </th>
+                <th style={{ textAlign: 'center', fontWeight: '550' }}>5 DD</th>
+                <th style={{ textAlign: 'center', fontWeight: '550' }}>9 DD</th>
+              </tr>
+            ))}
 
-              <div >
-                <span style={{ marginLeft: '10pt', fontWeight: 'bold' }}>Rank</span>
-                <span style={{ marginLeft: '30pt', fontWeight: 'bold' }}>Collection</span>
-              </div>
-
-              <div >
-                <span style={{ fontWeight: 'bold' }}>Floor Price</span>
-                <span style={{ marginLeft: '90pt', marginRight: '15pt', fontWeight: 'bold' }}>Volume</span>
-              </div>
-
-            </div>
-            <hr style={{ margin: '5pt' }} />
-          </div>
-
-          <div style={{ width: '45%' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-
-              <div >
-                <span style={{ marginLeft: '10pt', fontWeight: 'bold' }}>Rank</span>
-                <span style={{ marginLeft: '30pt', fontWeight: 'bold' }}>Collection</span>
-              </div>
-
-              <div >
-                <span style={{ fontWeight: 'bold' }}>Floor Price</span>
-                <span style={{ marginLeft: '90pt', marginRight: '15pt', fontWeight: 'bold' }}>Volume</span>
-              </div>
-
-            </div>
-            <hr style={{ margin: '5pt' }} />
-          </div>
-
-        </div>
-
-        <div style={{ display: 'flex', marginLeft: '25pt', marginRight: '25pt', marginTop: '5pt', justifyContent: 'space-between' }}>
-          <div style={{ width: '45%' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-
-              <div style={{ alignContent: 'center' }} >
-                <span style={{ marginLeft: '17pt' }}>1</span>
-                <span style={{ marginLeft: '40pt' }}>
-                  <img src={nft} style={{ height: '70px', width: "70px", borderRadius: '5pt' }} />
-                </span>
-                <span style={{ marginLeft: '30pt' }}>Bored Fox</span>
-              </div>
-
-              <div >
-                <span style={{ marginRight: '15pt' }}>0.01 DD</span>
-                <span style={{ marginLeft: '90pt', marginRight: '15pt' }}>12 DD</span>
-              </div>
-
-            </div>
-
-          </div>
-
-          <div style={{ width: '45%' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-
-              <div >
-                <span style={{ marginLeft: '10pt' }}>Rank</span>
-                <span style={{ marginLeft: '30pt' }}>Collection</span>
-              </div>
-
-              <div >
-                <span>Floor</span>
-                <span style={{ marginLeft: '90pt', marginRight: '15pt' }}>Volume</span>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-      </div> */}
-
-      <NFTCarouselCard />
+        </Table>
+        <Table size='lg' style={{ marginLeft: '25pt' }}>
+          <thead>
+            <tr>
+              <td style={{ textAlign: 'center', fontSize: '11pt' }}>Rank</td>
+              <td style={{ fontSize: '11pt' }}>Collection</td>
+              <td style={{ textAlign: 'center', fontSize: '11pt' }}>Floor Price</td>
+              <td style={{ textAlign: 'center', fontSize: '11pt' }}>Volume</td>
+            </tr>
+          </thead>
+          {Array.from({ length: 5 })
+            .map((_, index) => (
+              <tr className='table-data'>
+                <th style={{ textAlign: 'center', fontWeight: '550' }}>{index + 6}</th>
+                <th style={{ fontWeight: '550' }}><img src={nft} style={{ height: '75px', width: '75px', padding: '0pt', borderRadius: '6pt' }} />&nbsp;&nbsp; Bored Fox </th>
+                <th style={{ textAlign: 'center', fontWeight: '550' }}>5 DD</th>
+                <th style={{ textAlign: 'center', fontWeight: '550' }}>9 DD</th>
+              </tr>
+            ))}
+        </Table>
+      </div>
+      <br/>
+      <br/>
+      <NFTCarouselCard title='Notable Collections'/>
 
 
     </>

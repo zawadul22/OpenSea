@@ -35,19 +35,21 @@ function NFTBuyPage() {
     };
 
     const [obj, setObj] = useState([]);
+    const [uriList, setUriList] = useState([]);
 
-    useEffect(() => {
-        // let r = false;
-        fetch("https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json")
-            .then((response) => response.json())
-            .then((data) => {
+    // useEffect(() => {
 
-                setObj(Object.values(data))
+    //     fetch("https://nftsv2-4d9c1-default-rtdb.firebaseio.com/metadata.json")
+    //         .then((response) => response.json())
+    //         .then((data) => {
+
+    //             setObj(Object.values(data))
 
 
-            })
-        // return()=>{r=true};
-    }, [])
+    //         })
+
+
+    // }, [])
 
     const shortForm = {
         "Arbitrum": 'ARB',
@@ -76,11 +78,32 @@ function NFTBuyPage() {
             })
             .catch((e) => console.error(e));
 
+        contract.methods.getUriList().call()
+            .then((v) => {
+                setUriList(v)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+
     }, [])
 
 
-    //console.log(ctx?.isConnected);
-    //console.log(ctx.wallet.accounts[0]);
+    useEffect(() => {
+        // console.log(uriList)
+        
+        Promise.all(uriList.map((url) =>
+            fetch(url).then((res) => res.json())))
+            .then((data) => {
+                console.log(" response data", data);
+                setObj(data);
+            })
+            .catch((error) => console.error(error));
+
+
+    }, [uriList])
+
+    console.log("Object state ", obj)
 
     const buyNFT = () => {
 
@@ -129,7 +152,7 @@ function NFTBuyPage() {
                         </div>
                         <div className='nft-buy-img-container' >
                             <Image
-                                src={obj[value - 1] ? obj[value - 1].image : null}
+                                src={obj[value-1] ? obj[value-1].image : null}
                                 style={{ height: '100%', width: '100%' }}
                                 className='nft-img'
                                 onClick={handleImageClick}
@@ -140,7 +163,7 @@ function NFTBuyPage() {
                         <Accordion.Item eventKey='0'>
                             <Accordion.Header>Description</Accordion.Header>
                             <Accordion.Body>
-                                {obj[value - 1] ? obj[value - 1].description : null}
+                                {obj[value-1] ? obj[value-1].description : null}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey='1'>
@@ -184,7 +207,7 @@ function NFTBuyPage() {
                 <div className="side-content-center">
                     <div style={{ width: '100%' }}>
                         <h1>
-                            {obj[value - 1] ? obj[value - 1].name : null} #{value}
+                            {obj[value-1] ? obj[value-1].name : null} #{value}
                             {/* Wintos #{value} */}
 
                         </h1>
@@ -206,8 +229,8 @@ function NFTBuyPage() {
                             <ListGroup.Item >
                                 <p className='mt-3 mb-0' style={{ color: 'GrayText' }}>Current Price</p>
                                 <h2>
-                                    {obj[value - 1] ? obj[value - 1].price : null} DD Coin &nbsp;
-                                    <span style={{ color: 'GrayText', fontSize: '15pt' }}>${obj[value - 1] ? obj[value - 1].price * 60 : null}</span>
+                                    {obj[value-1] ? obj[value-1].price : null} DD Coin &nbsp;
+                                    <span style={{ color: 'GrayText', fontSize: '15pt' }}>${obj[value-1] ? obj[value-1].price * 60 : null}</span>
                                 </h2>
 
                                 <div className='mb-2 mt-3' style={{ width: '100%' }}>
@@ -229,7 +252,7 @@ function NFTBuyPage() {
             >
                 <DialogContent onClick={handleCloseImageModal}>
                     <Image
-                        src={obj[value - 1] ? obj[value - 1].image : null}
+                        src={obj[value-1] ? obj[value-1].image : null}
                         width="100%"
                         style={{ maxHeight: '80vh', objectFit: 'contain' }}
                     />

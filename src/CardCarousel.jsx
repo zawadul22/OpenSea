@@ -48,7 +48,7 @@ function PrevArrow(props) {
 }
 
 
-const NFTCarouselCard = () => {
+const NFTCarouselCard = (props) => {
 
     const settings = {
         // dots: true,
@@ -99,6 +99,7 @@ const NFTCarouselCard = () => {
     };
     return (
         <div id="container" >
+            <h4>{props.title}</h4>
 
             <Slider {...settings}>
                 {Array.from({ length: 10 })
@@ -111,7 +112,7 @@ const NFTCarouselCard = () => {
                                     <p style={{ fontWeight: '540', fontSize: '10pt' }}> {obj?.[index]?.price} DD</p>
                                 </div>
                             </figure> */}
-                            <Card >
+                            <Card className="card-pointer2">
                                 <Card.Img
                                     id="card-img"
                                     src={nft}
